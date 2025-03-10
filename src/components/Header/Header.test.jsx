@@ -19,4 +19,18 @@ describe("Header", () => {
 
     expect(nav).toBeInTheDocument();
   });
+
+  it("renders search, profile, watchlist and cart buttons", () => {
+    render(<Header />);
+
+    const buttonNames = ["search", "profile", "watchlist", "cart"];
+
+    const allButtons = screen.getAllByRole("button");
+    const buttons = buttonNames.map((name) =>
+      screen.getByRole("button", { name })
+    );
+
+    expect(allButtons).toHaveLength(buttonNames.length);
+    buttons.forEach((button) => expect(button).toBeInTheDocument());
+  });
 });
