@@ -11,4 +11,12 @@ describe("Header", () => {
 
     expect(heading.textContent).toMatch(data.shopName);
   });
+
+  it("renders a nav menu to navigate the site", () => {
+    render(<Header />);
+
+    const nav = screen.getByRole("navigation");
+
+    expect(nav).toBeInTheDocument();
+  });
 });
