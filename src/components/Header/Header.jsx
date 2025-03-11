@@ -1,15 +1,16 @@
 import data from "../../assets/data.json";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 function Header({ className = "page-header" }) {
   return (
     <header className={className}>
       <h1>
-        <a href="/">{data.shopName}</a>
+        <NavLink to="/">{data.shopName}</NavLink>
       </h1>
       <nav>
-        <a href="/shop">Shop</a>
-        <a href="/about">About</a>
+        <NavLink to="/shop">Shop</NavLink>
+        <NavLink to="/about">About</NavLink>
       </nav>
       <div>
         <button aria-label="search">Search</button>
