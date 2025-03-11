@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
+:root {
+  /* colors */
+  --col-pure-black: #000000;
+  --col-black: #252422;
+  --col-dark-grey: #403d39;
+  --col-light-grey: #ccc5b9;
+  --col-white: #fffcf2;
+  --col-pure-white: #ffffff;
+  --col-highlight: #eb5e28;
+  --col-accent: #489fb5;
+
+  --col-txt: var(--col-black);
+  --col-txt-alt: var(--col-white);
+  --bg-col: var(--col-pure-white);
+  --bg-col-alt: var(--col-black);
+
+  /* default fonts */
+  --default-font: "Quicksand", Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  --default-lineheight: 1.5;
+  --default-fontsize: max(18px, 2vmin);
+
+  /* page paddings and gap */
+  --page-padding-tb: max(2vh, 0.5rem);
+  --page-padding-lr: max(3vw, 1rem);
+  --page-padding: var(--page-padding-tb) var(--page-padding-lr);
+  --page-gap: max(4vh, 0.5rem);
+}
