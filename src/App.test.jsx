@@ -1,10 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import {
-  MemoryRouter,
-  createMemoryRouter,
-  RouterProvider,
-} from "react-router-dom";
+// import the following from "react-router" instead of "react-router-dom"
+// otherwise, among other problems, Outlets are not rendered
+// see: https://stackoverflow.com/a/79286335
+import { createMemoryRouter, RouterProvider } from "react-router";
 import routes from "./routes.jsx"; // this imports App component
 
 const setupWithRoute = (initialEntry = "/") => {
@@ -12,9 +11,10 @@ const setupWithRoute = (initialEntry = "/") => {
     initialEntries: [initialEntry],
     initialIndex: 0,
   });
+
   return {
     router: router,
-    ...render(<RouterProvider router={router} />, { wrapper: MemoryRouter }),
+    ...render(<RouterProvider router={router} />),
   };
 };
 
@@ -31,8 +31,10 @@ describe("App", () => {
     setupWithRoute("/shop");
 
     const pageHeader = screen.getByTestId("page-header");
+    const shopMain = screen.getByTestId("shop-main");
 
     expect(pageHeader).toBeInTheDocument();
+    expect(shopMain).toBeInTheDocument();
   });
 
   it("correctly render the about page", () => {
