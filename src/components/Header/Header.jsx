@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 function Header({ className = "page-header" }) {
   return (
-    <header className={className}>
+    <header className={className} data-testid="page-header">
       <h1>
         <NavLink to="/">{data.shopName}</NavLink>
       </h1>
