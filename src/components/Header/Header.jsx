@@ -2,9 +2,9 @@ import data from "../../assets/data.json";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-function Header({ className = "page-header" }) {
+function Header({ className = "" }) {
   return (
-    <header className={className} data-testid="page-header">
+    <header className={`page-header ${className}`} data-testid="page-header">
       <h1>
         <NavLink to="/">{data.shopName}</NavLink>
       </h1>

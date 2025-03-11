@@ -1,6 +1,6 @@
-function ShopMain({ className = "shop-main" }) {
+function ShopMain({ className = "" }) {
   return (
-    <main className={className} data-testid="shop-main">
+    <main className={`shop-main ${className}`} data-testid="shop-main">
       <p> Shop </p>
     </main>
   );
