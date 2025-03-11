@@ -1,11 +1,16 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import Header from "./Header.jsx";
 import data from "../../assets/data.json";
 
+const setup = () => ({
+  ...render(<Header />, { wrapper: MemoryRouter }),
+});
+
 describe("Header", () => {
   it("renders the correct heading (shop name)", () => {
-    render(<Header />);
+    setup();
 
     const heading = screen.getByRole("heading");
 
@@ -13,7 +18,7 @@ describe("Header", () => {
   });
 
   it("renders a nav menu to navigate the site", () => {
-    render(<Header />);
+    setup();
 
     const nav = screen.getByRole("navigation");
 
@@ -21,7 +26,7 @@ describe("Header", () => {
   });
 
   it("renders links to / (home), /shop and /about pages", () => {
-    render(<Header />);
+    setup();
 
     const routesTo = ["", "shop", "about"];
     const basePath = window.location.href;
@@ -39,7 +44,7 @@ describe("Header", () => {
   });
 
   it("renders search, profile, watchlist and cart buttons", () => {
-    render(<Header />);
+    setup();
 
     const buttonNames = ["search", "profile", "watchlist", "cart"];
 
