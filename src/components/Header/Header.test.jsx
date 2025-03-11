@@ -20,6 +20,24 @@ describe("Header", () => {
     expect(nav).toBeInTheDocument();
   });
 
+  it("renders links to / (home), /shop and /about pages", () => {
+    render(<Header />);
+
+    const routesTo = ["", "shop", "about"];
+    const basePath = window.location.href;
+    const allLinks = screen.getAllByRole("link");
+
+    expect(allLinks).toHaveLength(routesTo.length);
+
+    routesTo.forEach((routeTo) => {
+      const link = allLinks.filter((link) => {
+        return link.href === `${basePath}${routeTo}`;
+      })[0];
+
+      expect(link).toBeInTheDocument();
+    });
+  });
+
   it("renders search, profile, watchlist and cart buttons", () => {
     render(<Header />);
 
