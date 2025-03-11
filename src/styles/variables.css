@@ -27,4 +27,11 @@
   --page-padding-lr: max(3vw, 1rem);
   --page-padding: var(--page-padding-tb) var(--page-padding-lr);
   --page-gap: max(4vh, 0.5rem);
+
+  /* header */
+  --header-h1-font: var(--default-font);
+  --header-h1-fontsize: 1.5rem;
+  --header-col: var(--col-txt);
+  --header-gap: 1rem;
+  --header-padding: var(--page-padding);
 }
