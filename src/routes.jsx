@@ -1,4 +1,5 @@
 import App from "./App.jsx";
+import ShopMain from "./components/Shop/ShopMain.jsx";
 
 const routes = [
   {
@@ -6,7 +7,7 @@ const routes = [
     element: <App />,
     children: [
       { path: "/", element: <div>Home</div> },
-      { path: "/shop", element: <div>Shop</div> },
+      { path: "/shop", element: <ShopMain /> },
       { path: "/about", element: <div>About</div> },
     ],
   },
