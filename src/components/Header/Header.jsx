@@ -38,10 +38,23 @@ const StyledHeader = styled(Header)`
     font-family: var(--header-h1-font);
   }
 
+  & a {
+    color: var(--header-col);
+  }
+
   & > nav {
+    display: flex;
+    flex-direction: row;
     border-left: 1px solid var(--header-col);
     padding-left: var(--header-gap);
     margin-right: auto;
+    gap: var(--header-gap);
+  }
+
+  & > nav .active {
+    text-shadow: 0px 0px 0px var(--header-col), 0px 0px 0px var(--header-col),
+      0px 0px 0px var(--header-col), 0px 0px 0px var(--header-col),
+      0px 0px 0px var(--header-col), 0px 0px 0px var(--header-col);
   }
 `;
 
