@@ -4,8 +4,13 @@ import styled from "styled-components";
 function Header({ className = "page-header" }) {
   return (
     <header className={className}>
-      <h1>{data.shopName}</h1>
-      <nav>nav (TODO)</nav>
+      <h1>
+        <a href="/">{data.shopName}</a>
+      </h1>
+      <nav>
+        <a href="/shop">Shop</a>
+        <a href="/about">About</a>
+      </nav>
       <div>
         <button aria-label="search">Search</button>
         <button aria-label="profile">Profile</button>
