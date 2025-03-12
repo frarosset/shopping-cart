@@ -1,7 +1,10 @@
+import CategorySectionList from "./CategorySectionList.jsx";
+import data from "../../assets/data.json";
+
 function ShopMain({ className = "" }) {
   return (
     <main className={`shop-main ${className}`} data-testid="shop-main">
-      <p> Shop </p>
+      <CategorySectionList sectionList={data.sectionList} />
     </main>
   );
 }
