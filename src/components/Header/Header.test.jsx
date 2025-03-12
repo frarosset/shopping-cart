@@ -1,8 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Header from "./Header.jsx";
 import data from "../../assets/data.json";
+
+const navRoutesTo = ["shop", "about"];
+const routesTo = ["", ...navRoutesTo];
 
 const setup = () => ({
   ...render(<Header />, { wrapper: MemoryRouter }),
@@ -21,14 +24,15 @@ describe("Header", () => {
     setup();
 
     const nav = screen.getByRole("navigation");
+    const links = within(nav).getAllByRole("link");
 
     expect(nav).toBeInTheDocument();
+    expect(links).toHaveLength(navRoutesTo.length);
   });
 
   it("renders links to / (home), /shop and /about pages", () => {
     setup();
 
-    const routesTo = ["", "shop", "about"];
     const basePath = window.location.href;
     const allLinks = screen.getAllByRole("link");
 
@@ -37,9 +41,9 @@ describe("Header", () => {
     routesTo.forEach((routeTo) => {
       const link = allLinks.filter((link) => {
         return link.href === `${basePath}${routeTo}`;
-      })[0];
+      });
 
-      expect(link).toBeInTheDocument();
+      expect(link).toHaveLength(1);
     });
   });
 
@@ -53,7 +57,7 @@ describe("Header", () => {
       screen.getByRole("button", { name })
     );
 
-    expect(allButtons).toHaveLength(buttonNames.length);
+    expect(allButtons).toHaveLength(buttons.length);
     buttons.forEach((button) => expect(button).toBeInTheDocument());
   });
 });
