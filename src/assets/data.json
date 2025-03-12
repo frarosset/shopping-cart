@@ -1,3 +1,80 @@
 {
-  "shopName": "Shopping Cart"
+  "shopName": "Shopping Cart",
+  "sectionList": [
+    "electronics",
+    "mens-fashion",
+    "womens-fashion",
+    "accessories",
+    "self-care",
+    "home-living",
+    "automotive",
+    "groceries"
+  ],
+  "sections": {
+    "electronics": {
+      "name": "Electronics",
+      "categories": ["laptops", "mobile-accessories", "smartphones", "tablets"]
+    },
+    "mens-fashion": {
+      "name": "Men's Fashion",
+      "categories": ["mens-shirts", "mens-shoes", "mens-watches"]
+    },
+    "womens-fashion": {
+      "name": "Women's Fashion",
+      "categories": [
+        "womens-bags",
+        "womens-dresses",
+        "womens-jewellery",
+        "womens-shoes",
+        "womens-watches",
+        "tops"
+      ]
+    },
+    "accessories": {
+      "name": "Accessories",
+      "categories": ["sunglasses", "sports-accessories"]
+    },
+    "self-care": {
+      "name": "Self Care",
+      "categories": ["beauty", "fragrances", "skin-care"]
+    },
+    "home-living": {
+      "name": "Home & Living",
+      "categories": ["furniture", "home-decoration", "kitchen-accessories"]
+    },
+    "automotive": {
+      "name": "Automotive",
+      "categories": ["motorcycle", "vehicle"]
+    },
+    "groceries": {
+      "name": "Groceries",
+      "categories": ["groceries"]
+    }
+  },
+  "categories": {
+    "beauty": "Beauty",
+    "fragrances": "Fragrances",
+    "furniture": "Furniture",
+    "groceries": "Groceries",
+    "home-decoration": "Home Decoration",
+    "kitchen-accessories": "Kitchen Accessories",
+    "laptops": "Laptops",
+    "mens-shirts": "Mens Shirts",
+    "mens-shoes": "Mens Shoes",
+    "mens-watches": "Mens Watches",
+    "mobile-accessories": "Mobile Accessories",
+    "motorcycle": "Motorcycle",
+    "skin-care": "Skin Care",
+    "smartphones": "Smartphones",
+    "sports-accessories": "Sports Accessories",
+    "sunglasses": "Sunglasses",
+    "tablets": "Tablets",
+    "tops": "Tops",
+    "vehicle": "Vehicle",
+    "womens-bags": "Womens Bags",
+    "womens-dresses": "Womens Dresses",
+    "womens-jewellery": "Womens Jewellery",
+    "womens-shoes": "Womens Shoes",
+    "womens-watches": "Womens Watches"
+  }
 }
