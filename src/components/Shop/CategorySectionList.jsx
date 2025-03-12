@@ -1,13 +1,18 @@
+import CategorySectionItem from "./CategorySectionItem.jsx";
+import List from "../Generic/List.jsx";
+
 function CategorySectionList({ sectionList, className = "" }) {
+  const items = sectionList.map((section) => ({
+    key: section,
+    element: <CategorySectionItem section={section} />,
+  }));
+
   return (
-    <ul
+    <List
       className={`category-section-list ${className}`}
-      data-testid="category-section-list"
-    >
-      {sectionList.map((section) => (
-        <li key={section}>{section}</li>
-      ))}
-    </ul>
+      testId={"category-section-list"}
+      items={items}
+    />
   );
 }
 

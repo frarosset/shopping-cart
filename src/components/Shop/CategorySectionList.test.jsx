@@ -1,32 +1,51 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { vi, describe, it, expect, beforeEach } from "vitest";
+import { render, screen, within } from "@testing-library/react";
 import CategorySectionList from "./CategorySectionList.jsx";
+import List from "../Generic/List.jsx";
 import data from "../../assets/data.json";
 
+const sectionList = data.sectionList;
+
+// Here you pass components as props within the tested elements.
+// see: https://dev.to/peterlidee/how-to-test-a-component-passed-as-prop-with-jest-4pgn
+
+// mock List and CategorySectionItem components
+vi.mock("../Generic/List.jsx", { spy: true });
+
+const mockCategorySectionItem = vi.fn();
+vi.mock("./CategorySectionItem.jsx", () => ({
+  default: (props) => {
+    mockCategorySectionItem(props);
+    return <p data-testid="__category-section-item__">{props.section}</p>;
+  },
+}));
+
+/* mocks are hoisted: reset them before each test */
+beforeEach(() => {
+  vi.resetAllMocks();
+});
+
 const setup = () => ({
-  ...render(<CategorySectionList sectionList={data.sectionList} />),
+  ...render(<CategorySectionList sectionList={sectionList} />),
 });
 
 describe("CategorySectionList", () => {
-  it("renders a list", () => {
+  it("renders a single List component", () => {
     setup();
 
-    const categorySectionList = screen.getByRole("list");
+    const list = screen.getByRole("list");
 
-    expect(categorySectionList).toBeInTheDocument();
+    expect(List).toHaveBeenCalledOnce();
+    expect(list).toBeInTheDocument();
   });
 
-  it("renders a list of category sections", () => {
+  it("renders only a given number of CategorySectionItem components list items", () => {
     setup();
 
-    const sectionItems = screen.getAllByRole("listitem");
-    expect(sectionItems.length).toBe(data.sectionList.length);
+    const list = screen.getByRole("list");
+    const items = within(list).getAllByTestId("__category-section-item__");
 
-    data.sectionList.forEach((section) => {
-      const sectionItem = sectionItems.find(
-        (item) => item.textContent === section
-      );
-      expect(sectionItem).toBeInTheDocument();
-    });
+    expect(mockCategorySectionItem).toHaveBeenCalledTimes(sectionList.length);
+    expect(items.length).toBe(sectionList.length);
   });
 });
