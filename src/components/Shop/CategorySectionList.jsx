@@ -1,9 +1,13 @@
-function CategorySectionList({ className = "" }) {
+function CategorySectionList({ sectionList, className = "" }) {
   return (
     <ul
       className={`category-section-list ${className}`}
       data-testid="category-section-list"
-    ></ul>
+    >
+      {sectionList.map((section) => (
+        <li key={section}>{section}</li>
+      ))}
+    </ul>
   );
 }
 
