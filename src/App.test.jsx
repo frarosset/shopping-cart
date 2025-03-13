@@ -1,4 +1,4 @@
-import { vi, describe, it, expect } from "vitest";
+import { vi, describe, it, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 // import the following from "react-router" instead of "react-router-dom"
 // otherwise, among other problems, Outlets are not rendered
@@ -10,11 +10,19 @@ import data from "./assets/data.json";
 const sampleSection = Object.keys(data.sections)[0];
 const sampleCategory = Object.keys(data.categories)[0];
 
+const mockHeader = vi.fn();
+vi.mock("./components/Header/Header.jsx", () => ({
+  default: (props) => {
+    mockHeader(props);
+    return <header data-testid="page-header">"Header"</header>;
+  },
+}));
+
 const mockShopMain = vi.fn();
 vi.mock("./components/Shop/ShopMain.jsx", () => ({
   default: (props) => {
     mockShopMain(props);
-    return <span data-testid="shop-main">{"<ShopMain>"}</span>;
+    return <main data-testid="shop-main">"ShopMain"</main>;
   },
 }));
 
@@ -22,7 +30,7 @@ const mockShopSectionMain = vi.fn();
 vi.mock("./components/Shop/ShopSectionMain.jsx", () => ({
   default: (props) => {
     mockShopSectionMain(props);
-    return <span data-testid="shop-section-main">{"<ShopSectionMain>"}</span>;
+    return <main data-testid="shop-section-main">"ShopSectionMain"</main>;
   },
 }));
 
@@ -30,9 +38,14 @@ const mockShopCategoryMain = vi.fn();
 vi.mock("./components/Shop/ShopCategoryMain.jsx", () => ({
   default: (props) => {
     mockShopCategoryMain(props);
-    return <span data-testid="shop-category-main">{"<ShopCategoryMain>"}</span>;
+    return <main data-testid="shop-category-main">"ShopCategoryMain"</main>;
   },
 }));
+
+/* mocks are hoisted: reset them before each test */
+beforeEach(() => {
+  vi.resetAllMocks();
+});
 
 const setupWithRoute = (initialEntry = "/") => {
   const router = createMemoryRouter(routes, {
@@ -53,6 +66,8 @@ describe("App", () => {
     const pageHeader = screen.getByTestId("page-header");
 
     expect(pageHeader).toBeInTheDocument();
+
+    expect(mockHeader).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop page", () => {
@@ -64,6 +79,7 @@ describe("App", () => {
     expect(pageHeader).toBeInTheDocument();
     expect(shopMain).toBeInTheDocument();
 
+    expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopMain).toHaveBeenCalledOnce();
   });
 
@@ -76,6 +92,7 @@ describe("App", () => {
     expect(pageHeader).toBeInTheDocument();
     expect(shopSectionMain).toBeInTheDocument();
 
+    expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopSectionMain).toHaveBeenCalledOnce();
   });
 
@@ -88,6 +105,7 @@ describe("App", () => {
     expect(pageHeader).toBeInTheDocument();
     expect(shopCategoryMain).toBeInTheDocument();
 
+    expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopCategoryMain).toHaveBeenCalledOnce();
   });
 
@@ -97,5 +115,7 @@ describe("App", () => {
     const pageHeader = screen.getByTestId("page-header");
 
     expect(pageHeader).toBeInTheDocument();
+
+    expect(mockHeader).toHaveBeenCalledOnce();
   });
 });
