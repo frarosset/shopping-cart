@@ -1,9 +1,10 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ShopSectionMain from "./ShopSectionMain.jsx";
 import data from "../../assets/data.json";
 
 const sampleSection = Object.keys(data.sections)[0];
+const sampleSectionName = data.sections[sampleSection].name;
 
 const mockUseParams = vi.fn();
 vi.mock("react-router-dom", () => ({
@@ -29,5 +30,13 @@ describe("ShopSectionMain", () => {
     setup();
 
     expect(mockUseParams).toHaveBeenCalledOnce();
+  });
+
+  it("renders a heading of the associated section", () => {
+    setup();
+
+    const heading = screen.getByRole("heading", { name: sampleSectionName });
+
+    expect(heading).toBeInTheDocument();
   });
 });
