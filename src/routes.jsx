@@ -9,6 +9,7 @@ const routes = [
       { path: "/", element: <div>Home</div> },
       { path: "/shop", element: <ShopMain /> },
       { path: "/shop/:section", element: <div>Section</div> },
+      { path: "/shop/c/:category", element: <div>Category</div> },
       { path: "/about", element: <div>About</div> },
     ],
   },
