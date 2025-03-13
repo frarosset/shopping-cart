@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { vi, describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 // import the following from "react-router" instead of "react-router-dom"
 // otherwise, among other problems, Outlets are not rendered
@@ -9,6 +9,14 @@ import data from "./assets/data.json";
 
 const sampleSection = Object.keys(data.sections)[0];
 const sampleCategory = Object.keys(data.categories)[0];
+
+const mockShopMain = vi.fn();
+vi.mock("./components/Shop/ShopMain.jsx", () => ({
+  default: (props) => {
+    mockShopMain(props);
+    return <span data-testid="shop-main">{"<ShopMain>"}</span>;
+  },
+}));
 
 const setupWithRoute = (initialEntry = "/") => {
   const router = createMemoryRouter(routes, {
@@ -39,6 +47,8 @@ describe("App", () => {
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopMain).toBeInTheDocument();
+
+    expect(mockShopMain).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop/:section page", () => {
