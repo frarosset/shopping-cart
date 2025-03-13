@@ -5,6 +5,9 @@ import { render, screen } from "@testing-library/react";
 // see: https://stackoverflow.com/a/79286335
 import { createMemoryRouter, RouterProvider } from "react-router";
 import routes from "./routes.jsx"; // this imports App component
+import data from "./assets/data.json";
+
+const sampleSection = Object.keys(data.sections)[0];
 
 const setupWithRoute = (initialEntry = "/") => {
   const router = createMemoryRouter(routes, {
@@ -35,6 +38,14 @@ describe("App", () => {
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopMain).toBeInTheDocument();
+  });
+
+  it("correctly render the shop/:section page", () => {
+    setupWithRoute(`/shop/${sampleSection}`);
+
+    const pageHeader = screen.getByTestId("page-header");
+
+    expect(pageHeader).toBeInTheDocument();
   });
 
   it("correctly render the about page", () => {
