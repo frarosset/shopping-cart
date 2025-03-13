@@ -8,6 +8,7 @@ import routes from "./routes.jsx"; // this imports App component
 import data from "./assets/data.json";
 
 const sampleSection = Object.keys(data.sections)[0];
+const sampleCategory = Object.keys(data.categories)[0];
 
 const setupWithRoute = (initialEntry = "/") => {
   const router = createMemoryRouter(routes, {
@@ -42,6 +43,14 @@ describe("App", () => {
 
   it("correctly render the shop/:section page", () => {
     setupWithRoute(`/shop/${sampleSection}`);
+
+    const pageHeader = screen.getByTestId("page-header");
+
+    expect(pageHeader).toBeInTheDocument();
+  });
+
+  it("correctly render the shop/c/:category page", () => {
+    setupWithRoute(`/shop/c/${sampleCategory}`);
 
     const pageHeader = screen.getByTestId("page-header");
 
