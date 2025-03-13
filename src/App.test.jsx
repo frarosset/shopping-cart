@@ -18,6 +18,14 @@ vi.mock("./components/Shop/ShopMain.jsx", () => ({
   },
 }));
 
+const mockShopSectionMain = vi.fn();
+vi.mock("./components/Shop/ShopSectionMain.jsx", () => ({
+  default: (props) => {
+    mockShopSectionMain(props);
+    return <span data-testid="shop-section-main">{"<ShopSectionMain>"}</span>;
+  },
+}));
+
 const setupWithRoute = (initialEntry = "/") => {
   const router = createMemoryRouter(routes, {
     initialEntries: [initialEntry],
@@ -55,8 +63,12 @@ describe("App", () => {
     setupWithRoute(`/shop/${sampleSection}`);
 
     const pageHeader = screen.getByTestId("page-header");
+    const shopSectionMain = screen.getByTestId("shop-section-main");
 
     expect(pageHeader).toBeInTheDocument();
+    expect(shopSectionMain).toBeInTheDocument();
+
+    expect(mockShopSectionMain).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop/c/:category page", () => {
