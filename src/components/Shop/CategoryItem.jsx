@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import data from "../../assets/data.json";
+
 const getCategoryData = (category) => data.categories[category];
 
 function CategoryItem({ category, className = "" }) {
@@ -7,7 +9,7 @@ function CategoryItem({ category, className = "" }) {
 
   return (
     <span className={`category-item ${className}`} data-testid="category-item">
-      {categoryName}
+      {<Link to={`/shop/c/${category}`}>{categoryName}</Link>}
     </span>
   );
 }
