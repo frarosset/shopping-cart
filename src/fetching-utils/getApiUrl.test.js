@@ -5,6 +5,10 @@ describe("getApiUrl", () => {
   describe("getSingleProductApiUrl", () => {
     const productId = 3;
     const queries = { select: "title,price" };
+    const queriesWithNotApiQuery = {
+      select: "title,price",
+      notApiQuery: "value",
+    };
 
     it(`returns the correct api url when an id (${productId}) is provided`, () => {
       const apiUrl = getSingleProductApiUrl(productId);
@@ -16,6 +20,16 @@ describe("getApiUrl", () => {
     )}) are provided`, () => {
       const apiUrl = getSingleProductApiUrl(productId, queries);
       expect(apiUrl).toMatchSnapshot();
+    });
+
+    it("ignores query keys that are not part of the api", () => {
+      const apiUrl = getSingleProductApiUrl(productId, queries);
+      const apiUrlWithNotApiQuery = getSingleProductApiUrl(
+        productId,
+        queriesWithNotApiQuery
+      );
+
+      expect(apiUrl).toEqual(apiUrlWithNotApiQuery);
     });
   });
 });
