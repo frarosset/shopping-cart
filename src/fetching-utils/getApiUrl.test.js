@@ -95,5 +95,20 @@ describe("getApiUrl", () => {
       const apiUrl = getCategoryProductsApiUrl(category, queries);
       expect(apiUrl).toMatchSnapshot();
     });
+
+    it("ignores query keys that are not part of the api", () => {
+      const queriesWithNotApiQuery = {
+        ...queries,
+        notApiQuery: "value",
+      };
+
+      const apiUrl = getCategoryProductsApiUrl(category, queries);
+      const apiUrlWithNotApiQuery = getCategoryProductsApiUrl(
+        category,
+        queriesWithNotApiQuery
+      );
+
+      expect(apiUrl).toEqual(apiUrlWithNotApiQuery);
+    });
   });
 });
