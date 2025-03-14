@@ -3,6 +3,7 @@ import {
   getSingleProductApiUrl,
   getAllProductsApiUrl,
   getCategoryProductsApiUrl,
+  getSearchProductsApiUrl,
 } from "./getApiUrl.js";
 
 describe("getApiUrl", () => {
@@ -109,6 +110,15 @@ describe("getApiUrl", () => {
       );
 
       expect(apiUrl).toEqual(apiUrlWithNotApiQuery);
+    });
+  });
+
+  describe("getSearchProductsApiUrl", () => {
+    const searchQuery = "apple";
+
+    it(`returns the correct api url when a search query is provided`, () => {
+      const apiUrl = getSearchProductsApiUrl(searchQuery);
+      expect(apiUrl).toMatchSnapshot();
     });
   });
 });
