@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getSingleProductApiUrl } from "./getApiUrl.js";
+import { getSingleProductApiUrl, getAllProductsApiUrl } from "./getApiUrl.js";
 
 describe("getApiUrl", () => {
   describe("getSingleProductApiUrl", () => {
@@ -30,6 +30,13 @@ describe("getApiUrl", () => {
       );
 
       expect(apiUrl).toEqual(apiUrlWithNotApiQuery);
+    });
+  });
+
+  describe("getAllProductsApiUrl", () => {
+    it(`returns the correct api url`, () => {
+      const apiUrl = getAllProductsApiUrl();
+      expect(apiUrl).toMatchSnapshot();
     });
   });
 });
