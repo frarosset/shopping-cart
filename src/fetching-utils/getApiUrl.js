@@ -28,4 +28,15 @@ const getAllProductsApiUrl = (queries = {}) => {
   return `${baseApiUrl}${queriesStr}`;
 };
 
-export { getSingleProductApiUrl, getAllProductsApiUrl };
+const getCategoryProductsApiUrl = (category, queries = {}) => {
+  const queryKeys = ["sortBy", "order", "limit", "skip", "select"];
+
+  const queriesStr = queriesToString(queryKeys, queries);
+  return `${baseApiUrl}/category/${category}${queriesStr}`;
+};
+
+export {
+  getSingleProductApiUrl,
+  getAllProductsApiUrl,
+  getCategoryProductsApiUrl,
+};
