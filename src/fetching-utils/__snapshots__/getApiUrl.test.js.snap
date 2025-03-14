@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`getApiUrl > getSingleProductApiUrl > returns the correct api url when an id (3) is provided 1`] = `"https://dummyjson.com/products/3"`;
