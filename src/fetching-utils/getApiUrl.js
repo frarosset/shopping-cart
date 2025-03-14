@@ -35,8 +35,17 @@ const getCategoryProductsApiUrl = (category, queries = {}) => {
   return `${baseApiUrl}/category/${category}${queriesStr}`;
 };
 
+const getSearchProductsApiUrl = (searchQuery, queries = {}) => {
+  const queryKeys = ["q", "sortBy", "order", "limit", "skip", "select"];
+  const queriesWithSearchQuery = Object.assign({}, { q: searchQuery }, queries);
+
+  const queriesStr = queriesToString(queryKeys, queriesWithSearchQuery);
+  return `${baseApiUrl}/search${queriesStr}`;
+};
+
 export {
   getSingleProductApiUrl,
   getAllProductsApiUrl,
   getCategoryProductsApiUrl,
+  getSearchProductsApiUrl,
 };
