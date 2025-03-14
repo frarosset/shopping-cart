@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { getSingleProductApiUrl, getAllProductsApiUrl } from "./getApiUrl.js";
+import {
+  getSingleProductApiUrl,
+  getAllProductsApiUrl,
+  getCategoryProductsApiUrl,
+} from "./getApiUrl.js";
 
 describe("getApiUrl", () => {
   describe("getSingleProductApiUrl", () => {
@@ -67,6 +71,15 @@ describe("getApiUrl", () => {
       );
 
       expect(apiUrl).toEqual(apiUrlWithNotApiQuery);
+    });
+  });
+
+  describe("getCategoryProductsApiUrl", () => {
+    const category = "laptops";
+
+    it(`returns the correct api url`, () => {
+      const apiUrl = getCategoryProductsApiUrl(category);
+      expect(apiUrl).toMatchSnapshot();
     });
   });
 });
