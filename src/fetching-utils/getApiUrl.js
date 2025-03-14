@@ -1,12 +1,13 @@
 const baseApiUrl = "https://dummyjson.com/products";
 
-const queriesToString = (queries = {}) => {
+const queriesToString = (queryKeys, queries = {}) => {
   const sep = (first) => (first ? "?" : "&");
-  const keys = Object.keys(queries);
 
-  const str = keys.reduce((str, key, idx) => {
+  const str = queryKeys.reduce((str, key, idx) => {
     const val = queries[key];
-    str += `${sep(idx == 0)}${key}=${val}`;
+    if (val != null) {
+      str += `${sep(idx == 0)}${key}=${val}`;
+    }
     return str;
   }, "");
 
@@ -14,7 +15,9 @@ const queriesToString = (queries = {}) => {
 };
 
 const getSingleProductApiUrl = (id, queries = {}) => {
-  const queriesStr = queriesToString(queries);
+  const queryKeys = ["select"];
+
+  const queriesStr = queriesToString(queryKeys, queries);
   return `${baseApiUrl}/${id}${queriesStr}`;
 };
 
