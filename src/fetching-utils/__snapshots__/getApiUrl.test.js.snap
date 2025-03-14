@@ -1,5 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`getApiUrl > getAllProductsApiUrl > returns the correct api url 1`] = `"https://dummyjson.com/products"`;
+
 exports[`getApiUrl > getSingleProductApiUrl > returns the correct api url when an id (3) and a select query ({"select":"title,price"}) are provided 1`] = `"https://dummyjson.com/products/3?select=title,price"`;
 
 exports[`getApiUrl > getSingleProductApiUrl > returns the correct api url when an id (3) is provided 1`] = `"https://dummyjson.com/products/3"`;

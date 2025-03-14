@@ -21,4 +21,11 @@ const getSingleProductApiUrl = (id, queries = {}) => {
   return `${baseApiUrl}/${id}${queriesStr}`;
 };
 
-export { getSingleProductApiUrl };
+const getAllProductsApiUrl = (queries = {}) => {
+  const queryKeys = ["sortBy", "order", "limit", "skip", "select"];
+
+  const queriesStr = queriesToString(queryKeys, queries);
+  return `${baseApiUrl}${queriesStr}`;
+};
+
+export { getSingleProductApiUrl, getAllProductsApiUrl };
