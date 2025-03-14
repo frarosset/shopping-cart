@@ -34,8 +34,23 @@ describe("getApiUrl", () => {
   });
 
   describe("getAllProductsApiUrl", () => {
+    const queries = {
+      limit: 5,
+      skip: 100,
+      select: "title,price",
+      sortBy: "price",
+      order: "asc",
+    };
+
     it(`returns the correct api url`, () => {
       const apiUrl = getAllProductsApiUrl();
+      expect(apiUrl).toMatchSnapshot();
+    });
+
+    it(`returns the correct api url when queries (${JSON.stringify(
+      queries
+    )}) are provided`, () => {
+      const apiUrl = getAllProductsApiUrl(queries);
       expect(apiUrl).toMatchSnapshot();
     });
   });
