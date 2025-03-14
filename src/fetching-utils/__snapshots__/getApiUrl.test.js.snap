@@ -8,7 +8,9 @@ exports[`getApiUrl > getCategoryProductsApiUrl > returns the correct api url 1`]
 
 exports[`getApiUrl > getCategoryProductsApiUrl > returns the correct api url when queries ({"limit":5,"skip":3,"select":"title,price","sortBy":"price","order":"asc"}) are provided 1`] = `"https://dummyjson.com/products/category/laptops?sortBy=price&order=asc&limit=5&skip=3&select=title,price"`;
 
-exports[`getApiUrl > getSearchProductsApiUrl > returns the correct api url when a search query is provided 1`] = `"https://dummyjson.com/products/search?q=apple"`;
+exports[`getApiUrl > getSearchProductsApiUrl > returns the correct api url when a search query (apple) and other queries ({"limit":5,"skip":3,"select":"title,price","sortBy":"price","order":"asc"}) are provided 1`] = `"https://dummyjson.com/products/search?q=apple&sortBy=price&order=asc&limit=5&skip=3&select=title,price"`;
+
+exports[`getApiUrl > getSearchProductsApiUrl > returns the correct api url when a search query (apple) is provided 1`] = `"https://dummyjson.com/products/search?q=apple"`;
 
 exports[`getApiUrl > getSingleProductApiUrl > returns the correct api url when an id (3) and a select query ({"select":"title,price"}) are provided 1`] = `"https://dummyjson.com/products/3?select=title,price"`;
 

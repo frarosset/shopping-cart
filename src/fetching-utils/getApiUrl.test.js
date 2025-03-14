@@ -115,9 +115,23 @@ describe("getApiUrl", () => {
 
   describe("getSearchProductsApiUrl", () => {
     const searchQuery = "apple";
+    const queries = {
+      limit: 5,
+      skip: 3,
+      select: "title,price",
+      sortBy: "price",
+      order: "asc",
+    };
 
-    it(`returns the correct api url when a search query is provided`, () => {
+    it(`returns the correct api url when a search query (${searchQuery}) is provided`, () => {
       const apiUrl = getSearchProductsApiUrl(searchQuery);
+      expect(apiUrl).toMatchSnapshot();
+    });
+
+    it(`returns the correct api url when a search query (${searchQuery}) and other queries (${JSON.stringify(
+      queries
+    )}) are provided`, () => {
+      const apiUrl = getSearchProductsApiUrl(searchQuery, queries);
       expect(apiUrl).toMatchSnapshot();
     });
   });
