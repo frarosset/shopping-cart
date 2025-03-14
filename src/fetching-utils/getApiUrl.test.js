@@ -76,9 +76,23 @@ describe("getApiUrl", () => {
 
   describe("getCategoryProductsApiUrl", () => {
     const category = "laptops";
+    const queries = {
+      limit: 5,
+      skip: 3,
+      select: "title,price",
+      sortBy: "price",
+      order: "asc",
+    };
 
     it(`returns the correct api url`, () => {
       const apiUrl = getCategoryProductsApiUrl(category);
+      expect(apiUrl).toMatchSnapshot();
+    });
+
+    it(`returns the correct api url when queries (${JSON.stringify(
+      queries
+    )}) are provided`, () => {
+      const apiUrl = getCategoryProductsApiUrl(category, queries);
       expect(apiUrl).toMatchSnapshot();
     });
   });
