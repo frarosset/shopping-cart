@@ -18,21 +18,21 @@ const getSingleProductApiUrl = (id, queries = {}) => {
   const queryKeys = ["select"];
 
   const queriesStr = queriesToString(queryKeys, queries);
-  return `${baseApiUrl}/${id}${queriesStr}`;
+  return encodeURI(`${baseApiUrl}/${id}${queriesStr}`);
 };
 
 const getAllProductsApiUrl = (queries = {}) => {
   const queryKeys = ["sortBy", "order", "limit", "skip", "select"];
 
   const queriesStr = queriesToString(queryKeys, queries);
-  return `${baseApiUrl}${queriesStr}`;
+  return encodeURI(`${baseApiUrl}${queriesStr}`);
 };
 
 const getCategoryProductsApiUrl = (category, queries = {}) => {
   const queryKeys = ["sortBy", "order", "limit", "skip", "select"];
 
   const queriesStr = queriesToString(queryKeys, queries);
-  return `${baseApiUrl}/category/${category}${queriesStr}`;
+  return encodeURI(`${baseApiUrl}/category/${category}${queriesStr}`);
 };
 
 const getSearchProductsApiUrl = (searchQuery, queries = {}) => {
@@ -40,7 +40,7 @@ const getSearchProductsApiUrl = (searchQuery, queries = {}) => {
   const queriesWithSearchQuery = Object.assign({}, { q: searchQuery }, queries);
 
   const queriesStr = queriesToString(queryKeys, queriesWithSearchQuery);
-  return `${baseApiUrl}/search${queriesStr}`;
+  return encodeURI(`${baseApiUrl}/search${queriesStr}`);
 };
 
 export {
