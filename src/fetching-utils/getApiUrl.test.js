@@ -134,5 +134,20 @@ describe("getApiUrl", () => {
       const apiUrl = getSearchProductsApiUrl(searchQuery, queries);
       expect(apiUrl).toMatchSnapshot();
     });
+
+    it("ignores query keys that are not part of the api", () => {
+      const queriesWithNotApiQuery = {
+        ...queries,
+        notApiQuery: "value",
+      };
+
+      const apiUrl = getSearchProductsApiUrl(searchQuery, queries);
+      const apiUrlWithNotApiQuery = getSearchProductsApiUrl(
+        searchQuery,
+        queriesWithNotApiQuery
+      );
+
+      expect(apiUrl).toEqual(apiUrlWithNotApiQuery);
+    });
   });
 });
