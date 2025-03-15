@@ -3,10 +3,10 @@ const baseApiUrl = "https://dummyjson.com/products";
 const queriesToString = (queryKeys, queries = {}) => {
   const sep = (first) => (first ? "?" : "&");
 
-  const str = queryKeys.reduce((str, key, idx) => {
+  const str = queryKeys.reduce((str, key) => {
     const val = queries[key];
     if (val != null) {
-      str += `${sep(idx == 0)}${key}=${val}`;
+      str += `${sep(str === "")}${key}=${val}`;
     }
     return str;
   }, "");
