@@ -5,12 +5,17 @@ import useFetchFromApiUrl from "./useFetchFromApiUrl";
 const validApiUrl = "some/valid/url";
 const validApiExpectedData = { data: "valid" };
 
+const fetchInvalidApiUrl = "some/fetch/invalid/url";
+const fetchInvalidApiUrlError = "Fetch Invalid Error";
+
 // Mock global fetch
 global.fetch = vi.fn((url) => {
   if (url === validApiUrl) {
     return Promise.resolve({
       json: () => Promise.resolve(validApiExpectedData),
     });
+  } else if (fetchInvalidApiUrl) {
+    return Promise.reject(fetchInvalidApiUrlError);
   }
 });
 
@@ -30,6 +35,19 @@ describe("useFetchFromApiUrl", () => {
 
     await waitFor(() => {
       expect(result.current.data).toEqual(validApiExpectedData);
+    });
+  });
+
+  it("returns null data when a fetch error occurs ", async () => {
+    const { result } = renderHook(() => useFetchFromApiUrl(fetchInvalidApiUrl));
+
+    expect(result.current.data).toBe(null);
+
+    // check that fetch has been called with the correct url
+    expect(fetch).toHaveBeenCalledWith(fetchInvalidApiUrl, expect.anything());
+
+    await waitFor(() => {
+      expect(result.current.data).toBe(null);
     });
   });
 });
