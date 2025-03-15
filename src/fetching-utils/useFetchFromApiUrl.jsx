@@ -18,6 +18,9 @@ const fetchData = (apiUrl, setData) => {
     })
     .then((response) => {
       setData(response);
+    })
+    .catch(() => {
+      setData(null);
     });
 };
 
