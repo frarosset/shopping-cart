@@ -189,6 +189,28 @@ describe("useFetchFromApiUrl", () => {
         expect(fetch).toHaveBeenCalledOnce;
       });
     });
+
+    it("refetches if re-rendered with different url", async () => {
+      const { result, rerender } = renderHook(
+        (apiUrl) => useFetchFromApiUrl(apiUrl),
+        {
+          initialProps: validApiUrl,
+        }
+      );
+
+      expect(fetch).toHaveBeenCalledWith(validApiUrl, expect.anything());
+
+      rerender(anotherValidApiUrl);
+
+      await waitFor(() => {
+        expect(fetch).toHaveBeenLastCalledWith(
+          anotherValidApiUrl,
+          expect.anything()
+        );
+      });
+
+      expect(result.current.data).toEqual(anotherValidApiExpectedData);
+    });
   });
 });
 
