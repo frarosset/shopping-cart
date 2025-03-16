@@ -5,6 +5,9 @@ import useFetchFromApiUrl from "./useFetchFromApiUrl";
 const validApiUrl = "some/valid/url";
 const validApiExpectedData = { data: "valid" };
 
+const anotherValidApiUrl = "another/" + validApiUrl;
+const anotherValidApiExpectedData = { data: "another valid" };
+
 const fetchInvalidApiUrl = "some/fetch/invalid/url";
 const fetchInvalidApiUrlError = "Fetch Invalid Error";
 
@@ -20,6 +23,13 @@ global.fetch = vi.fn((url) => {
       json: () => {
         jsonMock();
         return Promise.resolve(validApiExpectedData);
+      },
+    });
+  } else if (url === anotherValidApiUrl) {
+    return Promise.resolve({
+      json: () => {
+        jsonMock();
+        return Promise.resolve(anotherValidApiExpectedData);
       },
     });
   } else if (url === fetchInvalidApiUrl) {
@@ -161,6 +171,22 @@ describe("useFetchFromApiUrl", () => {
       await waitFor(() => {
         expect(result.current.data).toBe(null);
         expect(result.current.error).not.toBe(null);
+      });
+    });
+  });
+
+  describe("re-rendering", () => {
+    it("doesn't refetches if re-rendered with the same url", async () => {
+      const { rerender } = renderHook((apiUrl) => useFetchFromApiUrl(apiUrl), {
+        initialProps: validApiUrl,
+      });
+
+      expect(fetch).toHaveBeenCalledWith(validApiUrl, expect.anything());
+
+      rerender(validApiUrl);
+
+      await waitFor(() => {
+        expect(fetch).toHaveBeenCalledOnce;
       });
     });
   });
