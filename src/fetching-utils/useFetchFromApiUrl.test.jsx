@@ -116,6 +116,18 @@ describe("useFetchFromApiUrl", () => {
         expect(result.current.loading).toBe(false);
       });
     });
+
+    it("returns a loading variable that is true only during the request processing (api invalid url case)", async () => {
+      const { result } = renderHook(() => useFetchFromApiUrl(apiInvalidApiUrl));
+
+      await waitFor(() => {
+        expect(result.current.loading).toBe(true);
+      });
+
+      await waitFor(() => {
+        expect(result.current.loading).toBe(false);
+      });
+    });
   });
 });
 
