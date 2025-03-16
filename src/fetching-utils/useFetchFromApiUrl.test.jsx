@@ -8,14 +8,32 @@ const validApiExpectedData = { data: "valid" };
 const fetchInvalidApiUrl = "some/fetch/invalid/url";
 const fetchInvalidApiUrlError = "Fetch Invalid Error";
 
+const apiInvalidApiUrl = "some/api/invalid/url";
+const invalidApiExpectedData = { data: "invalid" };
+
 // Mock global fetch
+const jsonMock = vi.fn();
+
 global.fetch = vi.fn((url) => {
   if (url === validApiUrl) {
     return Promise.resolve({
-      json: () => Promise.resolve(validApiExpectedData),
+      json: () => {
+        jsonMock();
+        return Promise.resolve(validApiExpectedData);
+      },
     });
-  } else if (fetchInvalidApiUrl) {
+  } else if (url === fetchInvalidApiUrl) {
     return Promise.reject(fetchInvalidApiUrlError);
+  } else if (url === apiInvalidApiUrl) {
+    return Promise.resolve({
+      status: 400,
+      json: () => {
+        jsonMock();
+        return Promise.resolve(invalidApiExpectedData);
+      },
+    });
+  } else {
+    throw new Error("Invalid url");
   }
 });
 
@@ -36,6 +54,8 @@ describe("useFetchFromApiUrl", () => {
     await waitFor(() => {
       expect(result.current.data).toEqual(validApiExpectedData);
     });
+
+    expect(jsonMock).toHaveBeenCalled();
   });
 
   it("returns null data when a fetch error occurs ", async () => {
@@ -49,6 +69,21 @@ describe("useFetchFromApiUrl", () => {
     await waitFor(() => {
       expect(result.current.data).toBe(null);
     });
+  });
+
+  it("returns null data when a api error occurs ", async () => {
+    const { result } = renderHook(() => useFetchFromApiUrl(apiInvalidApiUrl));
+
+    expect(result.current.data).toBe(null);
+
+    // check that fetch has been called with the correct url
+    expect(fetch).toHaveBeenCalledWith(apiInvalidApiUrl, expect.anything());
+
+    await waitFor(() => {
+      expect(result.current.data).toBe(null);
+    });
+
+    expect(jsonMock).not.toHaveBeenCalled();
   });
 });
 
