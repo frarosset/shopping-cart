@@ -2,17 +2,18 @@ import { useState, useEffect } from "react";
 
 const useFetchFromApiUrl = (apiUrl) => {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // fetch on mount or on apiUrl change
   useEffect(() => {
-    fetchData(apiUrl, setData, setLoading);
+    fetchData(apiUrl, setData, setError, setLoading);
   }, [apiUrl]);
 
-  return { data, loading };
+  return { data, loading, error };
 };
 
-const fetchData = (apiUrl, setData, setLoading) => {
+const fetchData = (apiUrl, setData, setError, setLoading) => {
   setLoading(true);
 
   fetch(apiUrl, { mode: "cors" })
@@ -26,6 +27,7 @@ const fetchData = (apiUrl, setData, setLoading) => {
     })
     .then((response) => {
       setData(response);
+      setError(null);
     })
     .catch(() => {
       setData(null);
