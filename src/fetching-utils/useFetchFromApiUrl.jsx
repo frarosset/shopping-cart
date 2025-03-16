@@ -7,16 +7,20 @@ const useFetchFromApiUrl = (apiUrl) => {
 
   // fetch on mount or on apiUrl change
   useEffect(() => {
-    fetchData(apiUrl, setData, setError, setLoading);
+    const controller = new AbortController();
+
+    fetchData(apiUrl, controller.signal, setData, setError, setLoading);
+
+    return () => controller.abort();
   }, [apiUrl]);
 
   return { data, loading, error };
 };
 
-const fetchData = (apiUrl, setData, setError, setLoading) => {
+const fetchData = (apiUrl, signal, setData, setError, setLoading) => {
   setLoading(true);
 
-  fetch(apiUrl, { mode: "cors" })
+  fetch(apiUrl, { mode: "cors", signal: signal })
     .then((response) => {
       // Server error
       if (response.status >= 400) {
@@ -30,6 +34,9 @@ const fetchData = (apiUrl, setData, setError, setLoading) => {
       setError(null);
     })
     .catch((error) => {
+      // Ignore abort errors
+      if (error === "AbortError") return;
+
       setError(error);
       setData(null);
     })
