@@ -144,7 +144,7 @@ describe("useFetchFromApiUrl", () => {
       });
     });
 
-    it("returns a error variable that is null when an error occurs (fetch invalid url case)", async () => {
+    it("returns a error variable that is not null when an error occurs (fetch invalid url case)", async () => {
       const { result } = renderHook(() =>
         useFetchFromApiUrl(fetchInvalidApiUrl)
       );

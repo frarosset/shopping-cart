@@ -29,7 +29,8 @@ const fetchData = (apiUrl, setData, setError, setLoading) => {
       setData(response);
       setError(null);
     })
-    .catch(() => {
+    .catch((error) => {
+      setError(error);
       setData(null);
     })
     .finally(() => setLoading(false));
