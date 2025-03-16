@@ -143,6 +143,17 @@ describe("useFetchFromApiUrl", () => {
         expect(result.current.error).toBe(null);
       });
     });
+
+    it("returns a error variable that is null when an error occurs (fetch invalid url case)", async () => {
+      const { result } = renderHook(() =>
+        useFetchFromApiUrl(fetchInvalidApiUrl)
+      );
+
+      await waitFor(() => {
+        expect(result.current.data).toBe(null);
+        expect(result.current.error).not.toBe(null);
+      });
+    });
   });
 });
 
