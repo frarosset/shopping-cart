@@ -14,6 +14,11 @@ const useFetchFromApiUrl = (apiUrl) => {
 const fetchData = (apiUrl, setData) => {
   fetch(apiUrl, { mode: "cors" })
     .then((response) => {
+      // Server error
+      if (response.status >= 400) {
+        throw new Error(`${response.status}: ${response.statusText}`);
+      }
+
       return response.json();
     })
     .then((response) => {
