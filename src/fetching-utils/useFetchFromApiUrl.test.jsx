@@ -129,6 +129,21 @@ describe("useFetchFromApiUrl", () => {
       });
     });
   });
+
+  describe("error output", () => {
+    it("returns a error variable that is null when data are retrieved (valid url case)", async () => {
+      const { result } = renderHook(() => useFetchFromApiUrl(validApiUrl));
+
+      await waitFor(() => {
+        expect(jsonMock).toHaveBeenCalled();
+      });
+
+      await waitFor(() => {
+        expect(result.current.data).not.toBe(null);
+        expect(result.current.error).toBe(null);
+      });
+    });
+  });
 });
 
 // Restore all mocks
