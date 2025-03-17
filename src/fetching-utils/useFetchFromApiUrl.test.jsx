@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
-import { renderHook, waitFor } from "@testing-library/react";
+import { renderHook, waitFor, act } from "@testing-library/react";
 import useFetchFromApiUrl from "./useFetchFromApiUrl";
 
 const validApiUrl = "some/valid/url";
@@ -156,6 +156,57 @@ describe("useFetchFromApiUrl", () => {
       );
 
       assertFetchAndJsonCalled(anotherValidApiUrl, true);
+    });
+  });
+
+  describe("returned fetchFromApiUrl() callback", () => {
+    const testCallbackSetup = async (newUrl) => {
+      const { result } = renderHook(() => useFetchFromApiUrl(validApiUrl));
+
+      // Wait for the initial fetch to complete.
+      await assertHookResults(result, validApiExpectedData, false, false);
+
+      // Restore all mocks
+      vi.restoreAllMocks();
+
+      // call the callback
+      act(() => {
+        result.current.fetchFromApiUrl(newUrl);
+      });
+
+      // Initially, data and error are those from the previous call
+      await assertHookResults(result, validApiExpectedData, false, true);
+
+      return result;
+    };
+
+    it("fetches data correctly when a valid url is provided", async () => {
+      const result = await testCallbackSetup(anotherValidApiUrl);
+
+      await assertHookResults(
+        result,
+        anotherValidApiExpectedData,
+        false,
+        false
+      );
+
+      assertFetchAndJsonCalled(anotherValidApiUrl, true);
+    });
+
+    it("handles the case of fetch error occurring", async () => {
+      const result = await testCallbackSetup(fetchInvalidApiUrl);
+
+      await assertHookResults(result, null, true, false);
+
+      assertFetchAndJsonCalled(fetchInvalidApiUrl, false);
+    });
+
+    it("handles the case of api error occurring", async () => {
+      const result = await testCallbackSetup(apiInvalidApiUrl);
+
+      await assertHookResults(result, null, true, false);
+
+      assertFetchAndJsonCalled(apiInvalidApiUrl, false);
     });
   });
 });
