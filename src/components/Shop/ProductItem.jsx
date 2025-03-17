@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 function ProductItem({ productData, className = "" }) {
   return (
     <div className={`product-item ${className}`} data-testid="product-item">
+      <span className="discount-percentage">
+        {`-${productData.discountPercentage} %`}
+      </span>
       <Link to={`/shop/p/${productData.id}`}>
         <img
           className="thumbnail"
