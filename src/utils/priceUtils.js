@@ -5,4 +5,8 @@ function getPriceStr(price, currency = "€") {
   return `${priceStr} ${currency}`;
 }
 
-export { getPriceStr };
+function getDiscountedPrice(price, discount) {
+  return price * (1 - discount / 100);
+}
+
+export { getPriceStr, getDiscountedPrice };
