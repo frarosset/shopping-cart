@@ -8,6 +8,7 @@ const productData = {
   title: "Product Title",
   thumbnail: "some/thumbnail/url",
   price: 10,
+  discountPercentage: 25,
 };
 
 const setup = () => ({
@@ -57,5 +58,13 @@ describe("ProductItem", () => {
     const price = screen.getByText(`${productData.price} €`);
 
     expect(price).toBeInTheDocument();
+  });
+
+  it("renders the price of the product", () => {
+    setup();
+
+    const discount = screen.getByText(`-${productData.discountPercentage} %`);
+
+    expect(discount).toBeInTheDocument();
   });
 });
