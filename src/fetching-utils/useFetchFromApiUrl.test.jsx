@@ -209,6 +209,64 @@ describe("useFetchFromApiUrl", () => {
       assertFetchAndJsonCalled(apiInvalidApiUrl, false);
     });
   });
+
+  describe("optional data / error reset at successive fetch calls", () => {
+    const testCallbackSetup = async () => {
+      const { result, rerender } = renderHook(
+        (apiUrl) => useFetchFromApiUrl(apiUrl, true),
+        {
+          initialProps: validApiUrl,
+        }
+      );
+
+      // Wait for the initial fetch to complete.
+      await assertHookResults(result, validApiExpectedData, false, false);
+
+      // Restore all mocks
+      vi.restoreAllMocks();
+
+      return { result, rerender };
+    };
+
+    it("it resets results at re-render", async () => {
+      const { result, rerender } = await testCallbackSetup();
+
+      rerender(anotherValidApiUrl);
+
+      // data and error are reset
+      await assertHookResults(result, null, false, true);
+
+      await assertHookResults(
+        result,
+        anotherValidApiExpectedData,
+        false,
+        false
+      );
+
+      assertFetchAndJsonCalled(anotherValidApiUrl, true);
+    });
+
+    it("it resets results at fetch on demand", async () => {
+      const { result } = await testCallbackSetup(anotherValidApiUrl);
+
+      // call the callback
+      act(() => {
+        result.current.fetchFromApiUrl(anotherValidApiUrl, true);
+      });
+
+      // data and error are reset
+      await assertHookResults(result, null, false, true);
+
+      await assertHookResults(
+        result,
+        anotherValidApiExpectedData,
+        false,
+        false
+      );
+
+      assertFetchAndJsonCalled(anotherValidApiUrl, true);
+    });
+  });
 });
 
 // Restore all mocks
