@@ -9,6 +9,8 @@ const productData = {
   thumbnail: "some/thumbnail/url",
   price: 10,
   discountPercentage: 25,
+  priceStr: "10 €",
+  discountedPriceStr: "7.50 €",
 };
 
 const setup = () => ({
@@ -55,16 +57,24 @@ describe("ProductItem", () => {
   it("renders the price of the product", () => {
     setup();
 
-    const price = screen.getByText(`${productData.price} €`);
+    const price = screen.getByText(productData.priceStr);
 
     expect(price).toBeInTheDocument();
   });
 
-  it("renders the price of the product", () => {
+  it("renders the discount percentage of the product", () => {
     setup();
 
     const discount = screen.getByText(`-${productData.discountPercentage} %`);
 
     expect(discount).toBeInTheDocument();
+  });
+
+  it("renders the discounted price of the product", () => {
+    setup();
+
+    const discountedPrice = screen.getByText(productData.discountedPriceStr);
+
+    expect(discountedPrice).toBeInTheDocument();
   });
 });
