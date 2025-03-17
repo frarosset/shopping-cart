@@ -60,12 +60,17 @@ const fetchData = (
     })
     .catch((error) => {
       // Ignore abort errors
-      if (error === "AbortError") return;
+      if (error.name === "AbortError") {
+        return;
+      }
 
       setError(error);
       setData(null);
     })
-    .finally(() => setLoading(false));
+    .finally(() => {
+      // see: https://stackoverflow.com/a/77342496
+      if (!signal || !signal.aborted) setLoading(false);
+    });
 };
 
 export default useFetchFromApiUrl;
