@@ -33,7 +33,7 @@ global.fetch = vi.fn((url) => {
       },
     });
   } else if (url === fetchInvalidApiUrl) {
-    return Promise.reject(fetchInvalidApiUrlError);
+    return Promise.reject(new Error(fetchInvalidApiUrlError));
   } else if (url === apiInvalidApiUrl) {
     return Promise.resolve({
       status: 400,
@@ -52,164 +52,110 @@ afterEach(() => {
   vi.resetAllMocks();
 });
 
+// helper function that checks that fetch has been called with the correct url
+// and that the json method has been called or not
+async function assertHookResults(
+  result,
+  expectedData, // expected object for data
+  isExpectedError, // true if it is an instance of Error (otherwise it is null)
+  expectedLoading // true or false
+) {
+  await waitFor(() => {
+    expect(result.current.data).toEqual(expectedData);
+    if (isExpectedError) {
+      expect(result.current.error).toBeInstanceOf(Error);
+    } else {
+      expect(result.current.error).toBeNull();
+    }
+    expect(result.current.loading).toBe(expectedLoading);
+  });
+}
+
+// helper function that checks that fetch has been called with the correct url
+// and that the json method has been called or not
+function assertFetchAndJsonCalled(url, jsonCalled) {
+  expect(fetch).toHaveBeenCalledExactlyOnceWith(url, expect.anything());
+
+  if (jsonCalled) {
+    expect(jsonMock).toHaveBeenCalledOnce();
+  } else {
+    expect(jsonMock).not.toHaveBeenCalled();
+  }
+}
+
 describe("useFetchFromApiUrl", () => {
-  describe("data output", () => {
-    it("fetches data (initialized with null) when a valid url is provided", async () => {
-      const { result } = renderHook(() => useFetchFromApiUrl(validApiUrl));
+  describe("on mount", () => {
+    const testCallbackSetup = async (newUrl) => {
+      const { result } = renderHook(() => useFetchFromApiUrl(newUrl));
 
-      expect(result.current.data).toBe(null);
+      // Initially, data and error are false, and loading is set to true
+      await assertHookResults(result, null, false, true);
 
-      // check that fetch has been called with the correct url
-      expect(fetch).toHaveBeenCalledWith(validApiUrl, expect.anything());
+      return result;
+    };
 
-      await waitFor(() => {
-        expect(result.current.data).toEqual(validApiExpectedData);
-      });
+    it("fetches data correctly when a valid url is provided", async () => {
+      const result = await testCallbackSetup(validApiUrl);
 
-      expect(jsonMock).toHaveBeenCalled();
+      await assertHookResults(result, validApiExpectedData, false, false);
+
+      assertFetchAndJsonCalled(validApiUrl, true);
     });
 
-    it("returns null data when a fetch error occurs ", async () => {
-      const { result } = renderHook(() =>
-        useFetchFromApiUrl(fetchInvalidApiUrl)
-      );
+    it("handles the case of fetch error occurring", async () => {
+      const result = await testCallbackSetup(fetchInvalidApiUrl);
 
-      expect(result.current.data).toBe(null);
+      await assertHookResults(result, null, true, false);
 
-      // check that fetch has been called with the correct url
-      expect(fetch).toHaveBeenCalledWith(fetchInvalidApiUrl, expect.anything());
-
-      await waitFor(() => {
-        expect(result.current.data).toBe(null);
-      });
+      assertFetchAndJsonCalled(fetchInvalidApiUrl, false);
     });
 
-    it("returns null data when a api error occurs ", async () => {
-      const { result } = renderHook(() => useFetchFromApiUrl(apiInvalidApiUrl));
+    it("handles the case of api error occurring", async () => {
+      const result = await testCallbackSetup(apiInvalidApiUrl);
 
-      expect(result.current.data).toBe(null);
+      await assertHookResults(result, null, true, false);
 
-      // check that fetch has been called with the correct url
-      expect(fetch).toHaveBeenCalledWith(apiInvalidApiUrl, expect.anything());
-
-      await waitFor(() => {
-        expect(result.current.data).toBe(null);
-      });
-
-      expect(jsonMock).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("loading output", () => {
-    it("returns a loading variable that is true only during the request processing (valid url case)", async () => {
-      const { result } = renderHook(() => useFetchFromApiUrl(validApiUrl));
-
-      await waitFor(() => {
-        expect(result.current.loading).toBe(true);
-      });
-
-      await waitFor(() => {
-        expect(result.current.loading).toBe(false);
-      });
-    });
-
-    it("returns a loading variable that is true only during the request processing (fetch invalid url case)", async () => {
-      const { result } = renderHook(() =>
-        useFetchFromApiUrl(fetchInvalidApiUrl)
-      );
-
-      await waitFor(() => {
-        expect(result.current.loading).toBe(true);
-      });
-
-      await waitFor(() => {
-        expect(result.current.loading).toBe(false);
-      });
-    });
-
-    it("returns a loading variable that is true only during the request processing (api invalid url case)", async () => {
-      const { result } = renderHook(() => useFetchFromApiUrl(apiInvalidApiUrl));
-
-      await waitFor(() => {
-        expect(result.current.loading).toBe(true);
-      });
-
-      await waitFor(() => {
-        expect(result.current.loading).toBe(false);
-      });
-    });
-  });
-
-  describe("error output", () => {
-    it("returns a error variable that is null when data are retrieved (valid url case)", async () => {
-      const { result } = renderHook(() => useFetchFromApiUrl(validApiUrl));
-
-      await waitFor(() => {
-        expect(jsonMock).toHaveBeenCalled();
-      });
-
-      await waitFor(() => {
-        expect(result.current.data).not.toBe(null);
-        expect(result.current.error).toBe(null);
-      });
-    });
-
-    it("returns a error variable that is not null when an error occurs (fetch invalid url case)", async () => {
-      const { result } = renderHook(() =>
-        useFetchFromApiUrl(fetchInvalidApiUrl)
-      );
-
-      await waitFor(() => {
-        expect(result.current.data).toBe(null);
-        expect(result.current.error).not.toBe(null);
-      });
-    });
-
-    it("returns a error variable that is not null when an error occurs (api invalid url case)", async () => {
-      const { result } = renderHook(() => useFetchFromApiUrl(apiInvalidApiUrl));
-
-      await waitFor(() => {
-        expect(result.current.data).toBe(null);
-        expect(result.current.error).not.toBe(null);
-      });
+      assertFetchAndJsonCalled(apiInvalidApiUrl, false);
     });
   });
 
   describe("re-rendering", () => {
-    it("doesn't refetches if re-rendered with the same url", async () => {
-      const { rerender } = renderHook((apiUrl) => useFetchFromApiUrl(apiUrl), {
-        initialProps: validApiUrl,
-      });
-
-      expect(fetch).toHaveBeenCalledWith(validApiUrl, expect.anything());
-
-      rerender(validApiUrl);
-
-      await waitFor(() => {
-        expect(fetch).toHaveBeenCalledOnce;
-      });
-    });
-
-    it("refetches if re-rendered with different url", async () => {
-      const { result, rerender } = renderHook(
+    const testCallbackSetup = async (newUrl) => {
+      const { rerender, result } = renderHook(
         (apiUrl) => useFetchFromApiUrl(apiUrl),
         {
           initialProps: validApiUrl,
         }
       );
 
-      expect(fetch).toHaveBeenCalledWith(validApiUrl, expect.anything());
+      // Wait for the initial fetch to complete.
+      await assertHookResults(result, validApiExpectedData, false, false);
 
-      rerender(anotherValidApiUrl);
+      // Restore all mocks
+      vi.restoreAllMocks();
 
-      await waitFor(() => {
-        expect(fetch).toHaveBeenLastCalledWith(
-          anotherValidApiUrl,
-          expect.anything()
-        );
-      });
+      rerender(newUrl);
 
-      expect(result.current.data).toEqual(anotherValidApiExpectedData);
+      return result;
+    };
+
+    it("doesn't refetches if re-rendered with the same url", async () => {
+      await testCallbackSetup(validApiUrl);
+
+      expect(fetch).not.toHaveBeenCalled;
+    });
+
+    it("refetches if re-rendered with different url", async () => {
+      const result = await testCallbackSetup(anotherValidApiUrl);
+
+      await assertHookResults(
+        result,
+        anotherValidApiExpectedData,
+        false,
+        false
+      );
+
+      assertFetchAndJsonCalled(anotherValidApiUrl, true);
     });
   });
 });
