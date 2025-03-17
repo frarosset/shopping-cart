@@ -6,6 +6,7 @@ import ProductItem from "../ProductItem.jsx";
 const productData = {
   id: 10,
   title: "Product Title",
+  thumbnail: "some/thumbnail/url",
 };
 
 const setup = () => ({
@@ -17,6 +18,8 @@ const setup = () => ({
 describe("ProductItem", () => {
   it("renders a heading with the product title", () => {
     setup();
+
+    screen.debug();
 
     const productTitle = screen.getByRole("heading", {
       name: productData.title,
@@ -34,5 +37,16 @@ describe("ProductItem", () => {
 
     expect(link).toBeInTheDocument();
     expect(link.href).toBe(`${basePath}${routeTo}`);
+  });
+
+  it("renders a thumbnail of the product", () => {
+    setup();
+
+    const basePath = window.location.href;
+    const img = screen.getByRole("img");
+
+    expect(img).toBeInTheDocument();
+    expect(img.src).toBe(basePath + productData.thumbnail);
+    expect(img.alt).toBe(productData.title);
   });
 });
