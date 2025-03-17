@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import Header from "./Header.jsx";
-import data from "../../assets/data.json";
+import Header from "../Header.jsx";
+import data from "../../../assets/data.json";
 
 const navRoutesTo = ["shop", "about"];
 const routesTo = ["", ...navRoutesTo];

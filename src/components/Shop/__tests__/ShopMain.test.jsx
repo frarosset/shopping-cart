@@ -1,12 +1,12 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import ShopMain from "./ShopMain.jsx";
-import data from "../../assets/data.json";
+import ShopMain from "../ShopMain.jsx";
+import data from "../../../assets/data.json";
 
 const sectionList = data.sectionList;
 
 const mockCategorySectionList = vi.fn();
-vi.mock("./CategorySectionList.jsx", () => ({
+vi.mock("../CategorySectionList.jsx", () => ({
   default: (props) => {
     mockCategorySectionList(props);
     return (

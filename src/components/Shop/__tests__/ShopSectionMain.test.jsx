@@ -1,7 +1,7 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
-import ShopSectionMain from "./ShopSectionMain.jsx";
-import data from "../../assets/data.json";
+import ShopSectionMain from "../ShopSectionMain.jsx";
+import data from "../../../assets/data.json";
 
 const sampleSection = Object.keys(data.sections)[0];
 const sampleSectionName = data.sections[sampleSection].name;
@@ -16,7 +16,7 @@ vi.mock("react-router-dom", () => ({
 }));
 
 const mockCategoryList = vi.fn();
-vi.mock("./CategoryList.jsx", () => ({
+vi.mock("../CategoryList.jsx", () => ({
   default: (props) => {
     mockCategoryList(props);
     return (

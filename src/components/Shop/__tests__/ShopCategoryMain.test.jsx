@@ -1,7 +1,7 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import ShopCategoryMain from "./ShopCategoryMain.jsx";
-import data from "../../assets/data.json";
+import ShopCategoryMain from "../ShopCategoryMain.jsx";
+import data from "../../../assets/data.json";
 
 const sampleCategory = Object.keys(data.categories)[0];
 const sampleCategoryName = data.categories[sampleCategory].name;

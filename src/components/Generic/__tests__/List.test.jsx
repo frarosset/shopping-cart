@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import List from "./List.jsx";
+import List from "../List.jsx";
 
 const sampleItemsKeys = ["one", "two", "three"];
 const sampleItemsLabel = sampleItemsKeys.map((key) => key.toUpperCase());

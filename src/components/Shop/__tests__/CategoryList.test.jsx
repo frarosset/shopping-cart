@@ -1,8 +1,8 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
-import CategoryList from "./CategoryList.jsx";
-import List from "../Generic/List.jsx";
-import data from "../../assets/data.json";
+import CategoryList from "../CategoryList.jsx";
+import List from "../../Generic/List.jsx";
+import data from "../../../assets/data.json";
 
 const categoryList = Object.keys(data.categories);
 
@@ -10,10 +10,10 @@ const categoryList = Object.keys(data.categories);
 // see: https://dev.to/peterlidee/how-to-test-a-component-passed-as-prop-with-jest-4pgn
 
 // mock List and CategoryItem components
-vi.mock("../Generic/List.jsx", { spy: true });
+vi.mock("../../Generic/List.jsx", { spy: true });
 
 const mockCategoryItem = vi.fn();
-vi.mock("./CategoryItem.jsx", () => ({
+vi.mock("../CategoryItem.jsx", () => ({
   default: (props) => {
     mockCategoryItem(props);
     return <p data-testid="__category-item__">{props.category}</p>;

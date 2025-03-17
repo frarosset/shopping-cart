@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import CategoryItem from "./CategoryItem.jsx";
-import data from "../../assets/data.json";
+import CategoryItem from "../CategoryItem.jsx";
+import data from "../../../assets/data.json";
 
 const category = Object.keys(data.categories)[0];
 const categoryData = data.categories[category];

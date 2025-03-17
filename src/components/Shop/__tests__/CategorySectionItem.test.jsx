@@ -1,14 +1,14 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import CategorySectionItem from "./CategorySectionItem.jsx";
-import data from "../../assets/data.json";
+import CategorySectionItem from "../CategorySectionItem.jsx";
+import data from "../../../assets/data.json";
 
 const section = data.sectionList[0];
 const sectionData = data.sections[section];
 
 const mockCategoryList = vi.fn();
-vi.mock("./CategoryList.jsx", () => ({
+vi.mock("../CategoryList.jsx", () => ({
   default: (props) => {
     mockCategoryList(props);
     return (
