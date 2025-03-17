@@ -1,27 +1,49 @@
 import { useState, useEffect } from "react";
 
-const useFetchFromApiUrl = (apiUrl) => {
+const useFetchFromApiUrl = (apiUrl, resetOnFetch = false) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchFromApiUrl = (apiUrl, signal) =>
-    fetchData(apiUrl, signal, setData, setError, setLoading);
+  const fetchFromApiUrl = (apiUrl, resetOnFetch = false, signal) =>
+    fetchData(apiUrl, resetOnFetch, signal, setData, setError, setLoading);
 
   // fetch on mount or on apiUrl change
   useEffect(() => {
     const controller = new AbortController();
 
-    fetchData(apiUrl, controller.signal, setData, setError, setLoading);
+    fetchData(
+      apiUrl,
+      resetOnFetch,
+      controller.signal,
+      setData,
+      setError,
+      setLoading
+    );
 
     return () => controller.abort();
+
+    // While resetOnFetch might change, it should not trigger fetching data if apiUrl is not changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiUrl]);
 
   return { data, loading, error, fetchFromApiUrl };
 };
 
-const fetchData = (apiUrl, signal, setData, setError, setLoading) => {
+const fetchData = (
+  apiUrl,
+  resetOnFetch,
+  signal,
+  setData,
+  setError,
+  setLoading
+) => {
   setLoading(true);
+
+  if (resetOnFetch) {
+    setData(null);
+    setError(null);
+  }
 
   fetch(apiUrl, { mode: "cors", signal: signal })
     .then((response) => {
