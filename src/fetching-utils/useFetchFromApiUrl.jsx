@@ -5,6 +5,9 @@ const useFetchFromApiUrl = (apiUrl) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const fetchFromApiUrl = (apiUrl, signal) =>
+    fetchData(apiUrl, signal, setData, setError, setLoading);
+
   // fetch on mount or on apiUrl change
   useEffect(() => {
     const controller = new AbortController();
@@ -14,7 +17,7 @@ const useFetchFromApiUrl = (apiUrl) => {
     return () => controller.abort();
   }, [apiUrl]);
 
-  return { data, loading, error };
+  return { data, loading, error, fetchFromApiUrl };
 };
 
 const fetchData = (apiUrl, signal, setData, setError, setLoading) => {
