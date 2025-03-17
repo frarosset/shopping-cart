@@ -1,5 +1,6 @@
 {
   "shopName": "Shopping Cart",
+  "currency": "€",
   "sectionList": [
     "electronics",
     "mens-fashion",

@@ -1,4 +1,8 @@
 import { Link } from "react-router-dom";
+import { getPriceStr } from "../../utils/priceUtils.js";
+import data from "../../assets/data.json";
+
+const currency = data.currency;
 
 function ProductItem({ productData, className = "" }) {
   return (
@@ -14,7 +18,10 @@ function ProductItem({ productData, className = "" }) {
         />
         {<h3 className="title">{productData.title}</h3>}
       </Link>
-      <span className="full-price">{productData.price} €</span>
+
+      <span className="full-price">
+        {getPriceStr(productData.price, currency)}
+      </span>
     </div>
   );
 }
