@@ -7,6 +7,7 @@ const productData = {
   id: 10,
   title: "Product Title",
   thumbnail: "some/thumbnail/url",
+  price: 10,
 };
 
 const setup = () => ({
@@ -48,5 +49,13 @@ describe("ProductItem", () => {
     expect(img).toBeInTheDocument();
     expect(img.src).toBe(basePath + productData.thumbnail);
     expect(img.alt).toBe(productData.title);
+  });
+
+  it("renders the price of the product", () => {
+    setup();
+
+    const price = screen.getByText(`${productData.price} €`);
+
+    expect(price).toBeInTheDocument();
   });
 });
