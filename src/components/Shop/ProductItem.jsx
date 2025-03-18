@@ -2,7 +2,10 @@ import { Link } from "react-router-dom";
 import { getDiscountedPrice, getPriceStr } from "../../utils/priceUtils.js";
 import data from "../../assets/data.json";
 
+import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
+
 const currency = data.currency;
+const maxRating = data.maxRating;
 
 function ProductItem({ productData, className = "" }) {
   const discountedPrice = getDiscountedPrice(
@@ -25,7 +28,12 @@ function ProductItem({ productData, className = "" }) {
         />
         {<h3 className="title">{productData.title}</h3>}
       </Link>
-      <span className="rating">{productData.rating}</span>
+
+      <div className="rating-container">
+        <span className="rating">{productData.rating}</span>
+        <StarRatingIcons rating={productData.rating} total={maxRating} />
+      </div>
+
       <div className="price-container">
         <span className="full-price">
           {getPriceStr(productData.price, currency)}
