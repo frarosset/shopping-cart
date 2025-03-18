@@ -16,6 +16,10 @@
   --bg-col: var(--col-pure-white);
   --bg-col-alt: var(--col-black);
 
+  /* Icons */
+  --star-fill: var(--col-highlight);
+  --star-stroke: var(--col-light-grey);
+
   /* default fonts */
   --default-font: "Quicksand", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
