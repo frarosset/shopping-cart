@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import { getPriceStr } from "../../utils/priceUtils.js";
+import { getDiscountedPrice, getPriceStr } from "../../utils/priceUtils.js";
 import data from "../../assets/data.json";
 
 const currency = data.currency;
 
 function ProductItem({ productData, className = "" }) {
+  const discountedPrice = getDiscountedPrice(
+    productData.price,
+    productData.discountPercentage
+  );
+
   return (
     <div className={`product-item ${className}`} data-testid="product-item">
       <span className="discount-percentage">
@@ -18,10 +23,14 @@ function ProductItem({ productData, className = "" }) {
         />
         {<h3 className="title">{productData.title}</h3>}
       </Link>
-
-      <span className="full-price">
-        {getPriceStr(productData.price, currency)}
-      </span>
+      <div className="price-container">
+        <span className="full-price">
+          {getPriceStr(productData.price, currency)}
+        </span>
+        <span className="discounted-price">
+          {getPriceStr(discountedPrice, currency)}
+        </span>
+      </div>
     </div>
   );
 }
