@@ -5,6 +5,7 @@ import ProductFetchList from "../ProductFetchList.jsx";
 const validApiUrl = "/some/api/url/fetching/data";
 const errorApiUrl = "/some/api/url/leading/to/error";
 const apiUrlnitialLoading = "/some/api/url/initial/loading/"; // to simulate initial loading
+const apiUrlAfterValidLoading = "/some/api/url/after/data/loading/"; // to simulate loading on refetch after a successful request
 
 const validData = { products: "Valid Data" };
 const error = { message: "Error!" };
@@ -29,6 +30,12 @@ vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
       return { data: null, error: error, loading: false };
     } else if (apiUrl === apiUrlnitialLoading) {
       return { data: null, error: null, loading: true };
+    } else if (apiUrl === apiUrlAfterValidLoading) {
+      return {
+        data: validData,
+        error: null,
+        loading: true,
+      };
     }
   },
 }));
@@ -71,12 +78,22 @@ describe("ProductFetchList", () => {
     expect(loading).not.toBeInTheDocument();
   });
 
-  it("renders only a loading element on initial element", () => {
+  it("renders only a loading element on initial fetching", () => {
     const { productList, error, loading } = setup(apiUrlnitialLoading);
 
     expect(mockProductList).not.toHaveBeenCalled();
 
     expect(productList).not.toBeInTheDocument();
+    expect(error).not.toBeInTheDocument();
+    expect(loading).toBeInTheDocument();
+  });
+
+  it(`renders the previous product list and a loading element on refetch after a successful request`, () => {
+    const { productList, error, loading } = setup(apiUrlAfterValidLoading);
+
+    expect(mockProductList).toHaveBeenCalledExactlyOnceWith(validData.products);
+
+    expect(productList).toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
     expect(loading).toBeInTheDocument();
   });
