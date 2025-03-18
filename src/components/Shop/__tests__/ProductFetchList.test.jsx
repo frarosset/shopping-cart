@@ -38,7 +38,11 @@ vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
         loading: true,
       };
     } else if (apiUrl === apiUrlAfterErrorLoading) {
-      return { data: null, error: error, loading: true };
+      return {
+        data: null,
+        error: resetOnFetch ? null : error,
+        loading: true,
+      };
     }
   },
 }));
@@ -124,6 +128,19 @@ describe("ProductFetchList", () => {
 
     expect(productList).not.toBeInTheDocument();
     expect(error).toBeInTheDocument();
+    expect(loading).toBeInTheDocument();
+  });
+
+  it(`optionally renders only a loading element on refetch after a failed request`, () => {
+    const { productList, error, loading } = setup(
+      apiUrlAfterErrorLoading,
+      true
+    );
+
+    expect(mockProductList).not.toHaveBeenCalled();
+
+    expect(productList).not.toBeInTheDocument();
+    expect(error).not.toBeInTheDocument();
     expect(loading).toBeInTheDocument();
   });
 });
