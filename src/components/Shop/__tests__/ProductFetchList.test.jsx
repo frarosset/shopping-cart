@@ -22,8 +22,8 @@ vi.mock("../ProductList.jsx", () => ({
 
 const mockUseFetchFromApiUrl = vi.fn();
 vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
-  default: (apiUrl) => {
-    mockUseFetchFromApiUrl(apiUrl);
+  default: (apiUrl, resetOnFetch = false) => {
+    mockUseFetchFromApiUrl(apiUrl, resetOnFetch);
     if (apiUrl === validApiUrl) {
       return { data: validData, error: null, loading: false };
     } else if (apiUrl === errorApiUrl) {
@@ -32,7 +32,7 @@ vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
       return { data: null, error: null, loading: true };
     } else if (apiUrl === apiUrlAfterValidLoading) {
       return {
-        data: validData,
+        data: resetOnFetch ? null : validData,
         error: null,
         loading: true,
       };
@@ -45,10 +45,13 @@ beforeEach(() => {
   vi.resetAllMocks();
 });
 
-const setup = (apiUrl) => {
-  render(<ProductFetchList apiUrl={apiUrl} />);
+const setup = (apiUrl, resetOnFetch = false) => {
+  render(<ProductFetchList apiUrl={apiUrl} resetOnFetch={resetOnFetch} />);
 
-  expect(mockUseFetchFromApiUrl).toHaveBeenCalledExactlyOnceWith(apiUrl);
+  expect(mockUseFetchFromApiUrl).toHaveBeenCalledExactlyOnceWith(
+    apiUrl,
+    resetOnFetch
+  );
 
   return {
     productList: screen.queryByTestId("__product-list__"),
@@ -94,6 +97,19 @@ describe("ProductFetchList", () => {
     expect(mockProductList).toHaveBeenCalledExactlyOnceWith(validData.products);
 
     expect(productList).toBeInTheDocument();
+    expect(error).not.toBeInTheDocument();
+    expect(loading).toBeInTheDocument();
+  });
+
+  it(`optionally renders only a loading element on refetch after a successful request`, () => {
+    const { productList, error, loading } = setup(
+      apiUrlAfterValidLoading,
+      true
+    );
+
+    expect(mockProductList).not.toHaveBeenCalled();
+
+    expect(productList).not.toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
     expect(loading).toBeInTheDocument();
   });
