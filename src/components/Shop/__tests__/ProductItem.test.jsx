@@ -13,11 +13,13 @@ const productData = {
   discountedPriceStr: "7.50 €",
 };
 
-const setup = () => ({
-  ...render(<ProductItem productData={productData} />, {
+const customSetup = (data) => ({
+  ...render(<ProductItem productData={data} />, {
     wrapper: MemoryRouter,
   }),
 });
+
+const setup = () => customSetup(productData);
 
 describe("ProductItem", () => {
   it("renders a heading with the product title", () => {
@@ -70,11 +72,24 @@ describe("ProductItem", () => {
     expect(discount).toBeInTheDocument();
   });
 
-  it("renders the discounted price of the product", () => {
+  it("renders the discounted price of the product (if the discount is non-zero)", () => {
     setup();
 
     const discountedPrice = screen.getByText(productData.discountedPriceStr);
 
     expect(discountedPrice).toBeInTheDocument();
+  });
+
+  it("doesn't render the discounted price of the product (if the discount is zero)", () => {
+    const customData = Object.assign({}, productData, {
+      discountPercentage: 0,
+    });
+
+    customSetup(customData);
+
+    // with a 0 discountPercentage, both price and disconted price are the same: do not show that
+    const prices = screen.getAllByText(productData.priceStr);
+
+    expect(prices.length).toBe(1);
   });
 });
