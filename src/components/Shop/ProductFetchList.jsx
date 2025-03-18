@@ -1,8 +1,8 @@
 import ProductList from "./ProductList.jsx";
 import useFetchFromApiUrl from "../../fetching-utils/useFetchFromApiUrl.jsx";
 
-function ProductFetchList({ apiUrl, className = "" }) {
-  const { data, error, loading } = useFetchFromApiUrl(apiUrl);
+function ProductFetchList({ apiUrl, resetOnFetch = false, className = "" }) {
+  const { data, error, loading } = useFetchFromApiUrl(apiUrl, resetOnFetch);
 
   return (
     <div
