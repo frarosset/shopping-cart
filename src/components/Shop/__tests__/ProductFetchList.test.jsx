@@ -3,8 +3,10 @@ import { render, screen } from "@testing-library/react";
 import ProductFetchList from "../ProductFetchList.jsx";
 
 const validApiUrl = "/some/api/url/fetching/data";
+const errorApiUrl = "/some/api/url/leading/to/error";
 
 const validData = { products: "Valid Data" };
+const error = { message: "Error!" };
 
 // mock ProductList and  components
 
@@ -22,6 +24,8 @@ vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
     mockUseFetchFromApiUrl(apiUrl);
     if (apiUrl === validApiUrl) {
       return { data: validData, error: null, loading: false };
+    } else if (apiUrl === errorApiUrl) {
+      return { data: null, error: error, loading: false };
     }
   },
 }));
@@ -51,6 +55,16 @@ describe("ProductFetchList", () => {
 
     expect(productList).toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
+    expect(loading).not.toBeInTheDocument();
+  });
+
+  it("renders an error on failed fetch", () => {
+    const { productList, error, loading } = setup(errorApiUrl);
+
+    expect(mockProductList).not.toHaveBeenCalled();
+
+    expect(productList).not.toBeInTheDocument();
+    expect(error).toBeInTheDocument();
     expect(loading).not.toBeInTheDocument();
   });
 });
