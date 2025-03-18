@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import CategorySectionList from "../CategorySectionList.jsx";
 import List from "../../Generic/List.jsx";
@@ -21,7 +21,7 @@ vi.mock("../CategorySectionItem.jsx", () => ({
 }));
 
 /* mocks are hoisted: reset them before each test */
-beforeEach(() => {
+afterEach(() => {
   vi.resetAllMocks();
 });
 

@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import ShopMain from "../ShopMain.jsx";
 import data from "../../../assets/data.json";
@@ -18,7 +18,7 @@ vi.mock("../CategorySectionList.jsx", () => ({
 }));
 
 /* mocks are hoisted: reset them before each test */
-beforeEach(() => {
+afterEach(() => {
   vi.resetAllMocks();
 });
 

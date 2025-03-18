@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import ProductFetchList from "../ProductFetchList.jsx";
 
@@ -48,7 +48,7 @@ vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
 }));
 
 /* mocks are hoisted: reset them before each test */
-beforeEach(() => {
+afterEach(() => {
   vi.resetAllMocks();
 });
 
