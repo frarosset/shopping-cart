@@ -1,7 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import ProductItem from "../ProductItem.jsx";
+import data from "../../../assets/data.json";
+
+const maxRating = data.maxRating;
 
 const productData = {
   id: 10,
@@ -14,6 +17,23 @@ const productData = {
   discountedPriceStr: "7.50 €",
   rating: 3.6,
 };
+
+const mockStarRatingIcons = vi.fn();
+vi.mock("../../Icons/StarRatingIcons.jsx", () => ({
+  default: (props) => {
+    mockStarRatingIcons(props.rating, props.total);
+    return (
+      <span data-testid="__star-rating-icons__">
+        {`star rating icons: ${props.rating} out of ${props.total}`}
+      </span>
+    );
+  },
+}));
+
+/* mocks are hoisted: reset them before each test */
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
 const customSetup = (data) => ({
   ...render(<ProductItem productData={data} />, {
@@ -116,5 +136,17 @@ describe("ProductItem", () => {
     const rating = screen.getByText(productData.rating);
 
     expect(rating).toBeInTheDocument();
+  });
+
+  it("renders the star rating representation of the product", () => {
+    setup();
+
+    const starRatingIcons = screen.getByTestId("__star-rating-icons__");
+
+    expect(mockStarRatingIcons).toHaveBeenCalledExactlyOnceWith(
+      productData.rating,
+      maxRating
+    );
+    expect(starRatingIcons).toBeInTheDocument();
   });
 });
