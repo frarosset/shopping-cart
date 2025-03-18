@@ -15,7 +15,7 @@ function ProductFetchList({ apiUrl, resetOnFetch = false, className = "" }) {
       {data && data.products && <ProductList productDataList={data.products} />}
       {error && (
         <span data-testid="product-fetch-list-error">
-          "Error " + error.message
+          {`Error ${error.message}`}
         </span>
       )}
     </div>
