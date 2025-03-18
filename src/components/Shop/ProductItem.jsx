@@ -27,9 +27,11 @@ function ProductItem({ productData, className = "" }) {
         <span className="full-price">
           {getPriceStr(productData.price, currency)}
         </span>
-        <span className="discounted-price">
-          {getPriceStr(discountedPrice, currency)}
-        </span>
+        {productData.discountPercentage > 0 && (
+          <span className="discounted-price">
+            {getPriceStr(discountedPrice, currency)}
+          </span>
+        )}
       </div>
     </div>
   );
