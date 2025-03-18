@@ -177,7 +177,7 @@ describe("ProductItem", () => {
   });
 
   it("render info about the availability if 'Out Of Stock'", () => {
-    const stockStr = "Out Of Stock";
+    const stockStr = "Out of Stock";
     const customData = Object.assign({}, productData, {
       availabilityStatus: stockStr,
     });

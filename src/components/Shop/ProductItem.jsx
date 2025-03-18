@@ -7,7 +7,7 @@ import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 const currency = data.currency;
 const maxRating = data.maxRating;
 
-const showStockInfoOn = ["Low Stock"];
+const showStockInfoOn = ["Low Stock", "Out of Stock"];
 
 function ProductItem({ productData, className = "" }) {
   const discountedPrice = getDiscountedPrice(
