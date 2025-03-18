@@ -9,6 +9,7 @@ const productData = {
   thumbnail: "some/thumbnail/url",
   price: 10,
   discountPercentage: 25,
+  discountPercentageStr: "-25 %",
   priceStr: "10 €",
   discountedPriceStr: "7.50 €",
 };
@@ -67,9 +68,24 @@ describe("ProductItem", () => {
   it("renders the discount percentage of the product", () => {
     setup();
 
-    const discount = screen.getByText(`-${productData.discountPercentage} %`);
+    const discount = screen.getByText(productData.discountPercentageStr);
 
     expect(discount).toBeInTheDocument();
+  });
+
+  it("doesn't render the discounted percentage of the product (if the discount is zero)", () => {
+    const customData = Object.assign({}, productData, {
+      discountPercentage: 0,
+    });
+
+    customSetup(customData);
+
+    // with a 0 discountPercentage, both price and disconted price are the same: do not show that
+    const discount = screen.queryByText(`-0 %`);
+    const discountAlt = screen.queryByText(`-0%`);
+
+    expect(discount).not.toBeInTheDocument();
+    expect(discountAlt).not.toBeInTheDocument();
   });
 
   it("renders the discounted price of the product (if the discount is non-zero)", () => {
