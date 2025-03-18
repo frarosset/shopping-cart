@@ -5,13 +5,26 @@ import data from "../../assets/data.json";
 
 const getCategoryData = (category) => data.categories[category];
 
+const productDataKeys = [
+  "title",
+  "price",
+  "discountPercentage",
+  "rating",
+  "thumbnail",
+];
+const productKeysStr = productDataKeys.join(",");
+
 function ShopCategoryMain({ className = "" }) {
   const { category } = useParams();
 
   const categoryData = getCategoryData(category);
   const categoryName = categoryData.name;
 
-  const apiUrl = getCategoryProductsApiUrl(category);
+  const apiUrl = getCategoryProductsApiUrl(category, {
+    select: productKeysStr,
+    sortBy: "rating",
+    order: "desc",
+  });
 
   return (
     <main
