@@ -6,6 +6,7 @@ const validApiUrl = "/some/api/url/fetching/data";
 const errorApiUrl = "/some/api/url/leading/to/error";
 const apiUrlnitialLoading = "/some/api/url/initial/loading/"; // to simulate initial loading
 const apiUrlAfterValidLoading = "/some/api/url/after/data/loading/"; // to simulate loading on refetch after a successful request
+const apiUrlAfterErrorLoading = "/some/api/url/after/error/loading/"; // to simulate loading on refetch after a failed request
 
 const validData = { products: "Valid Data" };
 const error = { message: "Error!" };
@@ -36,6 +37,8 @@ vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
         error: null,
         loading: true,
       };
+    } else if (apiUrl === apiUrlAfterErrorLoading) {
+      return { data: null, error: error, loading: true };
     }
   },
 }));
@@ -111,6 +114,16 @@ describe("ProductFetchList", () => {
 
     expect(productList).not.toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
+    expect(loading).toBeInTheDocument();
+  });
+
+  it(`renders the previous error and a loading element on refetch after a failed request`, () => {
+    const { productList, error, loading } = setup(apiUrlAfterErrorLoading);
+
+    expect(mockProductList).not.toHaveBeenCalled();
+
+    expect(productList).not.toBeInTheDocument();
+    expect(error).toBeInTheDocument();
     expect(loading).toBeInTheDocument();
   });
 });
