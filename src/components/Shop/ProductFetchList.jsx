@@ -2,13 +2,16 @@ import ProductList from "./ProductList.jsx";
 import useFetchFromApiUrl from "../../fetching-utils/useFetchFromApiUrl.jsx";
 
 function ProductFetchList({ apiUrl, className = "" }) {
-  const { data, error } = useFetchFromApiUrl(apiUrl);
+  const { data, error, loading } = useFetchFromApiUrl(apiUrl);
 
   return (
     <div
       className={`product-fetch-list ${className}`}
       data-testid="product-fetch-list"
     >
+      {loading && (
+        <span data-testid="product-fetch-list-loading">"Loading ..."</span>
+      )}
       {data && data.products && <ProductList productDataList={data.products} />}
       {error && (
         <span data-testid="product-fetch-list-error">
