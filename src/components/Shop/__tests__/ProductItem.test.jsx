@@ -149,4 +149,16 @@ describe("ProductItem", () => {
     );
     expect(starRatingIcons).toBeInTheDocument();
   });
+
+  it("doesn't render info about the availability if 'In stock'", () => {
+    const customData = Object.assign({}, productData, {
+      availabilityStatus: "In Stock",
+    });
+
+    customSetup(customData);
+
+    const starRatingIcons = screen.queryByText("In Stock");
+
+    expect(starRatingIcons).not.toBeInTheDocument();
+  });
 });
