@@ -151,14 +151,28 @@ describe("ProductItem", () => {
   });
 
   it("doesn't render info about the availability if 'In stock'", () => {
+    const stockStr = "In Stock";
     const customData = Object.assign({}, productData, {
-      availabilityStatus: "In Stock",
+      availabilityStatus: stockStr,
     });
 
     customSetup(customData);
 
-    const starRatingIcons = screen.queryByText("In Stock");
+    const starRatingIcons = screen.queryByText(stockStr);
 
     expect(starRatingIcons).not.toBeInTheDocument();
+  });
+
+  it("render info about the availability if 'Low stock'", () => {
+    const stockStr = "Low Stock";
+    const customData = Object.assign({}, productData, {
+      availabilityStatus: stockStr,
+    });
+
+    customSetup(customData);
+
+    const stockInfo = screen.queryByText(stockStr);
+
+    expect(stockInfo).toBeInTheDocument();
   });
 });
