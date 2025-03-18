@@ -175,4 +175,17 @@ describe("ProductItem", () => {
 
     expect(stockInfo).toBeInTheDocument();
   });
+
+  it("render info about the availability if 'Out Of Stock'", () => {
+    const stockStr = "Out Of Stock";
+    const customData = Object.assign({}, productData, {
+      availabilityStatus: stockStr,
+    });
+
+    customSetup(customData);
+
+    const stockInfo = screen.queryByText(stockStr);
+
+    expect(stockInfo).toBeInTheDocument();
+  });
 });
