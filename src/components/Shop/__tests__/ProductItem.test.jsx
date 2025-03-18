@@ -12,6 +12,7 @@ const productData = {
   discountPercentageStr: "-25 %",
   priceStr: "10 €",
   discountedPriceStr: "7.50 €",
+  rating: 3.6,
 };
 
 const customSetup = (data) => ({
@@ -107,5 +108,13 @@ describe("ProductItem", () => {
     const prices = screen.getAllByText(productData.priceStr);
 
     expect(prices.length).toBe(1);
+  });
+
+  it("renders the rating of the product", () => {
+    setup();
+
+    const rating = screen.getByText(productData.rating);
+
+    expect(rating).toBeInTheDocument();
   });
 });
