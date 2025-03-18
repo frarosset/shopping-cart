@@ -11,6 +11,7 @@ const productDataKeys = [
   "discountPercentage",
   "rating",
   "thumbnail",
+  "availabilityStatus",
 ];
 const productKeysStr = productDataKeys.join(",");
 
