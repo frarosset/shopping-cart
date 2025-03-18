@@ -25,6 +25,7 @@ function ProductItem({ productData, className = "" }) {
         />
         {<h3 className="title">{productData.title}</h3>}
       </Link>
+      <span className="rating">{productData.rating}</span>
       <div className="price-container">
         <span className="full-price">
           {getPriceStr(productData.price, currency)}
