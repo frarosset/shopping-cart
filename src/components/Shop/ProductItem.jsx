@@ -12,9 +12,11 @@ function ProductItem({ productData, className = "" }) {
 
   return (
     <div className={`product-item ${className}`} data-testid="product-item">
-      <span className="discount-percentage">
-        {`-${productData.discountPercentage} %`}
-      </span>
+      {productData.discountPercentage > 0 && (
+        <span className="discount-percentage">
+          {`-${productData.discountPercentage} %`}
+        </span>
+      )}
       <Link to={`/shop/p/${productData.id}`}>
         <img
           className="thumbnail"
