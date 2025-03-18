@@ -4,6 +4,7 @@ import ProductFetchList from "../ProductFetchList.jsx";
 
 const validApiUrl = "/some/api/url/fetching/data";
 const errorApiUrl = "/some/api/url/leading/to/error";
+const apiUrlnitialLoading = "/some/api/url/initial/loading/"; // to simulate initial loading
 
 const validData = { products: "Valid Data" };
 const error = { message: "Error!" };
@@ -26,6 +27,8 @@ vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
       return { data: validData, error: null, loading: false };
     } else if (apiUrl === errorApiUrl) {
       return { data: null, error: error, loading: false };
+    } else if (apiUrl === apiUrlnitialLoading) {
+      return { data: null, error: null, loading: true };
     }
   },
 }));
@@ -66,5 +69,15 @@ describe("ProductFetchList", () => {
     expect(productList).not.toBeInTheDocument();
     expect(error).toBeInTheDocument();
     expect(loading).not.toBeInTheDocument();
+  });
+
+  it("renders only a loading element on initial element", () => {
+    const { productList, error, loading } = setup(apiUrlnitialLoading);
+
+    expect(mockProductList).not.toHaveBeenCalled();
+
+    expect(productList).not.toBeInTheDocument();
+    expect(error).not.toBeInTheDocument();
+    expect(loading).toBeInTheDocument();
   });
 });
