@@ -2,7 +2,7 @@ import ProductList from "./ProductList.jsx";
 import useFetchFromApiUrl from "../../fetching-utils/useFetchFromApiUrl.jsx";
 
 function ProductFetchList({ apiUrl, className = "" }) {
-  const { data } = useFetchFromApiUrl(apiUrl);
+  const { data, error } = useFetchFromApiUrl(apiUrl);
 
   return (
     <div
@@ -10,6 +10,11 @@ function ProductFetchList({ apiUrl, className = "" }) {
       data-testid="product-fetch-list"
     >
       {data && data.products && <ProductList productDataList={data.products} />}
+      {error && (
+        <span data-testid="product-fetch-list-error">
+          "Error " + error.message
+        </span>
+      )}
     </div>
   );
 }
