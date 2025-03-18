@@ -7,6 +7,8 @@ import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 const currency = data.currency;
 const maxRating = data.maxRating;
 
+const showStockInfoOn = ["Low Stock"];
+
 function ProductItem({ productData, className = "" }) {
   const discountedPrice = getDiscountedPrice(
     productData.price,
@@ -15,11 +17,19 @@ function ProductItem({ productData, className = "" }) {
 
   return (
     <div className={`product-item ${className}`} data-testid="product-item">
-      {productData.discountPercentage > 0 && (
-        <span className="discount-percentage">
-          {`-${productData.discountPercentage} %`}
-        </span>
-      )}
+      <div className="highlight-container">
+        {productData.discountPercentage > 0 && (
+          <span className="discount-percentage">
+            {`-${productData.discountPercentage} %`}
+          </span>
+        )}
+        {showStockInfoOn.includes(productData.availabilityStatus) && (
+          <span className="availability-status">
+            {productData.availabilityStatus}
+          </span>
+        )}
+      </div>
+
       <Link to={`/shop/p/${productData.id}`}>
         <img
           className="thumbnail"
