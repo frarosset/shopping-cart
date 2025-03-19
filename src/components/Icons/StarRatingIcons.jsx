@@ -1,4 +1,5 @@
 import FractStarIcon from "./FractStarIcon.jsx";
+import styled from "styled-components";
 
 //The rating can be any number between 0 and 1.
 
@@ -12,7 +13,16 @@ function StarRatingIcons({ rating, total = 5 }) {
     n = n - fract;
   }
 
-  return <div aria-label={`Rating is ${rating} out of ${total}`}>{stars}</div>;
+  return (
+    <StyledRowIcons aria-label={`Rating is ${rating} out of ${total}`}>
+      {stars}
+    </StyledRowIcons>
+  );
 }
+
+const StyledRowIcons = styled.span`
+  display: flex;
+  align-items: center;
+`;
 
 export default StarRatingIcons;

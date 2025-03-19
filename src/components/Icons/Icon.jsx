@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
-function Icon({ children, className = "" }) {
-  return <span className={`icon ${className}`}>{children}</span>;
+function Icon({ children }) {
+  return <StyledIcon>{children}</StyledIcon>;
 }
 
-const StyledIcon = styled(Icon)`
+const StyledIcon = styled.span`
   width: 1em;
   height: 1em;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-export default StyledIcon;
+export default Icon;
