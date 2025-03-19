@@ -14,6 +14,17 @@ const Title = styled(({ title, hLevel, nRows = null, className = "" }) => {
   );
 })``;
 
+const Thumbnail = styled(({ title, thumbnail, className = "" }) => {
+  return (
+    <StyledPhoto
+      className={className}
+      src={thumbnail}
+      alt={title}
+      loading={"lazy"}
+    />
+  );
+})``;
+
 const PriceContainer = styled(
   ({ price, discountPercentage, className = "" }) => {
     const currency = data.currency;
@@ -59,6 +70,16 @@ const StyledText = styled.span`
   font-size: var(--product-text-size);
 `;
 
+const StyledPhoto = styled.img`
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  color: var(--product-image-color);
+  box-shadow: 0 0 var(--product-photo-shadow-size) var(--product-photo-color)
+    inset;
+`;
+
 const StyledTitle = styled(Heading)`
   font-size: var(--product-title-size);
   color: var(--product-title-col);
@@ -86,4 +107,4 @@ const StyledPrice = styled.span`
   `};
 `;
 
-export { PriceContainer, RatingContainer, Title };
+export { PriceContainer, RatingContainer, Title, Thumbnail };

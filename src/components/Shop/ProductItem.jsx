@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import {
+  Thumbnail,
   Title,
   PriceContainer,
   RatingContainer,
@@ -25,11 +26,7 @@ function ProductItem({ productData, className = "" }) {
         )}
       </div>
       <Link to={`/shop/p/${productData.id}`}>
-        <img
-          className="thumbnail"
-          src={productData.thumbnail}
-          alt={productData.title}
-        />
+        <Thumbnail {...productData} />
         <Title {...productData} hLevel={hLevel} nRows={2} />
       </Link>
       <RatingContainer {...productData} />
