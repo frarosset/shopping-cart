@@ -1,7 +1,18 @@
 import styled from "styled-components";
 import StarRatingIcons from "./Icons/StarRatingIcons.jsx";
+import ClampedText from "./Generic/ClampedText.jsx";
+import Heading from "./Generic/Heading.jsx";
+
 import { getDiscountedPrice, getPriceStr } from "../utils/priceUtils.js";
 import data from "../assets/data.json";
+
+const Title = styled(({ title, hLevel, nRows = null, className = "" }) => {
+  return (
+    <StyledTitle $nRows={nRows} hLevel={hLevel} className={className}>
+      {nRows ? <ClampedText $nRows={nRows}>{title}</ClampedText> : title}
+    </StyledTitle>
+  );
+})``;
 
 const PriceContainer = styled(
   ({ price, discountPercentage, className = "" }) => {
@@ -48,6 +59,15 @@ const StyledText = styled.span`
   font-size: var(--product-text-size);
 `;
 
+const StyledTitle = styled(Heading)`
+  font-size: var(--product-title-size);
+  color: var(--product-title-col);
+  font-weight: bold;
+  height: ${(props) => (props.$nRows ? `${props.$nRows}lh` : "auto")};
+  display: flex;
+  align-items: flex-end;
+`;
+
 const StyledPrice = styled.span`
   font-family: var(--product-price-font);
   font-size: var(--product-price-size);
@@ -66,4 +86,4 @@ const StyledPrice = styled.span`
   `};
 `;
 
-export { PriceContainer, RatingContainer };
+export { PriceContainer, RatingContainer, Title };

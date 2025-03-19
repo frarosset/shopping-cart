@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
-import { PriceContainer, RatingContainer } from "../StyledProductInfo.jsx";
+import {
+  Title,
+  PriceContainer,
+  RatingContainer,
+} from "../StyledProductInfo.jsx";
 
 const showStockInfoOn = ["Low Stock", "Out of Stock"];
 
 function ProductItem({ productData, className = "" }) {
+  const hLevel = 3;
+
   return (
     <div className={`product-item ${className}`} data-testid="product-item">
       <div className="highlight-container">
@@ -18,16 +24,14 @@ function ProductItem({ productData, className = "" }) {
           </span>
         )}
       </div>
-
       <Link to={`/shop/p/${productData.id}`}>
         <img
           className="thumbnail"
           src={productData.thumbnail}
           alt={productData.title}
         />
-        {<h3 className="title">{productData.title}</h3>}
+        <Title {...productData} hLevel={hLevel} nRows={2} />
       </Link>
-
       <RatingContainer {...productData} />
       <PriceContainer {...productData} />
     </div>
