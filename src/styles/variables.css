@@ -49,7 +49,7 @@
 
   /* product */
   --product-item-min-size: min(300px, 90vmin);
-  --product-item-max-size: 400px;
+  --product-item-max-size: max(400px, 20vw);
   --product-item-hover-thumbnail-scale: 1.2;
   --product-item-hover-thumbnail-greyscale: 0.6;
   --product-item-hover-thumbnail-opacity: 0.6;
@@ -66,4 +66,8 @@
   --product-tag-highlight-bg-col: var(--col-highlight);
   --product-tag-size: 0.8rem;
   --product-transition-duration: 0.3s;
+
+  /* product-list */
+  --product-list-padding: var(--page-padding);
+  --product-list-gap: 3lh 1lh;
 }

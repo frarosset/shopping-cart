@@ -63,7 +63,7 @@ const StyledProductItem = styled.div`
   container-type: inline-size;
 
   * {
-    transition: all var(--product-transition-duration);
+    transition: transform var(--product-transition-duration);
   }
 
   ${Thumbnail} {
