@@ -45,7 +45,8 @@
   --header-padding: var(--page-padding);
 
   /* product */
+  --product-text-size: 1rem;
   --product-price-font: var(--highlight-font);
-  --product-price-size: 1.2em;
+  --product-price-size: 1.2rem;
   --product-price-highlight-col: var(--col-highlight);
 }
