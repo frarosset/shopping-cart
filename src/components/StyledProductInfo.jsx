@@ -153,4 +153,5 @@ export {
   Thumbnail,
   DiscountPercentage,
   AvailabilityStatus,
+  StyledRowContainer,
 };

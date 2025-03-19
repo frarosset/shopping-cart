@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import {
   Thumbnail,
   Title,
@@ -6,6 +7,7 @@ import {
   RatingContainer,
   DiscountPercentage,
   AvailabilityStatus,
+  StyledRowContainer,
 } from "../StyledProductInfo.jsx";
 import data from "../../assets/data.json";
 
@@ -14,13 +16,13 @@ function ProductItem({ productData, className = "" }) {
 
   return (
     <div className={`product-item ${className}`} data-testid="product-item">
-      <div className="highlight-container">
+      <StyledHighlightTags>
         <DiscountPercentage {...productData} />
         <AvailabilityStatus
           {...productData}
           ignoreStatusList={[data.availability.inStock]}
         />
-      </div>
+      </StyledHighlightTags>
       <Link to={`/shop/p/${productData.id}`}>
         <Thumbnail {...productData} />
         <Title {...productData} hLevel={hLevel} nRows={2} />
@@ -31,4 +33,14 @@ function ProductItem({ productData, className = "" }) {
   );
 }
 
-export default ProductItem;
+const StyledHighlightTags = styled(StyledRowContainer)`
+  position: absolute;
+  top: var(--small-padding);
+  left: var(--small-padding);
+`;
+
+const StyledProductItem = styled(ProductItem)`
+  position: relative;
+`;
+
+export default StyledProductItem;
