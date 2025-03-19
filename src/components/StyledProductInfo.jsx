@@ -46,6 +46,20 @@ const PriceContainer = styled(
   }
 )``;
 
+const DiscountPercentage = styled(({ discountPercentage, className = "" }) => {
+  const highlightDiscountsAt = data.highlightDiscountsAt;
+  const hasDiscount = discountPercentage > 0;
+  const highlightDiscount = discountPercentage > highlightDiscountsAt;
+
+  return (
+    hasDiscount && (
+      <StyledTag $highlight={highlightDiscount} className={className}>
+        {`-${discountPercentage} %`}
+      </StyledTag>
+    )
+  );
+})``;
+
 const RatingContainer = styled(({ rating, reviews, className = "" }) => {
   const maxRating = data.maxRating;
   const numOfReviews = reviews && reviews.length;
@@ -107,4 +121,23 @@ const StyledPrice = styled.span`
   `};
 `;
 
-export { PriceContainer, RatingContainer, Title, Thumbnail };
+const StyledTag = styled.span`
+  font-size: var(--product-tag-size);
+  color: var(--product-tag-col);
+  background: ${({ $highlight }) =>
+    $highlight
+      ? "var(--product-tag-highlight-bg-col)"
+      : "var(--product-tag-bg-col)"};
+  border-radius: var(--small-radius);
+  padding: var(--small-padding);
+  width: max-content;
+  max-width: 100%;
+`;
+
+export {
+  PriceContainer,
+  RatingContainer,
+  Title,
+  Thumbnail,
+  DiscountPercentage,
+};

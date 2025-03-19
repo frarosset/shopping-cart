@@ -7,6 +7,7 @@
   --col-black: #252422;
   --col-dark-grey: #403d39;
   --col-light-grey: #ccc5b9;
+  --col-white: #f6f5f1;
   --col-pure-white: #ffffff;
   --col-highlight: #eb5e28;
   --col-accent: #489fb5;
@@ -29,7 +30,9 @@
   --default-fontsize: max(18px, 2vmin);
 
   /* generic */
+  --small-padding: max(5px, 0.4vmax);
   --small-gap: max(5px, 0.4vmax);
+  --small-radius: max(5px, 0.4vmax);
 
   /* page paddings and gap */
   --page-padding-tb: max(2vh, 0.5rem);
@@ -53,4 +56,8 @@
   --product-price-font: var(--highlight-font);
   --product-price-size: 1.2rem;
   --product-price-highlight-col: var(--col-highlight);
+  --product-tag-col: var(--col-txt-alt);
+  --product-tag-bg-col: var(--col-dark-grey);
+  --product-tag-highlight-bg-col: var(--col-highlight);
+  --product-tag-size: 0.8rem;
 }

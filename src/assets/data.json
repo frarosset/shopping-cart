@@ -2,6 +2,7 @@
   "shopName": "Shopping Cart",
   "currency": "€",
   "maxRating": 5,
+  "highlightDiscountsAt": 15,
   "sectionList": [
     "electronics",
     "mens-fashion",

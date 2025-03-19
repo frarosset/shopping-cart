@@ -4,6 +4,7 @@ import {
   Title,
   PriceContainer,
   RatingContainer,
+  DiscountPercentage,
 } from "../StyledProductInfo.jsx";
 
 const showStockInfoOn = ["Low Stock", "Out of Stock"];
@@ -14,11 +15,7 @@ function ProductItem({ productData, className = "" }) {
   return (
     <div className={`product-item ${className}`} data-testid="product-item">
       <div className="highlight-container">
-        {productData.discountPercentage > 0 && (
-          <span className="discount-percentage">
-            {`-${productData.discountPercentage} %`}
-          </span>
-        )}
+        <DiscountPercentage {...productData} />
         {showStockInfoOn.includes(productData.availabilityStatus) && (
           <span className="availability-status">
             {productData.availabilityStatus}
