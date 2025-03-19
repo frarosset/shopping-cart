@@ -5,9 +5,9 @@ import {
   PriceContainer,
   RatingContainer,
   DiscountPercentage,
+  AvailabilityStatus,
 } from "../StyledProductInfo.jsx";
-
-const showStockInfoOn = ["Low Stock", "Out of Stock"];
+import data from "../../assets/data.json";
 
 function ProductItem({ productData, className = "" }) {
   const hLevel = 3;
@@ -16,11 +16,10 @@ function ProductItem({ productData, className = "" }) {
     <div className={`product-item ${className}`} data-testid="product-item">
       <div className="highlight-container">
         <DiscountPercentage {...productData} />
-        {showStockInfoOn.includes(productData.availabilityStatus) && (
-          <span className="availability-status">
-            {productData.availabilityStatus}
-          </span>
-        )}
+        <AvailabilityStatus
+          {...productData}
+          ignoreStatusList={[data.availability.inStock]}
+        />
       </div>
       <Link to={`/shop/p/${productData.id}`}>
         <Thumbnail {...productData} />

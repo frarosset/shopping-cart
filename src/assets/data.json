@@ -3,6 +3,11 @@
   "currency": "€",
   "maxRating": 5,
   "highlightDiscountsAt": 15,
+  "availability": {
+    "inStock": "In Stock",
+    "lowStock": "Low Stock",
+    "outOfStock": "Out of Stock"
+  },
   "sectionList": [
     "electronics",
     "mens-fashion",

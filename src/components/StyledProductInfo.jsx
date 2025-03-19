@@ -73,6 +73,18 @@ const RatingContainer = styled(({ rating, reviews, className = "" }) => {
   );
 })``;
 
+const AvailabilityStatus = styled(
+  ({ availabilityStatus, ignoreStatusList = [], className = "" }) => {
+    const ignoreStatus = ignoreStatusList.includes(availabilityStatus);
+
+    return (
+      !ignoreStatus && (
+        <StyledTag className={className}>{availabilityStatus}</StyledTag>
+      )
+    );
+  }
+)``;
+
 // StyledProductInfo.jsx
 const StyledRowContainer = styled.div`
   display: flex;
@@ -140,4 +152,5 @@ export {
   Title,
   Thumbnail,
   DiscountPercentage,
+  AvailabilityStatus,
 };
