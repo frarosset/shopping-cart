@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Quicksand:wght@300..700&display=swap");
 
 :root {
   /* colors */
@@ -6,7 +7,6 @@
   --col-black: #252422;
   --col-dark-grey: #403d39;
   --col-light-grey: #ccc5b9;
-  --col-white: #fffcf2;
   --col-pure-white: #ffffff;
   --col-highlight: #eb5e28;
   --col-accent: #489fb5;
@@ -23,8 +23,13 @@
   /* default fonts */
   --default-font: "Quicksand", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
+  --highlight-font: "Hammersmith One", Inter, system-ui, Avenir, Helvetica,
+    Arial, sans-serif;
   --default-lineheight: 1.5;
   --default-fontsize: max(18px, 2vmin);
+
+  /* generic */
+  --small-gap: max(5px, 0.4vmax);
 
   /* page paddings and gap */
   --page-padding-tb: max(2vh, 0.5rem);
@@ -38,4 +43,9 @@
   --header-col: var(--col-txt);
   --header-gap: 1rem;
   --header-padding: var(--page-padding);
+
+  /* product */
+  --product-price-font: var(--highlight-font);
+  --product-price-size: 1.2em;
+  --product-price-highlight-col: var(--col-highlight);
 }
