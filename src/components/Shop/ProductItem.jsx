@@ -11,11 +11,13 @@ import {
 } from "../StyledProductInfo.jsx";
 import data from "../../assets/data.json";
 
-function ProductItem({ productData, className = "" }) {
+const ProductItem = styled(({ productData, className = "" }) => {
   const hLevel = 3;
+  const outOfStock =
+    productData.availabilityStatus == data.availability.outOfStock;
 
   return (
-    <div className={`product-item ${className}`} data-testid="product-item">
+    <StyledProductItem className={`${className}`} $outOfStock={outOfStock}>
       <StyledHighlightTags>
         <DiscountPercentage {...productData} />
         <AvailabilityStatus
@@ -24,23 +26,57 @@ function ProductItem({ productData, className = "" }) {
         />
       </StyledHighlightTags>
       <Link to={`/shop/p/${productData.id}`}>
-        <Thumbnail {...productData} />
+        <StyledThumbnailContainer>
+          <Thumbnail {...productData} />
+        </StyledThumbnailContainer>
         <Title {...productData} hLevel={hLevel} nRows={2} />
       </Link>
       <RatingContainer {...productData} />
       <PriceContainer {...productData} />
-    </div>
+    </StyledProductItem>
   );
-}
+})``;
 
 const StyledHighlightTags = styled(StyledRowContainer)`
   position: absolute;
   top: var(--small-padding);
   left: var(--small-padding);
+  z-index: 1;
 `;
 
-const StyledProductItem = styled(ProductItem)`
+const StyledThumbnailContainer = styled.div`
+  overflow: hidden;
+  box-shadow: 0 0 var(--product-photo-shadow-size) var(--product-photo-color)
+    inset;
+
+  ${Thumbnail} {
+    box-shadow: none;
+  }
+`;
+
+const StyledProductItem = styled.div`
   position: relative;
+  width: 100%;
+  min-width: var(--product-item-min-size);
+  max-width: var(--product-item-max-size);
+  overflow: hidden;
+  container-type: inline-size;
+
+  * {
+    transition: all var(--product-transition-duration);
+  }
+
+  ${Thumbnail} {
+    ${({ $outOfStock }) =>
+      $outOfStock &&
+      `
+      filter: opacity(var(--product-item-hover-thumbnail-opacity)) grayscale(var(--product-item-hover-thumbnail-greyscale));
+  `}
+  }
+
+  &:hover ${Thumbnail} {
+    transform: scale(var(--product-item-hover-thumbnail-scale));
+  }
 `;
 
-export default StyledProductItem;
+export default ProductItem;
