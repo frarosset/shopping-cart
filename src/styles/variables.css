@@ -54,6 +54,10 @@
   --heading-2-size: 2rem;
   --heading-3-size: 1.5rem;
 
+  --heading-subtext-font: var(--highlight-font);
+  --heading-subtext-font-size: 1rem;
+  --heading-subtext-color: var(--col-accent);
+
   /* product */
   --product-item-min-size: min(300px, 90vmin);
   --product-item-max-size: max(400px, 20vw);

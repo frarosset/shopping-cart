@@ -49,15 +49,23 @@ function ShopCategoryMain({ className = "" }) {
 
   return (
     <StyledMain className={className} data-testid="shop-category-main">
-      <Link to={`/shop/${section}`}>{sectionName}</Link>
-      <StyledShopCategoryHeading hLevel={hLevel}>
-        {categoryName}
-      </StyledShopCategoryHeading>
+      <StyledHeader>
+        <StyledBackToSection to={`/shop/${section}`}>
+          {sectionName}
+        </StyledBackToSection>
+        <Heading hLevel={hLevel}>{categoryName}</Heading>
+      </StyledHeader>
 
       <ProductFetchList apiUrl={apiUrl} />
     </StyledMain>
   );
 }
+
+const StyledHeader = styled.header`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const StyledMain = styled.main`
   display: flex;
@@ -65,8 +73,11 @@ const StyledMain = styled.main`
   gap: var(--page-gap);
 `;
 
-const StyledShopCategoryHeading = styled(Heading)`
-  text-align: center;
+const StyledBackToSection = styled(Link)`
+  font-family: var(--heading-subtext-font);
+  font-size: var(--heading-subtext-font-size);
+  color: var(--heading-subtext-color);
+  text-transform: uppercase;
 `;
 
 export default ShopCategoryMain;
