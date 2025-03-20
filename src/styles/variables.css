@@ -95,4 +95,7 @@
   --section-transition-duration: var(--transition-duration);
   --section-item-hover-thumbnail-scale: 1.2;
   --section-item-width: 7em;
+
+  --category-banner-fontsize: min(4rem, 10vw);
+  --category-banner-height: 5lh;
 }

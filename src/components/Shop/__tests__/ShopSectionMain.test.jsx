@@ -65,6 +65,7 @@ describe("ShopSectionMain", () => {
 
     expect(mockCategoryList).toHaveBeenCalledExactlyOnceWith({
       categoryList: sampleSectionData.categories,
+      className: expect.anything(),
     });
     expect(categoryItems.length).toBe(sampleSectionData.categories.length);
   });
