@@ -2,6 +2,7 @@ import styled from "styled-components";
 import StarRatingIcons from "./Icons/StarRatingIcons.jsx";
 import ClampedText from "./Generic/ClampedText.jsx";
 import Heading from "./Generic/Heading.jsx";
+import Image from "./Generic/Image.jsx";
 
 import { getDiscountedPrice, getPriceStr } from "../utils/priceUtils.js";
 import data from "../assets/data.json";
@@ -96,11 +97,8 @@ const StyledText = styled.span`
   font-size: var(--product-text-size);
 `;
 
-const StyledPhoto = styled.img`
-  width: 100%;
+const StyledPhoto = styled(Image)`
   aspect-ratio: 1;
-  display: flex;
-  align-items: center;
   color: var(--product-image-color);
   box-shadow: 0 0 var(--product-photo-shadow-size) var(--product-photo-color)
     inset;
