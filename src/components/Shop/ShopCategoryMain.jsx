@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProductFetchList from "./ProductFetchList.jsx";
 import { getCategoryProductsApiUrl } from "../../fetching-utils/getApiUrl.js";
 import Heading from "../Generic/Heading.jsx";
@@ -6,6 +6,18 @@ import styled from "styled-components";
 import data from "../../assets/data.json";
 
 const getCategoryData = (category) => data.categories[category];
+
+const categoriesToSection = Object.entries(data.sections).reduce(
+  (map, [section, categoriesData]) => {
+    return categoriesData.categories.reduce((map, category) => {
+      map.set(category, section);
+      return map;
+    }, map);
+  },
+  new Map()
+);
+const getSection = (category) => categoriesToSection.get(category);
+const getSectionData = (section) => data.sections[section];
 
 const productDataKeys = [
   "title",
@@ -25,6 +37,10 @@ function ShopCategoryMain({ className = "" }) {
   const categoryData = getCategoryData(category);
   const categoryName = categoryData.name;
 
+  const section = getSection(category);
+  const sectionData = getSectionData(section);
+  const sectionName = sectionData.name;
+
   const apiUrl = getCategoryProductsApiUrl(category, {
     select: productKeysStr,
     sortBy: "rating",
@@ -33,6 +49,7 @@ function ShopCategoryMain({ className = "" }) {
 
   return (
     <StyledMain className={className} data-testid="shop-category-main">
+      <Link to={`/shop/${section}`}>{sectionName}</Link>
       <StyledShopCategoryHeading hLevel={hLevel}>
         {categoryName}
       </StyledShopCategoryHeading>
