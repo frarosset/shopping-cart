@@ -17,7 +17,7 @@ const ProductItem = styled(({ productData, className = "" }) => {
     productData.availabilityStatus == data.availability.outOfStock;
 
   return (
-    <StyledProductItem className={`${className}`} $outOfStock={outOfStock}>
+    <StyledProductItem className={className} $outOfStock={outOfStock}>
       <StyledHighlightTags>
         <DiscountPercentage {...productData} />
         <AvailabilityStatus

@@ -47,6 +47,13 @@
   --header-gap: 1rem;
   --header-padding: var(--page-padding);
 
+  /* heading */
+  --heading-font: var(--highlight-font);
+  --heading-size: 1rem;
+  --heading-1-size: 3rem;
+  --heading-2-size: 2rem;
+  --heading-3-size: 1.5rem;
+
   /* product */
   --product-item-min-size: min(300px, 90vmin);
   --product-item-max-size: max(400px, 20vw);

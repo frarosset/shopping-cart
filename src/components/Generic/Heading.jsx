@@ -17,6 +17,15 @@ const Heading = styled(({ hLevel, children, ...props }) => {
     { ...props, role: role, "aria-level": ariaLevel },
     children
   );
-})``;
+})`
+  font-family: var(--heading-font);
+  font-size: var(--heading-size);
+
+  ${({ hLevel }) =>
+    hLevel > 0 &&
+    `
+  font-weight: bold;
+  font-size: var(--heading-${hLevel}-size);`}
+`;
 
 export default Heading;

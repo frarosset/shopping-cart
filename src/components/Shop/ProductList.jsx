@@ -8,7 +8,7 @@ function ProductList({ productDataList, className = "" }) {
     element: <ProductItem productData={productData} />,
   }));
 
-  return <StyledProductList className={`${className}`} items={items} />;
+  return <StyledProductList className={className} items={items} />;
 }
 
 const StyledProductList = styled(List)`

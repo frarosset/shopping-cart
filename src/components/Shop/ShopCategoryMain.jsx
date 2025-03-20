@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import ProductFetchList from "./ProductFetchList.jsx";
 import { getCategoryProductsApiUrl } from "../../fetching-utils/getApiUrl.js";
+import Heading from "../Generic/Heading.jsx";
+import styled from "styled-components";
 import data from "../../assets/data.json";
 
 const getCategoryData = (category) => data.categories[category];
@@ -16,6 +18,8 @@ const productDataKeys = [
 const productKeysStr = productDataKeys.join(",");
 
 function ShopCategoryMain({ className = "" }) {
+  const hLevel = 2;
+
   const { category } = useParams();
 
   const categoryData = getCategoryData(category);
@@ -28,17 +32,24 @@ function ShopCategoryMain({ className = "" }) {
   });
 
   return (
-    <main
-      className={`shop-category-main ${className}`}
-      data-testid="shop-category-main"
-    >
-      <header>
-        <h2>{categoryName}</h2>
-      </header>
+    <StyledMain className={className} data-testid="shop-category-main">
+      <StyledShopCategoryHeading hLevel={hLevel}>
+        {categoryName}
+      </StyledShopCategoryHeading>
 
       <ProductFetchList apiUrl={apiUrl} />
-    </main>
+    </StyledMain>
   );
 }
+
+const StyledMain = styled.main`
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-gap);
+`;
+
+const StyledShopCategoryHeading = styled(Heading)`
+  text-align: center;
+`;
 
 export default ShopCategoryMain;
