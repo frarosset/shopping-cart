@@ -1,19 +1,28 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import ShopCategoryMain from "../ShopCategoryMain.jsx";
+import { MemoryRouter } from "react-router";
 import data from "../../../assets/data.json";
 
-const sampleCategory = Object.keys(data.categories)[0];
+const sampleSection = Object.keys(data.sections)[0];
+const sampleCategory = data.sections[sampleSection].categories[0];
+
+const sampleSectionRoute = `shop/${sampleSection}`;
 const sampleCategoryUrl = `/category/${sampleCategory}/url`;
+
 const sampleCategoryName = data.categories[sampleCategory].name;
+const sampleSectionName = data.sections[sampleSection].name;
 
 const mockUseParams = vi.fn();
-vi.mock("react-router-dom", () => ({
-  useParams: (props) => {
-    mockUseParams(props);
-    return { category: sampleCategory };
-  },
-}));
+vi.mock("react-router-dom", async (useActualImplementation) => {
+  return {
+    ...(await useActualImplementation()), // import actual Link
+    useParams: (props) => {
+      mockUseParams(props);
+      return { category: sampleCategory };
+    },
+  };
+});
 
 const mockGetCategoryProductsApiUrl = vi.fn();
 vi.mock("../../../fetching-utils/getApiUrl.js", () => ({
@@ -38,7 +47,7 @@ afterEach(() => {
 
 const setup = () => {
   return {
-    ...render(<ShopCategoryMain />),
+    ...render(<ShopCategoryMain />, { wrapper: MemoryRouter }),
   };
 };
 
@@ -71,5 +80,15 @@ describe("ShopCategoryMain", () => {
     );
 
     expect(productFetchList).toBeInTheDocument();
+  });
+
+  it("renders links to the section page associated with the current category", () => {
+    setup();
+
+    const basePath = window.location.href;
+    const link = screen.getByRole("link", { name: sampleSectionName });
+
+    expect(link).toBeInTheDocument();
+    expect(link.href).toBe(`${basePath}${sampleSectionRoute}`);
   });
 });
