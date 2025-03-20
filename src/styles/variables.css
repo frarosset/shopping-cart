@@ -39,6 +39,7 @@
   --page-padding-lr: max(3vw, 1rem);
   --page-padding: var(--page-padding-tb) var(--page-padding-lr);
   --page-gap: max(4vh, 0.5rem);
+  --page-gap: 3lh 1lh;
 
   /* header */
   --header-h1-font: var(--default-font);
@@ -82,5 +83,9 @@
 
   /* product-list */
   --product-list-padding: var(--page-padding);
-  --product-list-gap: 3lh 1lh;
+  --product-list-gap: var(--page-gap);
+
+  /* category list */
+  --section-list-padding: var(--page-padding);
+  --section-list-gap: 1lh 1lh;
 }
