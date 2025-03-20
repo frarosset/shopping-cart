@@ -33,6 +33,8 @@
   --small-padding: max(5px, 0.4vmax);
   --small-gap: max(5px, 0.4vmax);
   --small-radius: max(5px, 0.4vmax);
+  --mid-gap: 1em;
+  --large-gap: 2em;
 
   /* page paddings and gap */
   --page-padding-tb: max(2vh, 0.5rem);
@@ -40,6 +42,8 @@
   --page-padding: var(--page-padding-tb) var(--page-padding-lr);
   --page-gap: max(4vh, 0.5rem);
   --page-gap: 3lh 1lh;
+
+  --transition-duration: 0.3s;
 
   /* header */
   --header-h1-font: var(--default-font);
@@ -57,7 +61,7 @@
 
   --heading-subtext-font: var(--highlight-font);
   --heading-subtext-font-size: 1rem;
-  --heading-subtext-color: var(--col-accent);
+  --heading-subtext-color: var(--col-light-grey);
 
   --shop-link-font: var(--highlight-font);
 
@@ -79,7 +83,7 @@
   --product-tag-bg-col: var(--col-dark-grey);
   --product-tag-highlight-bg-col: var(--col-highlight);
   --product-tag-size: 0.8rem;
-  --product-transition-duration: 0.3s;
+  --product-transition-duration: var(--transition-duration);
 
   /* product-list */
   --product-list-padding: var(--page-padding);
@@ -87,5 +91,8 @@
 
   /* category list */
   --section-list-padding: var(--page-padding);
-  --section-list-gap: 1lh 1lh;
+  --section-list-gap: var(--mid-gap);
+  --section-transition-duration: var(--transition-duration);
+  --section-item-hover-thumbnail-scale: 1.2;
+  --section-item-width: 7em;
 }
