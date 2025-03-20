@@ -58,6 +58,8 @@
   --heading-subtext-font-size: 1rem;
   --heading-subtext-color: var(--col-accent);
 
+  --shop-link-font: var(--highlight-font);
+
   /* product */
   --product-item-min-size: min(300px, 90vmin);
   --product-item-max-size: max(400px, 20vw);
