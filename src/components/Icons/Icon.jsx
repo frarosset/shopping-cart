@@ -5,6 +5,7 @@ function Icon({ children }) {
 }
 
 const StyledIcon = styled.span`
+  font-size: inherit;
   width: 1em;
   height: 1em;
   display: flex;
