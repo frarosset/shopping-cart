@@ -4,11 +4,9 @@ import { NavLink } from "react-router-dom";
 import Heading from "../Generic/Heading.jsx";
 
 function Header({ className = "" }) {
-  const hLevel = 1;
-
   return (
     <StyledHeader className={`${className}`}>
-      <StyledShopNameHeading hLevel={hLevel}>
+      <StyledShopNameHeading>
         <NavLink to="/">{data.shopName}</NavLink>
       </StyledShopNameHeading>
       <StyledNav>

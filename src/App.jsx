@@ -1,13 +1,16 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header/Header.jsx";
+import { HeadingLevelContextProvider } from "./contexts/HeadingLevelContext.jsx";
 
 function App() {
   return (
-    <>
+    <HeadingLevelContextProvider>
       <Header />
-      <Outlet />
-    </>
+      <HeadingLevelContextProvider>
+        <Outlet />
+      </HeadingLevelContextProvider>
+    </HeadingLevelContextProvider>
   );
 }
 

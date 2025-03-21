@@ -7,7 +7,6 @@ import data from "../../assets/data.json";
 const getSectionData = (section) => data.sections[section];
 
 function ShopSectionMain({ className = "" }) {
-  const hLevel = 2;
   const { section } = useParams();
 
   const sectionData = getSectionData(section);
@@ -17,9 +16,7 @@ function ShopSectionMain({ className = "" }) {
   return (
     <StyledMain className={className}>
       <StyledHeader>
-        <StyledHeading hLevel={hLevel} $bgUrl={sectionData.image}>
-          {sectionName}
-        </StyledHeading>
+        <StyledHeading $bgUrl={sectionData.image}>{sectionName}</StyledHeading>
         <StyledCategoryList categoryList={sectionCategories} />
       </StyledHeader>
     </StyledMain>

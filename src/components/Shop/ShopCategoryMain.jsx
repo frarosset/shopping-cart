@@ -30,8 +30,6 @@ const productDataKeys = [
 const productKeysStr = productDataKeys.join(",");
 
 function ShopCategoryMain({ className = "" }) {
-  const hLevel = 2;
-
   const { category } = useParams();
 
   const categoryData = getCategoryData(category);
@@ -53,7 +51,7 @@ function ShopCategoryMain({ className = "" }) {
         <StyledBackToSection to={`/shop/${section}`}>
           {sectionName}
         </StyledBackToSection>
-        <Heading hLevel={hLevel}>{categoryName}</Heading>
+        <Heading>{categoryName}</Heading>
       </StyledHeader>
 
       <ProductFetchList apiUrl={apiUrl} />

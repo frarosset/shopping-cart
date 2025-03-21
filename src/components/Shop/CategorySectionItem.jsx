@@ -8,8 +8,6 @@ import styled from "styled-components";
 const getSectionData = (section) => data.sections[section];
 
 function CategorySectionItem({ section, className = "" }) {
-  const hLevel = 2;
-
   const sectionData = getSectionData(section);
   const sectionName = sectionData.name;
 
@@ -23,7 +21,7 @@ function CategorySectionItem({ section, className = "" }) {
         // alt={`${sectionName} image`}
         // loading={"lazy"}
       />
-      <StyledSectionHeading hLevel={hLevel}>
+      <StyledSectionHeading>
         <Link to={`/shop/${section}`}>{sectionName}</Link>
       </StyledSectionHeading>
     </StyledCategorySectionItem>

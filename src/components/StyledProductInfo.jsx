@@ -7,9 +7,9 @@ import Image from "./Generic/Image.jsx";
 import { getDiscountedPrice, getPriceStr } from "../utils/priceUtils.js";
 import data from "../assets/data.json";
 
-const Title = styled(({ title, hLevel, nRows = null, className = "" }) => {
+const Title = styled(({ title, nRows = null, className = "" }) => {
   return (
-    <StyledTitle $nRows={nRows} hLevel={hLevel} className={className}>
+    <StyledTitle $nRows={nRows} className={className}>
       {nRows ? <ClampedText $nRows={nRows}>{title}</ClampedText> : title}
     </StyledTitle>
   );

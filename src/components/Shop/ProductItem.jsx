@@ -9,31 +9,33 @@ import {
   AvailabilityStatus,
   StyledRowContainer,
 } from "../StyledProductInfo.jsx";
+import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 import data from "../../assets/data.json";
 
 const ProductItem = styled(({ productData, className = "" }) => {
-  const hLevel = 3;
   const outOfStock =
     productData.availabilityStatus == data.availability.outOfStock;
 
   return (
-    <StyledProductItem className={className} $outOfStock={outOfStock}>
-      <StyledHighlightTags>
-        <DiscountPercentage {...productData} />
-        <AvailabilityStatus
-          {...productData}
-          ignoreStatusList={[data.availability.inStock]}
-        />
-      </StyledHighlightTags>
-      <Link to={`/shop/p/${productData.id}`}>
-        <StyledThumbnailContainer>
-          <Thumbnail {...productData} />
-        </StyledThumbnailContainer>
-        <Title {...productData} hLevel={hLevel} nRows={2} />
-      </Link>
-      <RatingContainer {...productData} />
-      <PriceContainer {...productData} />
-    </StyledProductItem>
+    <HeadingLevelContextProvider>
+      <StyledProductItem className={className} $outOfStock={outOfStock}>
+        <StyledHighlightTags>
+          <DiscountPercentage {...productData} />
+          <AvailabilityStatus
+            {...productData}
+            ignoreStatusList={[data.availability.inStock]}
+          />
+        </StyledHighlightTags>
+        <Link to={`/shop/p/${productData.id}`}>
+          <StyledThumbnailContainer>
+            <Thumbnail {...productData} />
+          </StyledThumbnailContainer>
+          <Title {...productData} nRows={2} />
+        </Link>
+        <RatingContainer {...productData} />
+        <PriceContainer {...productData} />
+      </StyledProductItem>
+    </HeadingLevelContextProvider>
   );
 })``;
 
