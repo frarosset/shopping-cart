@@ -53,6 +53,9 @@
   --header-padding: var(--page-padding);
   --header-background: linear-gradient(var(--bg-col) 70%, transparent 100%);
 
+  --header-buttons-padding: 1rem min(1rem, 2.5vw);
+  --header-buttons-fontsize: 1.2rem;
+
   /* heading */
   --heading-font: var(--highlight-font);
   --heading-size: 1rem;

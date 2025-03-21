@@ -3,6 +3,11 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import Heading from "../Generic/Heading.jsx";
 
+import UserCircleIcon from "../Icons/UserCircleIcon.jsx";
+import HeartIcon from "../Icons/HeartIcon.jsx";
+import SearchIcon from "../Icons/SearchIcon.jsx";
+import CartIcon from "../Icons/CartIcon.jsx";
+
 function Header({ className = "" }) {
   return (
     <StyledHeader className={`${className}`}>
@@ -12,12 +17,20 @@ function Header({ className = "" }) {
       <StyledNav>
         <StyledNavLink to="/shop">Shop</StyledNavLink>
       </StyledNav>
-      <div>
-        <button aria-label="search">Search</button>
-        <button aria-label="profile">Profile</button>
-        <button aria-label="watchlist">Watchlist</button>
-        <button aria-label="cart">Cart</button>
-      </div>
+      <StyledButtonContainer>
+        <button aria-label="search">
+          <SearchIcon />
+        </button>
+        <button aria-label="profile">
+          <UserCircleIcon />
+        </button>
+        <button aria-label="watchlist">
+          <HeartIcon />
+        </button>
+        <button aria-label="cart">
+          <CartIcon />
+        </button>
+      </StyledButtonContainer>
     </StyledHeader>
   );
 }
@@ -58,6 +71,15 @@ const StyledNavLink = styled(NavLink)`
     text-shadow: 0px 0px 0px var(--header-col), 0px 0px 0px var(--header-col),
       0px 0px 0px var(--header-col), 0px 0px 0px var(--header-col),
       0px 0px 0px var(--header-col), 0px 0px 0px var(--header-col);
+  }
+`;
+
+const StyledButtonContainer = styled.div`
+  display: flex;
+
+  button {
+    font-size: var(--header-buttons-fontsize);
+    padding: var(--header-buttons-padding);
   }
 `;
 
