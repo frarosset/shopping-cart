@@ -46,8 +46,8 @@
   --transition-duration: 0.3s;
 
   /* header */
-  --header-h1-font: var(--default-font);
-  --header-h1-fontsize: 1.5rem;
+  --header-shop-name-font: var(--highlight-font);
+  --header-shop-name-fontsize: 1.5rem;
   --header-col: var(--col-txt);
   --header-gap: 1rem;
   --header-padding: var(--page-padding);

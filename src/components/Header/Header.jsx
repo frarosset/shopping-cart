@@ -1,13 +1,16 @@
 import data from "../../assets/data.json";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import Heading from "../Generic/Heading.jsx";
 
 function Header({ className = "" }) {
+  const hLevel = 1;
+
   return (
     <header className={`page-header ${className}`} data-testid="page-header">
-      <h1>
+      <StyledShopNameHeading hLevel={hLevel}>
         <NavLink to="/">{data.shopName}</NavLink>
-      </h1>
+      </StyledShopNameHeading>
       <nav>
         <NavLink to="/shop">Shop</NavLink>
       </nav>
@@ -21,6 +24,11 @@ function Header({ className = "" }) {
   );
 }
 
+const StyledShopNameHeading = styled(Heading)`
+  font-size: var(--header-shop-name-fontsize);
+  font-family: var(--header-shop-name-font);
+`;
+
 const StyledHeader = styled(Header)`
   display: flex;
   flex-direction: row;
@@ -31,15 +39,6 @@ const StyledHeader = styled(Header)`
   gap: var(--header-gap);
   padding: var(--header-padding);
   color: var(--header-col);
-
-  & > h1 {
-    font-size: var(--header-h1-fontsize);
-    font-family: var(--header-h1-font);
-  }
-
-  & a {
-    color: var(--header-col);
-  }
 
   & > nav {
     display: flex;
