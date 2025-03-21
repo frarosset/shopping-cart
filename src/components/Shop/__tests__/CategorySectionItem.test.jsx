@@ -2,6 +2,7 @@ import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import CategorySectionItem from "../CategorySectionItem.jsx";
+import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelContext.jsx";
 import data from "../../../assets/data.json";
 
 const section = data.sectionList[0];
@@ -29,9 +30,14 @@ afterEach(() => {
 });
 
 const setup = () => ({
-  ...render(<CategorySectionItem section={section} />, {
-    wrapper: MemoryRouter,
-  }),
+  ...render(
+    <HeadingLevelContextProvider>
+      <CategorySectionItem section={section} />
+    </HeadingLevelContextProvider>,
+    {
+      wrapper: MemoryRouter,
+    }
+  ),
 });
 
 describe("CategorySectionItem", () => {

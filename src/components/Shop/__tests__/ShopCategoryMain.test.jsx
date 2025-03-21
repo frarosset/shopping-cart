@@ -2,6 +2,7 @@ import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import ShopCategoryMain from "../ShopCategoryMain.jsx";
 import { MemoryRouter } from "react-router";
+import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelContext.jsx";
 import data from "../../../assets/data.json";
 
 const sampleSection = Object.keys(data.sections)[0];
@@ -47,7 +48,12 @@ afterEach(() => {
 
 const setup = () => {
   return {
-    ...render(<ShopCategoryMain />, { wrapper: MemoryRouter }),
+    ...render(
+      <HeadingLevelContextProvider>
+        <ShopCategoryMain />
+      </HeadingLevelContextProvider>,
+      { wrapper: MemoryRouter }
+    ),
   };
 };
 

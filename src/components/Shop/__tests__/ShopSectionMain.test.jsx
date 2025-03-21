@@ -1,6 +1,7 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import ShopSectionMain from "../ShopSectionMain.jsx";
+import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelContext.jsx";
 import data from "../../../assets/data.json";
 
 const sampleSection = Object.keys(data.sections)[0];
@@ -38,7 +39,11 @@ afterEach(() => {
 
 const setup = () => {
   return {
-    ...render(<ShopSectionMain />),
+    ...render(
+      <HeadingLevelContextProvider>
+        <ShopSectionMain />
+      </HeadingLevelContextProvider>
+    ),
   };
 };
 
