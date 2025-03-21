@@ -11,6 +11,8 @@ const apiUrlAfterErrorLoading = "/some/api/url/after/error/loading/"; // to simu
 const validData = { products: "Valid Data" };
 const error = { message: "Error!" };
 
+const sortBySelect = <span data-testid="sort-by-select">SortBy Select</span>;
+
 // mock ProductList and  components
 
 const mockProductList = vi.fn();
@@ -53,7 +55,13 @@ afterEach(() => {
 });
 
 const setup = (apiUrl, resetOnFetch = false) => {
-  render(<ProductFetchList apiUrl={apiUrl} resetOnFetch={resetOnFetch} />);
+  render(
+    <ProductFetchList
+      apiUrl={apiUrl}
+      resetOnFetch={resetOnFetch}
+      sortBySelect={sortBySelect}
+    />
+  );
 
   expect(mockUseFetchFromApiUrl).toHaveBeenCalledExactlyOnceWith(
     apiUrl,
@@ -64,52 +72,60 @@ const setup = (apiUrl, resetOnFetch = false) => {
     productList: screen.queryByTestId("__product-list__"),
     error: screen.queryByTestId("product-fetch-list-error"),
     loading: screen.queryByTestId("product-fetch-list-loading"),
+    sortBySelect: screen.queryByTestId("sort-by-select"),
   };
 };
 
 describe("ProductFetchList", () => {
   it("renders only a product list on successful fetch", () => {
-    const { productList, error, loading } = setup(validApiUrl);
+    const { productList, error, loading, sortBySelect } = setup(validApiUrl);
 
     expect(mockProductList).toHaveBeenCalledExactlyOnceWith(validData.products);
 
     expect(productList).toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
     expect(loading).not.toBeInTheDocument();
+    expect(sortBySelect).toBeInTheDocument();
   });
 
   it("renders an error on failed fetch", () => {
-    const { productList, error, loading } = setup(errorApiUrl);
+    const { productList, error, loading, sortBySelect } = setup(errorApiUrl);
 
     expect(mockProductList).not.toHaveBeenCalled();
 
     expect(productList).not.toBeInTheDocument();
     expect(error).toBeInTheDocument();
     expect(loading).not.toBeInTheDocument();
+    expect(sortBySelect).not.toBeInTheDocument();
   });
 
   it("renders only a loading element on initial fetching", () => {
-    const { productList, error, loading } = setup(apiUrlnitialLoading);
+    const { productList, error, loading, sortBySelect } =
+      setup(apiUrlnitialLoading);
 
     expect(mockProductList).not.toHaveBeenCalled();
 
     expect(productList).not.toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
     expect(loading).toBeInTheDocument();
+    expect(sortBySelect).not.toBeInTheDocument();
   });
 
   it(`renders the previous product list and a loading element on refetch after a successful request`, () => {
-    const { productList, error, loading } = setup(apiUrlAfterValidLoading);
+    const { productList, error, loading, sortBySelect } = setup(
+      apiUrlAfterValidLoading
+    );
 
     expect(mockProductList).toHaveBeenCalledExactlyOnceWith(validData.products);
 
     expect(productList).toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
     expect(loading).toBeInTheDocument();
+    expect(sortBySelect).toBeInTheDocument();
   });
 
   it(`optionally renders only a loading element on refetch after a successful request`, () => {
-    const { productList, error, loading } = setup(
+    const { productList, error, loading, sortBySelect } = setup(
       apiUrlAfterValidLoading,
       true
     );
@@ -119,20 +135,24 @@ describe("ProductFetchList", () => {
     expect(productList).not.toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
     expect(loading).toBeInTheDocument();
+    expect(sortBySelect).not.toBeInTheDocument();
   });
 
   it(`renders the previous error and a loading element on refetch after a failed request`, () => {
-    const { productList, error, loading } = setup(apiUrlAfterErrorLoading);
+    const { productList, error, loading, sortBySelect } = setup(
+      apiUrlAfterErrorLoading
+    );
 
     expect(mockProductList).not.toHaveBeenCalled();
 
     expect(productList).not.toBeInTheDocument();
     expect(error).toBeInTheDocument();
     expect(loading).toBeInTheDocument();
+    expect(sortBySelect).not.toBeInTheDocument();
   });
 
   it(`optionally renders only a loading element on refetch after a failed request`, () => {
-    const { productList, error, loading } = setup(
+    const { productList, error, loading, sortBySelect } = setup(
       apiUrlAfterErrorLoading,
       true
     );
@@ -142,5 +162,6 @@ describe("ProductFetchList", () => {
     expect(productList).not.toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
     expect(loading).toBeInTheDocument();
+    expect(sortBySelect).not.toBeInTheDocument();
   });
 });
