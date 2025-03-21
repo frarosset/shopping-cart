@@ -4,6 +4,7 @@ import { getCategoryProductsApiUrl } from "../../fetching-utils/getApiUrl.js";
 import Heading from "../Generic/Heading.jsx";
 import styled from "styled-components";
 import data from "../../assets/data.json";
+import useSortBy from "../../custom-hooks/useSortBy.jsx";
 
 const getCategoryData = (category) => data.categories[category];
 
@@ -39,10 +40,12 @@ function ShopCategoryMain({ className = "" }) {
   const sectionData = getSectionData(section);
   const sectionName = sectionData.name;
 
+  const { sortBy, order, sortBySelect } = useSortBy();
+
   const apiUrl = getCategoryProductsApiUrl(category, {
     select: productKeysStr,
-    sortBy: "rating",
-    order: "desc",
+    sortBy: sortBy,
+    order: order,
   });
 
   return (
@@ -54,7 +57,7 @@ function ShopCategoryMain({ className = "" }) {
         <Heading>{categoryName}</Heading>
       </StyledHeader>
 
-      <ProductFetchList apiUrl={apiUrl} />
+      <ProductFetchList apiUrl={apiUrl} sortBySelect={sortBySelect} />
     </StyledMain>
   );
 }
