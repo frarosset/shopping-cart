@@ -14,6 +14,10 @@ const sampleCategoryUrl = `/category/${sampleCategory}/url`;
 const sampleCategoryName = data.categories[sampleCategory].name;
 const sampleSectionName = data.sections[sampleSection].name;
 
+const sampleSortBy = "title";
+const sampleOrder = "asc";
+const sampleSortBySelect = <span>Sort By Select</span>;
+
 const mockUseParams = vi.fn();
 vi.mock("react-router-dom", async (useActualImplementation) => {
   return {
@@ -27,16 +31,26 @@ vi.mock("react-router-dom", async (useActualImplementation) => {
 
 const mockGetCategoryProductsApiUrl = vi.fn();
 vi.mock("../../../fetching-utils/getApiUrl.js", () => ({
-  getCategoryProductsApiUrl: (category) => {
-    mockGetCategoryProductsApiUrl(category);
+  getCategoryProductsApiUrl: (category, obj) => {
+    mockGetCategoryProductsApiUrl(category, obj.sortBy, obj.order);
     return sampleCategoryUrl;
+  },
+}));
+
+vi.mock("../../../custom-hooks/useSortBy.jsx", () => ({
+  default: () => {
+    return {
+      sortBy: sampleSortBy,
+      order: sampleOrder,
+      sortBySelect: sampleSortBySelect,
+    };
   },
 }));
 
 const mockProductFetchList = vi.fn();
 vi.mock("../ProductFetchList.jsx", () => ({
-  default: ({ apiUrl }) => {
-    mockProductFetchList(apiUrl);
+  default: ({ apiUrl, sortBySelect }) => {
+    mockProductFetchList(apiUrl, sortBySelect);
     return <span data-testid="__product-fetch-list__">Product Fetch List</span>;
   },
 }));
@@ -78,11 +92,14 @@ describe("ShopCategoryMain", () => {
     const productFetchList = screen.getByTestId("__product-fetch-list__");
 
     expect(mockGetCategoryProductsApiUrl).toHaveBeenCalledExactlyOnceWith(
-      sampleCategory
+      sampleCategory,
+      sampleSortBy,
+      sampleOrder
     );
 
     expect(mockProductFetchList).toHaveBeenCalledExactlyOnceWith(
-      sampleCategoryUrl
+      sampleCategoryUrl,
+      sampleSortBySelect
     );
 
     expect(productFetchList).toBeInTheDocument();
