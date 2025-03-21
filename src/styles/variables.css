@@ -51,6 +51,7 @@
   --header-col: var(--col-txt);
   --header-gap: 1rem;
   --header-padding: var(--page-padding);
+  --header-background: linear-gradient(var(--bg-col) 70%, transparent 100%);
 
   /* heading */
   --heading-font: var(--highlight-font);
