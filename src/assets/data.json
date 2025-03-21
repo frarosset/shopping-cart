@@ -1,5 +1,5 @@
 {
-  "shopName": "Shopping Cart",
+  "shopName": "DummyDeals",
   "currency": "€",
   "maxRating": 5,
   "highlightDiscountsAt": 15,
@@ -12,7 +12,7 @@
     "electronics",
     "mens-fashion",
     "womens-fashion",
-    "accessories",
+    "outdoor",
     "self-care",
     "home-living",
     "automotive",
@@ -21,11 +21,13 @@
   "sections": {
     "electronics": {
       "name": "Electronics",
-      "categories": ["laptops", "mobile-accessories", "smartphones", "tablets"]
+      "categories": ["laptops", "mobile-accessories", "smartphones", "tablets"],
+      "image": "/images/sections/electronics.jpg"
     },
     "mens-fashion": {
       "name": "Men's Fashion",
-      "categories": ["mens-shirts", "mens-shoes", "mens-watches"]
+      "categories": ["mens-shirts", "mens-shoes", "mens-watches"],
+      "image": "/images/sections/mens-fashion.jpg"
     },
     "womens-fashion": {
       "name": "Women's Fashion",
@@ -36,27 +38,33 @@
         "womens-shoes",
         "womens-watches",
         "tops"
-      ]
+      ],
+      "image": "/images/sections/womens-fashion.jpg"
     },
-    "accessories": {
-      "name": "Accessories",
-      "categories": ["sunglasses", "sports-accessories"]
+    "outdoor": {
+      "name": "Outdoor",
+      "categories": ["sunglasses", "sports-accessories"],
+      "image": "/images/sections/outdoor.jpg"
     },
     "self-care": {
       "name": "Self Care",
-      "categories": ["beauty", "fragrances", "skin-care"]
+      "categories": ["beauty", "fragrances", "skin-care"],
+      "image": "/images/sections/self-care.jpg"
     },
     "home-living": {
       "name": "Home & Living",
-      "categories": ["furniture", "home-decoration", "kitchen-accessories"]
+      "categories": ["furniture", "home-decoration", "kitchen-accessories"],
+      "image": "/images/sections/home-living.jpg"
     },
     "automotive": {
       "name": "Automotive",
-      "categories": ["motorcycle", "vehicle"]
+      "categories": ["motorcycle", "vehicle"],
+      "image": "/images/sections/automotive.jpg"
     },
     "groceries": {
       "name": "Groceries",
-      "categories": ["groceries"]
+      "categories": ["groceries"],
+      "image": "/images/sections/groceries.jpg"
     }
   },
   "categories": {
