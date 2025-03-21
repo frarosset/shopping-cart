@@ -108,14 +108,4 @@ describe("App", () => {
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopCategoryMain).toHaveBeenCalledOnce();
   });
-
-  it("correctly render the about page", () => {
-    setupWithRoute("/about");
-
-    const pageHeader = screen.getByTestId("page-header");
-
-    expect(pageHeader).toBeInTheDocument();
-
-    expect(mockHeader).toHaveBeenCalledOnce();
-  });
 });

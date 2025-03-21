@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router";
 import Header from "../Header.jsx";
 import data from "../../../assets/data.json";
 
-const navRoutesTo = ["shop", "about"];
+const navRoutesTo = ["shop"];
 const routesTo = ["", ...navRoutesTo];
 
 const setup = () => ({
@@ -30,7 +30,7 @@ describe("Header", () => {
     expect(links).toHaveLength(navRoutesTo.length);
   });
 
-  it("renders links to / (home), /shop and /about pages", () => {
+  it("renders links to / (home), /shop pages", () => {
     setup();
 
     const basePath = window.location.href;

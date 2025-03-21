@@ -10,7 +10,6 @@ function Header({ className = "" }) {
       </h1>
       <nav>
         <NavLink to="/shop">Shop</NavLink>
-        <NavLink to="/about">About</NavLink>
       </nav>
       <div>
         <button aria-label="search">Search</button>
