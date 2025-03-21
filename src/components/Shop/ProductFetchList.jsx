@@ -11,7 +11,7 @@ function ProductFetchList({
   const { data, error, loading } = useFetchFromApiUrl(apiUrl, resetOnFetch);
 
   return (
-    <div className={`${className}`}>
+    <StyledProductFetchList $data={data} className={`${className}`}>
       {loading && !data && (
         <span data-testid="product-fetch-list-loading">"Loading ..."</span>
       )}
@@ -29,7 +29,7 @@ function ProductFetchList({
           {`Error ${error.message}`}
         </span>
       )}
-    </div>
+    </StyledProductFetchList>
   );
 }
 
@@ -38,6 +38,18 @@ const StyledSortByContainer = styled.div`
   justify-content: flex-end;
   padding: 0 var(--page-padding-lr);
   gap: var(--small-gap);
+`;
+
+const StyledProductFetchList = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+
+  ${({ $data }) => {
+    if (!$data) return `align-items: center; justify-content: center`;
+  }}
 `;
 
 export default ProductFetchList;

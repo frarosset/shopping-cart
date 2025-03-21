@@ -62,7 +62,7 @@
 
   --heading-subtext-font: var(--highlight-font);
   --heading-subtext-font-size: 1rem;
-  --heading-subtext-color: var(--col-light-grey);
+  --heading-subtext-color: var(--col-highlight);
 
   --shop-link-font: var(--highlight-font);
 
