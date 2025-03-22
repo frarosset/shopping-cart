@@ -31,3 +31,10 @@ Section images from Freepik:
 - groceries.jpg image by grmarc on Freepik
 
   Link: https://www.freepik.com/free-ai-image/fresh-vegetables-fruits-healthy-eating-organic-variety-generated-by-artificial-intelligence_71889874.htm#fromView=image_search_similar&page=1&position=1&uuid=fc52e0a7-b01c-4a98-859b-f64b12e502b8
+  
+-------------------------------------------------------------------------------
+
+Vector images by Vecteezy:
+
+- product-not-found.jpg
+  Link: https://www.vecteezy.com/free-vector/not-found

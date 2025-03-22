@@ -2,6 +2,7 @@ import ProductList from "./ProductList.jsx";
 import useFetchFromApiUrl from "../../fetching-utils/useFetchFromApiUrl.jsx";
 import styled from "styled-components";
 import LoaderIcon from "../Icons/LoaderIcon.jsx";
+import MessageWithImageBelow from "../Generic/MessageWithImageBelow.jsx";
 
 function ProductFetchList({
   apiUrl,
@@ -18,13 +19,21 @@ function ProductFetchList({
           <LoaderIcon />
         </StyledCenteredItemContainer>
       )}
-      {data && (
-        <StyledSortByContainer>
-          {loading && <LoaderIcon />}
-          {sortBySelect}
-        </StyledSortByContainer>
-      )}
-      {data && data.products && <ProductList productDataList={data.products} />}
+      {data &&
+        data.products &&
+        (data.products.length > 0 ? (
+          <>
+            <StyledSortByContainer>
+              {loading && <LoaderIcon />}
+              {sortBySelect}
+            </StyledSortByContainer>
+            <ProductList productDataList={data.products} />
+          </>
+        ) : (
+          <MessageWithImageBelow imageUrl="/images/vector/product-not-found.jpg">
+            No product found!
+          </MessageWithImageBelow>
+        ))}
       {error && (
         <span data-testid="product-fetch-list-error">
           {`Error ${error.message}`}
