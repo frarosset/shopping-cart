@@ -1,6 +1,7 @@
 import ProductList from "./ProductList.jsx";
 import useFetchFromApiUrl from "../../fetching-utils/useFetchFromApiUrl.jsx";
 import styled from "styled-components";
+import LoaderIcon from "../Icons/LoaderIcon.jsx";
 
 function ProductFetchList({
   apiUrl,
@@ -12,14 +13,10 @@ function ProductFetchList({
 
   return (
     <StyledProductFetchList $data={data} className={`${className}`}>
-      {loading && !data && (
-        <span data-testid="product-fetch-list-loading">"Loading ..."</span>
-      )}
+      {loading && !data && <LoaderIcon />}
       {data && (
         <StyledSortByContainer>
-          {loading && (
-            <span data-testid="product-fetch-list-loading">"Loading ..."</span>
-          )}
+          {loading && <LoaderIcon />}
           {sortBySelect}
         </StyledSortByContainer>
       )}
