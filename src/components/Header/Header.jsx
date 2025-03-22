@@ -12,7 +12,10 @@ function Header({ className = "" }) {
   return (
     <StyledHeader className={`${className}`}>
       <StyledShopNameHeading>
-        <NavLink to="/">{data.shopName}</NavLink>
+        <NavLink to="/">
+          <StyledShopIcon>{data.shopShortName}</StyledShopIcon>
+          <StyledShopName>{data.shopName}</StyledShopName>
+        </NavLink>
       </StyledShopNameHeading>
       <StyledNav>
         <StyledNavLink to="/shop">Shop</StyledNavLink>
@@ -61,9 +64,36 @@ const StyledNav = styled.nav`
   gap: var(--header-gap);
 `;
 
+const StyledShopIcon = styled.span`
+  border: 2px solid var(--header-col);
+  min-width: 1lh;
+`;
+
+const StyledShopName = styled.span``;
+
 const StyledShopNameHeading = styled(Heading)`
   font-size: var(--header-shop-name-fontsize);
   font-family: var(--header-shop-name-font);
+
+  a {
+    display: flex;
+    gap: var(--small-gap);
+    align-items: center;
+  }
+
+  & ${StyledShopName} {
+    display: none;
+  }
+
+  @media screen and (min-width: 550px) {
+    & ${StyledShopIcon} {
+      display: none;
+    }
+
+    & ${StyledShopName} {
+      display: inline;
+    }
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`

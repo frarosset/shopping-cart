@@ -1,5 +1,6 @@
 {
   "shopName": "DummyDeals",
+  "shopShortName": "DD",
   "currency": "€",
   "maxRating": 5,
   "highlightDiscountsAt": 15,
