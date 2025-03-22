@@ -23,6 +23,16 @@ vi.mock("../ProductList.jsx", () => ({
   },
 }));
 
+const mockLoaderIcon = vi.fn();
+vi.mock("../../Icons/LoaderIcon.jsx", () => ({
+  default: () => {
+    mockLoaderIcon();
+    return (
+      <span data-testid="__product-fetch-list-loading__">Loading icon</span>
+    );
+  },
+}));
+
 const mockUseFetchFromApiUrl = vi.fn();
 vi.mock("../../../fetching-utils/useFetchFromApiUrl.jsx", () => ({
   default: (apiUrl, resetOnFetch = false) => {
@@ -71,7 +81,7 @@ const setup = (apiUrl, resetOnFetch = false) => {
   return {
     productList: screen.queryByTestId("__product-list__"),
     error: screen.queryByTestId("product-fetch-list-error"),
-    loading: screen.queryByTestId("product-fetch-list-loading"),
+    loading: screen.queryByTestId("__product-fetch-list-loading__"),
     sortBySelect: screen.queryByTestId("sort-by-select"),
   };
 };
@@ -81,6 +91,7 @@ describe("ProductFetchList", () => {
     const { productList, error, loading, sortBySelect } = setup(validApiUrl);
 
     expect(mockProductList).toHaveBeenCalledExactlyOnceWith(validData.products);
+    expect(mockLoaderIcon).not.toHaveBeenCalled();
 
     expect(productList).toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
@@ -92,6 +103,7 @@ describe("ProductFetchList", () => {
     const { productList, error, loading, sortBySelect } = setup(errorApiUrl);
 
     expect(mockProductList).not.toHaveBeenCalled();
+    expect(mockLoaderIcon).not.toHaveBeenCalled();
 
     expect(productList).not.toBeInTheDocument();
     expect(error).toBeInTheDocument();
@@ -104,6 +116,7 @@ describe("ProductFetchList", () => {
       setup(apiUrlnitialLoading);
 
     expect(mockProductList).not.toHaveBeenCalled();
+    expect(mockLoaderIcon).toHaveBeenCalledOnce();
 
     expect(productList).not.toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
@@ -117,6 +130,7 @@ describe("ProductFetchList", () => {
     );
 
     expect(mockProductList).toHaveBeenCalledExactlyOnceWith(validData.products);
+    expect(mockLoaderIcon).toHaveBeenCalledOnce();
 
     expect(productList).toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
@@ -131,6 +145,7 @@ describe("ProductFetchList", () => {
     );
 
     expect(mockProductList).not.toHaveBeenCalled();
+    expect(mockLoaderIcon).toHaveBeenCalledOnce();
 
     expect(productList).not.toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
@@ -144,6 +159,7 @@ describe("ProductFetchList", () => {
     );
 
     expect(mockProductList).not.toHaveBeenCalled();
+    expect(mockLoaderIcon).toHaveBeenCalledOnce();
 
     expect(productList).not.toBeInTheDocument();
     expect(error).toBeInTheDocument();
@@ -158,6 +174,7 @@ describe("ProductFetchList", () => {
     );
 
     expect(mockProductList).not.toHaveBeenCalled();
+    expect(mockLoaderIcon).toHaveBeenCalledOnce();
 
     expect(productList).not.toBeInTheDocument();
     expect(error).not.toBeInTheDocument();
