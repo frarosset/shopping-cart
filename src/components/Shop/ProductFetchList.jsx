@@ -13,7 +13,11 @@ function ProductFetchList({
 
   return (
     <StyledProductFetchList $data={data} className={`${className}`}>
-      {loading && !data && <LoaderIcon />}
+      {loading && !data && (
+        <StyledCenteredItemContainer>
+          <LoaderIcon />
+        </StyledCenteredItemContainer>
+      )}
       {data && (
         <StyledSortByContainer>
           {loading && <LoaderIcon />}
@@ -30,23 +34,26 @@ function ProductFetchList({
   );
 }
 
+const StyledCenteredItemContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: var(--product-list-centered-icon-fontsize);
+`;
+
 const StyledSortByContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding: 0 var(--page-padding-lr);
   gap: var(--small-gap);
 `;
 
 const StyledProductFetchList = styled.div`
-  display: flex;
-  flex-direction: column;
-
   width: 100%;
   height: 100%;
-
-  ${({ $data }) => {
-    if (!$data) return `align-items: center; justify-content: center`;
-  }}
 `;
 
 export default ProductFetchList;
