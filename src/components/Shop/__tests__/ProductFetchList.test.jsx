@@ -89,7 +89,7 @@ const setup = (apiUrl, resetOnFetch = false) => {
 
   return {
     productList: screen.queryByTestId("__product-list__"),
-    error: screen.queryByTestId("product-fetch-list-error"),
+    error: screen.queryByText(/^Error/i),
     loading: screen.queryByTestId("__product-fetch-list-loading__"),
     sortBySelect: screen.queryByTestId("sort-by-select"),
     noProduct: screen.queryByText(noProductMessage),

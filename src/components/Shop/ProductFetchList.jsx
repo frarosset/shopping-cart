@@ -3,6 +3,7 @@ import useFetchFromApiUrl from "../../fetching-utils/useFetchFromApiUrl.jsx";
 import styled from "styled-components";
 import LoaderIcon from "../Icons/LoaderIcon.jsx";
 import MessageWithImageBelow from "../Generic/MessageWithImageBelow.jsx";
+import Error from "../Errors/Error.jsx";
 
 function ProductFetchList({
   apiUrl,
@@ -34,11 +35,7 @@ function ProductFetchList({
             No product found!
           </MessageWithImageBelow>
         ))}
-      {error && (
-        <span data-testid="product-fetch-list-error">
-          {`Error ${error.message}`}
-        </span>
-      )}
+      {error && <Error error={error} />}
     </StyledProductFetchList>
   );
 }
