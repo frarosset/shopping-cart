@@ -12,7 +12,9 @@ function Error({ error }) {
           imageUrl={`/images/vector/${
             error && error.status == 404 ? "404" : "error"
           }.jpg`}
-        ></MessageWithImageBelow>
+        >
+          <i>{error && (error.statusText || error.message)}</i>
+        </MessageWithImageBelow>
       </HeadingLevelContextProvider>
     </main>
   );
