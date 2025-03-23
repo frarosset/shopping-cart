@@ -45,6 +45,8 @@ const setup = (state) => {
   };
 };
 
+window.history.replaceState = vi.fn();
+
 describe("ErrorPage", () => {
   it("correctly renders Header and erroromponent when location state contains error", () => {
     setup(sampleError);
@@ -71,4 +73,13 @@ describe("ErrorPage", () => {
       replace: true,
     });
   });
+
+  it("clear route state on rendering", async () => {
+    setup(sampleError);
+
+    expect(window.history.replaceState).toHaveBeenCalledWith(null, null);
+  });
 });
+
+// Restore all mocks
+vi.restoreAllMocks();
