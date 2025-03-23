@@ -1,5 +1,6 @@
 import Heading from "../Generic/Heading.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
+import MessageWithImageBelow from "../Generic/MessageWithImageBelow.jsx";
 
 function Error({ error }) {
   return (
@@ -7,7 +8,11 @@ function Error({ error }) {
       <HeadingLevelContextProvider>
         <Heading>Oops!</Heading>
         <p>Something went wrong...</p>
-        <i>{error && (error.statusText || error.message)}</i>
+        <MessageWithImageBelow
+          imageUrl={`/images/vector/${
+            error && error.status == 404 ? "404" : "error"
+          }.jpg`}
+        ></MessageWithImageBelow>
       </HeadingLevelContextProvider>
     </main>
   );
