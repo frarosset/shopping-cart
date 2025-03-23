@@ -1,4 +1,5 @@
 import App from "./App.jsx";
+import ErrorRedirect from "./components/Errors/ErrorRedirect.jsx";
 import ShopMain from "./components/Shop/ShopMain.jsx";
 import ShopSectionMain from "./components/Shop/ShopSectionMain.jsx";
 import ShopCategoryMain from "./components/Shop/ShopCategoryMain.jsx";
@@ -7,6 +8,7 @@ const routes = [
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorRedirect />,
     children: [
       { index: true, element: <div>Home</div> },
       { path: "/shop", element: <ShopMain /> },
@@ -14,6 +16,10 @@ const routes = [
       { path: "/shop/c/:category", element: <ShopCategoryMain /> },
       { path: "/shop/p/:productId", element: <div>Product</div> },
     ],
+  },
+  {
+    path: "/error",
+    element: <div>Error</div>,
   },
 ];
 
