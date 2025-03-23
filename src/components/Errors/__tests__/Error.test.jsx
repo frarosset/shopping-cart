@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import Error from "../Error.jsx";
 
 const mockMessageWithImageBelow = vi.fn();
@@ -7,9 +7,7 @@ vi.mock("../../Generic/MessageWithImageBelow", () => ({
   default: (props) => {
     mockMessageWithImageBelow(props);
     return (
-      <div data-testid="__message-with-image-below__">
-        MessageWithImageBelow
-      </div>
+      <div data-testid="__message-with-image-below__">{props.children}</div>
     );
   },
 }));
@@ -35,7 +33,7 @@ describe("Error", () => {
     expect(heading).toBeInTheDocument();
     expect(subheading).toBeInTheDocument();
 
-    // some other custom message are present, but are dynamic and not tested here
+    // some other custom message are present, but are dynamic and not tested here (see below)
   });
 
   it("correctly render the error image for 404 errors", () => {
@@ -45,6 +43,7 @@ describe("Error", () => {
 
     expect(mockMessageWithImageBelow).toHaveBeenCalledExactlyOnceWith({
       imageUrl: "/images/vector/404.jpg",
+      children: expect.anything(),
     });
 
     expect(image).toBeInTheDocument();
@@ -57,8 +56,39 @@ describe("Error", () => {
 
     expect(mockMessageWithImageBelow).toHaveBeenCalledExactlyOnceWith({
       imageUrl: "/images/vector/error.jpg",
+      children: expect.anything(),
     });
 
     expect(image).toBeInTheDocument();
+  });
+
+  it("correctly render the error statusText if present", () => {
+    setup({ statusText: "Status Text" });
+
+    const imageMsg = screen.getByTestId("__message-with-image-below__");
+
+    const msg = within(imageMsg).getByText("Status Text");
+
+    expect(msg).toBeInTheDocument();
+  });
+
+  it("correctly render the error statusText if present", () => {
+    setup({ message: "Msg Text" });
+
+    const imageMsg = screen.getByTestId("__message-with-image-below__");
+
+    const msg = within(imageMsg).getByText("Msg Text");
+
+    expect(msg).toBeInTheDocument();
+  });
+
+  it("correctly render the error statusText if both statusText and message are present", () => {
+    setup({ message: "Msg Text", statusText: "Status Text" });
+
+    const imageMsg = screen.getByTestId("__message-with-image-below__");
+
+    const msg = within(imageMsg).getByText("Status Text");
+
+    expect(msg).toBeInTheDocument();
   });
 });

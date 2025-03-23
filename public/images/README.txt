@@ -36,5 +36,5 @@ Section images from Freepik:
 
 Vector images by Vecteezy:
 
-- product-not-found.jpg
+- product-not-found.jpg, error.jpg
   Link: https://www.vecteezy.com/free-vector/not-found
