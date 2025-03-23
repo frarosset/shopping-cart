@@ -21,6 +21,15 @@ vi.mock("../Error.jsx", () => ({
   },
 }));
 
+const mockNavigate = vi.fn();
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom");
+  return {
+    ...actual,
+    Navigate: (props) => mockNavigate(props),
+  };
+});
+
 /* mocks are hoisted: reset them before each test */
 afterEach(() => {
   vi.resetAllMocks();
@@ -37,23 +46,29 @@ const setup = (state) => {
 };
 
 describe("ErrorPage", () => {
-  it("correctly renders Header component", () => {
+  it("correctly renders Header and erroromponent when location state contains error", () => {
     setup(sampleError);
 
     const header = screen.getByTestId("__page-header__");
-
-    expect(mockHeader).toHaveBeenCalledOnce();
-
-    expect(header).toBeInTheDocument();
-  });
-
-  it("renders error when location state contains error", () => {
-    setup(sampleError);
-
     const error = screen.getByTestId("__error__");
 
+    expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockError).toHaveBeenCalledExactlyOnceWith(sampleError);
+    expect(mockNavigate).not.toHaveBeenCalled();
 
+    expect(header).toBeInTheDocument();
     expect(error).toBeInTheDocument();
+  });
+
+  it("navigates to '/' when location state does not contain error", () => {
+    setup(null);
+
+    expect(mockHeader).not.toHaveBeenCalled();
+    expect(mockError).not.toHaveBeenCalled();
+
+    expect(mockNavigate).toHaveBeenCalledExactlyOnceWith({
+      to: "/",
+      replace: true,
+    });
   });
 });
