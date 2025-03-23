@@ -1,4 +1,5 @@
 import App from "./App.jsx";
+import ErrorPage from "./components/Errors/ErrorPage.jsx";
 import ErrorRedirect from "./components/Errors/ErrorRedirect.jsx";
 import ShopMain from "./components/Shop/ShopMain.jsx";
 import ShopSectionMain from "./components/Shop/ShopSectionMain.jsx";
@@ -19,7 +20,7 @@ const routes = [
   },
   {
     path: "/error",
-    element: <div>Error</div>,
+    element: <ErrorPage />,
   },
 ];
 
