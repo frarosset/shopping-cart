@@ -1,6 +1,6 @@
 import data from "../../assets/data.json";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import Heading from "../Generic/Heading.jsx";
 
 import UserCircleIcon from "../Icons/UserCircleIcon.jsx";
@@ -21,9 +21,9 @@ function Header({ className = "" }) {
         <StyledNavLink to="/shop">Shop</StyledNavLink>
       </StyledNav>
       <StyledButtonContainer>
-        <button aria-label="search">
+        <Link aria-label="search" to="/search">
           <SearchIcon />
-        </button>
+        </Link>
         <button aria-label="profile">
           <UserCircleIcon />
         </button>
