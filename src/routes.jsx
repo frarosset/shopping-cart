@@ -4,6 +4,7 @@ import ErrorRedirect from "./components/Errors/ErrorRedirect.jsx";
 import ShopMain from "./components/Shop/ShopMain.jsx";
 import ShopSectionMain from "./components/Shop/ShopSectionMain.jsx";
 import ShopCategoryMain from "./components/Shop/ShopCategoryMain.jsx";
+import SearchMain from "./components/Shop/SearchMain.jsx";
 
 const routes = [
   {
@@ -16,6 +17,7 @@ const routes = [
       { path: "/shop/:section", element: <ShopSectionMain /> },
       { path: "/shop/c/:category", element: <ShopCategoryMain /> },
       { path: "/shop/p/:productId", element: <div>Product</div> },
+      { path: "/search", element: <SearchMain /> },
     ],
   },
   {
