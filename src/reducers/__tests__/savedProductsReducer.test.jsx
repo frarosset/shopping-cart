@@ -233,4 +233,38 @@ describe("savedProductsReducer", () => {
       expect(results).toEqual(expected);
     });
   });
+
+  describe("pushFromCart", () => {
+    it("push a product from the cart (0)", () => {
+      const results = setup("pushFromCart", createProduct(0));
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[0][1] = 3;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("push a product from the cart and empty it (2)", () => {
+      const results = setup("pushFromCart", createProduct(2));
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[2][1] = 0;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("do nothing if the saved product is not in the cart (3)", () => {
+      const results = setup("pushFromCart", createProduct(3));
+
+      expect(results).toEqual(savedProducts);
+    });
+
+    it("do nothing if the product is not saved (4)", () => {
+      const results = setup("pushFromCart", createProduct(4));
+
+      expect(results).toEqual(savedProducts);
+    });
+  });
 });
