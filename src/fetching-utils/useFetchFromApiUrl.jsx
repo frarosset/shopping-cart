@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useDebouncedEffect } from "../custom-hooks/useDebouncedEffect.jsx";
 
 const useFetchFromApiUrl = (apiUrl, resetOnFetch = false) => {
   const [data, setData] = useState(null);
@@ -9,23 +10,28 @@ const useFetchFromApiUrl = (apiUrl, resetOnFetch = false) => {
     fetchData(apiUrl, resetOnFetch, signal, setData, setError, setLoading);
 
   // fetch on mount or on apiUrl change
-  useEffect(() => {
-    const controller = new AbortController();
+  // See : https://bigsondev.com/blog/fetch-data-in-react-as-user-types-or-clicks/
+  useDebouncedEffect(
+    () => {
+      const controller = new AbortController();
 
-    fetchData(
-      apiUrl,
-      resetOnFetch,
-      controller.signal,
-      setData,
-      setError,
-      setLoading
-    );
+      fetchData(
+        apiUrl,
+        resetOnFetch,
+        controller.signal,
+        setData,
+        setError,
+        setLoading
+      );
 
-    return () => controller.abort();
+      return () => controller.abort();
 
-    // While resetOnFetch might change, it should not trigger fetching data if apiUrl is not changed
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiUrl]);
+      // While resetOnFetch might change, it should not trigger fetching data if apiUrl is not changed
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [apiUrl],
+    300
+  );
 
   return { data, loading, error, fetchFromApiUrl };
 };
