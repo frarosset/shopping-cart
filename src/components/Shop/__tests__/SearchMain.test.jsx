@@ -69,6 +69,13 @@ describe("SearchMain", () => {
 
     expect(searchInput).toBeInTheDocument();
     expect(searchInput.value).toBe("");
+
+    const productFetchList = screen.queryByTestId("__product-fetch-list__");
+
+    expect(mockGetSearchProductsApiUrl).not.toHaveBeenCalledWith();
+    expect(mockProductFetchList).not.toHaveBeenCalledWith();
+
+    expect(productFetchList).not.toBeInTheDocument();
   });
 
   it("renders a list of products fetched based on the query string", async () => {
