@@ -4,11 +4,19 @@ import Heading from "../Generic/Heading.jsx";
 import styled from "styled-components";
 import data from "../../assets/data.json";
 
-const getSectionData = (section) => data.sections[section];
+const getSectionData = (section) => {
+  const sectionData = data.sections[section];
+  if (!sectionData) {
+    const error = new Error(`Shop section '${section}' not found!`);
+    error.status = "404";
+    throw error;
+  }
+
+  return sectionData;
+};
 
 function ShopSectionMain({ className = "" }) {
   const { section } = useParams();
-
   const sectionData = getSectionData(section);
   const sectionName = sectionData.name;
   const sectionCategories = sectionData.categories;
