@@ -63,6 +63,37 @@ function savedProductsReducer(state, action) {
 
       return copiedState;
     }
+
+    case "toggleWishlist": {
+      const copiedState = structuredClone(state);
+
+      const id = action.product.id;
+      const product = copiedState.productList[id];
+
+      if (product == null) {
+        // product not saved ==> add
+        const copiedProduct = structuredClone(action.product);
+
+        copiedProduct.inWishlist = true;
+        copiedProduct.inCart = 0;
+
+        copiedState.productList[id] = copiedProduct;
+        copiedState.wishlist.push(id);
+      } else if (!product.inWishlist) {
+        // product saved, but not in wishlist yet  ==> add
+        product.inWishlist = true;
+
+        copiedState.wishlist.push(id);
+      } else {
+        // product saved, in wishlist ==> remove
+        product.inWishlist = false;
+        copiedState.wishlist = copiedState.wishlist.filter(
+          (itmId) => itmId !== id
+        );
+      }
+
+      return copiedState;
+    }
   }
 }
 
