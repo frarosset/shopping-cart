@@ -125,6 +125,37 @@ function savedProductsReducer(state, action) {
 
       return copiedState;
     }
+
+    case "addMultipleToCart": {
+      const copiedState = structuredClone(state);
+
+      const id = action.product.id;
+      const product = copiedState.productList[id];
+
+      if (product == null) {
+        // product not saved
+        const copiedProduct = structuredClone(action.product);
+
+        copiedProduct.inWishlist = false;
+        copiedProduct.inCart = action.count;
+
+        copiedState.productList[id] = copiedProduct;
+        copiedState.cart.push(id);
+        copiedState.cartItems += action.count;
+      } else if (!product.inCart) {
+        // product saved, but not in cart yet
+        product.inCart = action.count;
+
+        copiedState.cart.push(id);
+        copiedState.cartItems += action.count;
+      } else {
+        // product saved and in cart yet
+        product.inCart += action.count;
+        copiedState.cartItems += action.count;
+      }
+
+      return copiedState;
+    }
   }
 }
 
