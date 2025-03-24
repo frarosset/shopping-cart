@@ -101,4 +101,37 @@ describe("savedProductsReducer", () => {
       expect(results).toEqual(savedProducts);
     });
   });
+
+  describe("toggleWishlist", () => {
+    it("add a non-saved product to the wishlist (4)", () => {
+      const results = setup("toggleWishlist", createProduct(4));
+
+      const expected = generateSavedProducts([
+        ...initialProducts,
+        [4, 0, true],
+      ]);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("add a saved product to the wishlist (3)", () => {
+      const results = setup("toggleWishlist", createProduct(3));
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[3][2] = true;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("remove a product from the wishlist (1)", () => {
+      const results = setup("toggleWishlist", createProduct(1));
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[1][2] = false;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+  });
 });
