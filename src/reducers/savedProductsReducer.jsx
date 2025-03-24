@@ -221,6 +221,10 @@ function savedProductsReducer(state, action) {
 
       return copiedState;
     }
+
+    default: {
+      throw new Error(`savedProductsReducer: unknown action ${action.type}`);
+    }
   }
 }
 
