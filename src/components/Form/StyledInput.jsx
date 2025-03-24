@@ -14,6 +14,11 @@ const StyledInput = styled.input`
   &:focus-visible {
     outline: none;
   }
+
+  &[type="search"] {
+    width: 100%;
+    border-bottom: 1px solid var(--col-txt);
+  }
 `;
 
 export default StyledInput;
