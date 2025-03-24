@@ -17,6 +17,13 @@ const invalidApiExpectedData = { data: "invalid" };
 // Mock global fetch
 const jsonMock = vi.fn();
 
+vi.mock("../custom-hooks/useDebouncedEffect.jsx", async () => {
+  const actualReact = await vi.importActual("react");
+  return {
+    useDebouncedEffect: actualReact.useEffect,
+  };
+});
+
 global.fetch = vi.fn((url) => {
   if (url === validApiUrl) {
     return Promise.resolve({
