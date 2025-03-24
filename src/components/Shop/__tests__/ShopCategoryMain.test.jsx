@@ -1,12 +1,14 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import ShopCategoryMain from "../ShopCategoryMain.jsx";
-import { MemoryRouter } from "react-router";
+import { MemoryRouter, Route, Routes } from "react-router";
 import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelContext.jsx";
 import data from "../../../assets/data.json";
 
 const sampleSection = Object.keys(data.sections)[0];
 const sampleCategory = data.sections[sampleSection].categories[0];
+
+const sampleCategoryRoute = `/shop/c/${sampleCategory}`;
 
 const sampleSectionRoute = `shop/${sampleSection}`;
 const sampleCategoryUrl = `/category/${sampleCategory}/url`;
@@ -17,17 +19,6 @@ const sampleSectionName = data.sections[sampleSection].name;
 const sampleSortBy = "title";
 const sampleOrder = "asc";
 const sampleSortBySelect = <span>Sort By Select</span>;
-
-const mockUseParams = vi.fn();
-vi.mock("react-router-dom", async (useActualImplementation) => {
-  return {
-    ...(await useActualImplementation()), // import actual Link
-    useParams: (props) => {
-      mockUseParams(props);
-      return { category: sampleCategory };
-    },
-  };
-});
 
 const mockGetCategoryProductsApiUrl = vi.fn();
 vi.mock("../../../fetching-utils/getApiUrl.js", () => ({
@@ -60,26 +51,29 @@ afterEach(() => {
   vi.resetAllMocks();
 });
 
-const setup = () => {
+const setup = (route) => {
+  // see: https://stackoverflow.com/a/71655231
   return {
     ...render(
-      <HeadingLevelContextProvider>
-        <ShopCategoryMain />
-      </HeadingLevelContextProvider>,
-      { wrapper: MemoryRouter }
+      <MemoryRouter initialEntries={[route]}>
+        <Routes>
+          <Route
+            path="/shop/c/:category"
+            element={
+              <HeadingLevelContextProvider>
+                <ShopCategoryMain />
+              </HeadingLevelContextProvider>
+            }
+          />
+        </Routes>
+      </MemoryRouter>
     ),
   };
 };
 
 describe("ShopCategoryMain", () => {
-  it("gets the category param from the url", () => {
-    setup();
-
-    expect(mockUseParams).toHaveBeenCalledOnce();
-  });
-
   it("renders a heading of the associated category", () => {
-    setup();
+    setup(sampleCategoryRoute);
 
     const heading = screen.getByRole("heading", { name: sampleCategoryName });
 
@@ -87,7 +81,7 @@ describe("ShopCategoryMain", () => {
   });
 
   it("renders a list of products fetched based on the current category", () => {
-    setup();
+    setup(sampleCategoryRoute);
 
     const productFetchList = screen.getByTestId("__product-fetch-list__");
 
@@ -106,7 +100,7 @@ describe("ShopCategoryMain", () => {
   });
 
   it("renders links to the section page associated with the current category", () => {
-    setup();
+    setup(sampleCategoryRoute);
 
     const basePath = window.location.href;
     const link = screen.getByRole("link", { name: sampleSectionName });

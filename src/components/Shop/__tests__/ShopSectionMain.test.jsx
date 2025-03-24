@@ -1,6 +1,7 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import ShopSectionMain from "../ShopSectionMain.jsx";
+import { MemoryRouter, Route, Routes } from "react-router";
 import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelContext.jsx";
 import data from "../../../assets/data.json";
 
@@ -8,13 +9,7 @@ const sampleSection = Object.keys(data.sections)[0];
 const sampleSectionName = data.sections[sampleSection].name;
 const sampleSectionData = data.sections[sampleSection];
 
-const mockUseParams = vi.fn();
-vi.mock("react-router-dom", () => ({
-  useParams: (props) => {
-    mockUseParams(props);
-    return { section: sampleSection };
-  },
-}));
+const sampleSectionRoute = `/shop/${sampleSection}`;
 
 const mockCategoryList = vi.fn();
 vi.mock("../CategoryList.jsx", () => ({
@@ -37,25 +32,29 @@ afterEach(() => {
   vi.resetAllMocks();
 });
 
-const setup = () => {
+const setup = (route) => {
+  // see: https://stackoverflow.com/a/71655231
   return {
     ...render(
-      <HeadingLevelContextProvider>
-        <ShopSectionMain />
-      </HeadingLevelContextProvider>
+      <MemoryRouter initialEntries={[route]}>
+        <Routes>
+          <Route
+            path="/shop/:section"
+            element={
+              <HeadingLevelContextProvider>
+                <ShopSectionMain />
+              </HeadingLevelContextProvider>
+            }
+          />
+        </Routes>
+      </MemoryRouter>
     ),
   };
 };
 
 describe("ShopSectionMain", () => {
-  it("gets the section param from the url", () => {
-    setup();
-
-    expect(mockUseParams).toHaveBeenCalledOnce();
-  });
-
   it("renders a heading of the associated section", () => {
-    setup();
+    setup(sampleSectionRoute);
 
     const heading = screen.getByRole("heading", { name: sampleSectionName });
 
@@ -63,7 +62,7 @@ describe("ShopSectionMain", () => {
   });
 
   it("renders a list of categories associated with the section", () => {
-    setup();
+    setup(sampleSectionRoute);
 
     const list = screen.getByRole("list");
     const categoryItems = within(list).getAllByTestId("__category-item__");
