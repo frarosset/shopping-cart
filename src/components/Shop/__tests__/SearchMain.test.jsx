@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import SearchMain from "../SearchMain";
 import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelContext.jsx";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router";
 
 const query = "apple";
 const sampleSearchProductUrl = `/search/${query}/url`;
@@ -48,7 +49,8 @@ const setup = () => {
     ...render(
       <HeadingLevelContextProvider>
         <SearchMain />
-      </HeadingLevelContextProvider>
+      </HeadingLevelContextProvider>,
+      { wrapper: MemoryRouter }
     ),
   };
 };

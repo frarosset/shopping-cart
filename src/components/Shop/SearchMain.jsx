@@ -5,6 +5,7 @@ import ProductFetchList from "./ProductFetchList.jsx";
 import { getSearchProductsApiUrl } from "../../fetching-utils/getApiUrl.js";
 import useSortBy from "../../custom-hooks/useSortBy.jsx";
 import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
 
 const productDataKeys = [
   "title",
@@ -17,7 +18,12 @@ const productDataKeys = [
 const productKeysStr = productDataKeys.join(",");
 
 function SearchMain({ className = "" }) {
-  const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const q = searchParams.get("q");
+  const initialQuery = q ? decodeURI(q) : "";
+
+  const [query, setQuery] = useState(initialQuery);
 
   const { sortBy, order, sortBySelect } = useSortBy();
 
@@ -39,7 +45,14 @@ function SearchMain({ className = "" }) {
           id="query"
           name="query"
           value={query}
-          setValue={setQuery}
+          setValue={(val) => {
+            val
+              ? setSearchParams({
+                  q: val,
+                })
+              : setSearchParams();
+            setQuery(val);
+          }}
           type="search"
           maxLength={50}
           placeholder="What are you looking for?"
