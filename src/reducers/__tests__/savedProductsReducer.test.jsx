@@ -200,4 +200,37 @@ describe("savedProductsReducer", () => {
       expect(results).toEqual(expected);
     });
   });
+
+  describe("setMultipleToCart", () => {
+    it("set 4 items of a non-saved product to the cart (4)", () => {
+      const results = setup("setMultipleToCart", createProduct(4), 4);
+
+      const expected = generateSavedProducts([
+        ...initialProducts,
+        [4, 4, false],
+      ]);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("set 4 items of a saved product to the cart (3)", () => {
+      const results = setup("setMultipleToCart", createProduct(3), 4);
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[3][1] = 4;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("set another 4 items of a product if it is already in the wishlist (0)", () => {
+      const results = setup("setMultipleToCart", createProduct(0), 4);
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[0][1] = 4;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+  });
 });
