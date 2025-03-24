@@ -75,6 +75,7 @@ const StyledHeader = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 var(--page-padding-lr);
 `;
 
 const StyledMain = styled.main`
