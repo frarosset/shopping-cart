@@ -83,4 +83,22 @@ describe("savedProductsReducer", () => {
       expect(results).toEqual(savedProducts);
     });
   });
+
+  describe("removeFromWishlist", () => {
+    it("remove a product from the wishlist (1)", () => {
+      const results = setup("removeFromWishlist", createProduct(1));
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[1][2] = false;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("do nothing if the saved product is not in the wishlist (4)", () => {
+      const results = setup("removeFromWishlist", createProduct(4));
+
+      expect(results).toEqual(savedProducts);
+    });
+  });
 });
