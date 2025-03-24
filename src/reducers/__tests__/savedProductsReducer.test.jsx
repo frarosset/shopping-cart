@@ -297,4 +297,10 @@ describe("savedProductsReducer", () => {
       expect(results).toEqual(savedProducts);
     });
   });
+
+  describe("unknown action", () => {
+    it("throws an error", () => {
+      expect(() => setup("unknownAction", createProduct(0))).toThrow();
+    });
+  });
 });
