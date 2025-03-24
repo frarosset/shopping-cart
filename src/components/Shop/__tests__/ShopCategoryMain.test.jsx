@@ -9,6 +9,7 @@ const sampleSection = Object.keys(data.sections)[0];
 const sampleCategory = data.sections[sampleSection].categories[0];
 
 const sampleCategoryRoute = `/shop/c/${sampleCategory}`;
+const sampleInvalidCategoryRoute = `/shop/c/${sampleCategory}Invalid`;
 
 const sampleSectionRoute = `shop/${sampleSection}`;
 const sampleCategoryUrl = `/category/${sampleCategory}/url`;
@@ -107,5 +108,9 @@ describe("ShopCategoryMain", () => {
 
     expect(link).toBeInTheDocument();
     expect(link.href).toBe(`${basePath}${sampleSectionRoute}`);
+  });
+
+  it("throws an error if an invalid category is present in the url", () => {
+    expect(() => setup(sampleInvalidCategoryRoute)).toThrowError();
   });
 });
