@@ -107,6 +107,7 @@ const StyledNavLink = styled(NavLink)`
 const StyledButtonContainer = styled.div`
   display: flex;
 
+  a,
   button {
     font-size: var(--header-buttons-fontsize);
     padding: var(--header-buttons-padding);
