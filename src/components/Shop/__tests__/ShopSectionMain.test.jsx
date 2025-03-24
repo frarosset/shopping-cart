@@ -10,6 +10,7 @@ const sampleSectionName = data.sections[sampleSection].name;
 const sampleSectionData = data.sections[sampleSection];
 
 const sampleSectionRoute = `/shop/${sampleSection}`;
+const sampleInvalidSectionRoute = `/shop/${sampleSection}Invalid`;
 
 const mockCategoryList = vi.fn();
 vi.mock("../CategoryList.jsx", () => ({
@@ -72,5 +73,9 @@ describe("ShopSectionMain", () => {
       className: expect.anything(),
     });
     expect(categoryItems.length).toBe(sampleSectionData.categories.length);
+  });
+
+  it("throws an error if an invalid section is present in the url", () => {
+    expect(() => setup(sampleInvalidSectionRoute)).toThrowError();
   });
 });
