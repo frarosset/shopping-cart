@@ -21,4 +21,13 @@ describe("SearchMain", () => {
 
     expect(heading).toBeInTheDocument();
   });
+
+  it("renders a search input component initialized with empty string", () => {
+    setup();
+
+    const searchInput = screen.getByRole("searchbox");
+
+    expect(searchInput).toBeInTheDocument();
+    expect(searchInput.value).toBe("");
+  });
 });
