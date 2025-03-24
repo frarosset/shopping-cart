@@ -6,7 +6,16 @@ import styled from "styled-components";
 import data from "../../assets/data.json";
 import useSortBy from "../../custom-hooks/useSortBy.jsx";
 
-const getCategoryData = (category) => data.categories[category];
+const getCategoryData = (category) => {
+  const categoryData = data.categories[category];
+  if (!categoryData) {
+    const error = new Error(`Category '${category}' not found!`);
+    error.status = "404";
+    throw error;
+  }
+
+  return categoryData;
+};
 
 const categoriesToSection = Object.entries(data.sections).reduce(
   (map, [section, categoriesData]) => {
