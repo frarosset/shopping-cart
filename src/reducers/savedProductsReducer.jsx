@@ -188,6 +188,24 @@ function savedProductsReducer(state, action) {
 
       return copiedState;
     }
+
+    case "pushFromCart": {
+      const copiedState = structuredClone(state);
+
+      const id = action.product.id;
+      const product = copiedState.productList[id];
+
+      if (product != null && product.inCart) {
+        product.inCart--;
+        copiedState.cartItems--;
+
+        if (product.inCart == 0) {
+          copiedState.cart = copiedState.cart.filter((itm) => itm != id);
+        }
+      }
+
+      return copiedState;
+    }
   }
 }
 
