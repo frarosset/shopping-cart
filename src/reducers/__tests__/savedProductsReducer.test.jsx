@@ -134,4 +134,37 @@ describe("savedProductsReducer", () => {
       expect(results).toEqual(expected);
     });
   });
+
+  describe("addToCart", () => {
+    it("add a non-saved product to the cart (4)", () => {
+      const results = setup("addToCart", createProduct(4));
+
+      const expected = generateSavedProducts([
+        ...initialProducts,
+        [4, 1, false],
+      ]);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("add a saved product to the cart (3)", () => {
+      const results = setup("addToCart", createProduct(3));
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[3][1] = 1;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+
+    it("add another product if it is already in the wishlist (0)", () => {
+      const results = setup("addToCart", createProduct(0));
+
+      const copiedProducts = structuredClone([...initialProducts]);
+      copiedProducts[0][1] += 1;
+      const expected = generateSavedProducts(copiedProducts);
+
+      expect(results).toEqual(expected);
+    });
+  });
 });
