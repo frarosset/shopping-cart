@@ -46,6 +46,23 @@ function savedProductsReducer(state, action) {
 
       return copiedState;
     }
+
+    case "removeFromWishlist": {
+      const copiedState = structuredClone(state);
+
+      const id = action.product.id;
+      const product = copiedState.productList[id];
+
+      if (product != null && product.inWishlist) {
+        // product saved, in wishlist
+        product.inWishlist = false;
+        copiedState.wishlist = copiedState.wishlist.filter(
+          (itmId) => itmId !== id
+        );
+      }
+
+      return copiedState;
+    }
   }
 }
 
