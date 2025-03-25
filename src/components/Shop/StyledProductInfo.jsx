@@ -79,12 +79,16 @@ const RatingContainer = styled(({ rating, reviews, className = "" }) => {
 })``;
 
 const AvailabilityStatus = styled(
-  ({ availabilityStatus, ignoreStatusList = [], className = "" }) => {
-    const ignoreStatus = ignoreStatusList.includes(availabilityStatus);
+  ({ product, ignoreStatusList = [], className = "" }) => {
+    const { getAvailabilityStatus } = useContext(SavedProductsContext);
+
+    const availabilityStr =
+      getAvailabilityStatus(product) || product.AvailabilityStatus;
+    const ignoreStatus = ignoreStatusList.includes(availabilityStr);
 
     return (
       !ignoreStatus && (
-        <StyledTag className={className}>{availabilityStatus}</StyledTag>
+        <StyledTag className={className}>{availabilityStr}</StyledTag>
       )
     );
   }
@@ -104,12 +108,15 @@ const WishlistButton = styled(({ product, className = "" }) => {
 })``;
 
 const AddToCartButton = styled(({ product, className = "" }) => {
-  const { dispatch } = useContext(SavedProductsContext);
+  const { isOutOfStock, dispatch } = useContext(SavedProductsContext);
+
+  const outOfStock = isOutOfStock(product);
 
   return (
     <StyledAddToCartButton
       className={className}
       onClick={() => dispatch({ type: "addToCart", product })}
+      disabled={outOfStock}
     >
       <CartIcon />
     </StyledAddToCartButton>
@@ -127,6 +134,11 @@ const StyledAddToCartButton = styled.button`
   border-radius: 50%;
   background-color: var(--product-tag-bg-col);
   color: var(--product-tag-col);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: auto;
+  }
 `;
 
 const StyledRowContainer = styled.div`
