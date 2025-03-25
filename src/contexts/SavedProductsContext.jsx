@@ -39,8 +39,29 @@ function SavedProductsContextProvider({ children }) {
   const isInWishlist = (id) =>
     state.productList[id] != null && state.productList[id].inWishlist;
 
-  const isInCart = (id) =>
-    state.productList[id] != null && state.productList[id].inCart;
+  const inCart = (id) =>
+    state.productList[id] != null ? state.productList[id].inCart : 0;
+
+  const stock = (product) =>
+    product.stock != null ? product.stock - inCart(product.id) : 100000000;
+
+  const isOutOfStock = (product) => stock(product) === 0;
+
+  const getAvailabilityStatus = (product) => {
+    // use original data
+    if (inCart(product.id) == 0)
+      return product.availabilityStatus != null
+        ? product.availabilityStatus
+        : "In Stock";
+
+    const currentStock = stock(product);
+
+    return currentStock === 0
+      ? "Out of Stock"
+      : currentStock < 8
+      ? "Low Stock"
+      : "In Stock";
+  };
 
   const wishlist = state.wishlist.map((id) => state.productList[id]);
   const cart = state.cart.map((id) => state.productList[id]);
@@ -49,10 +70,13 @@ function SavedProductsContextProvider({ children }) {
 
   const savedProductContext = {
     isInWishlist,
-    isInCart,
+    inCart,
     wishlist,
     cart,
     cartItems,
+    stock,
+    isOutOfStock,
+    getAvailabilityStatus,
     dispatch,
   };
 
