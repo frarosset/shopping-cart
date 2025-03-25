@@ -9,6 +9,7 @@ import {
   AvailabilityStatus,
   StyledRowContainer,
   WishlistButton,
+  AddToCartButton,
 } from "./StyledProductInfo.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 import data from "../../assets/data.json";
@@ -23,7 +24,7 @@ const ProductItem = styled(({ productData, className = "" }) => {
         <StyledHighlightTags>
           <DiscountPercentage {...productData} />
           <AvailabilityStatus
-            {...productData}
+            product={productData}
             ignoreStatusList={[data.availability.inStock]}
           />
         </StyledHighlightTags>
@@ -38,6 +39,7 @@ const ProductItem = styled(({ productData, className = "" }) => {
         </Link>
         <RatingContainer {...productData} />
         <PriceContainer {...productData} />
+        <AddToCartButton product={productData} />
       </StyledProductItem>
     </HeadingLevelContextProvider>
   );
@@ -56,6 +58,9 @@ const StyledWishlistButtonContainer = styled.div`
   right: var(--small-padding);
   z-index: 1;
   font-size: 1lh;
+  svg {
+    filter: drop-shadow(0px 0px 1px white);
+  }
 `;
 
 const StyledThumbnailContainer = styled.div`
