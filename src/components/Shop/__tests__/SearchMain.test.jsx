@@ -80,6 +80,14 @@ describe("SearchMain", () => {
     expect(productFetchList).not.toBeInTheDocument();
   });
 
+  it("the search input component has focus on mount", () => {
+    setup();
+
+    const searchInput = screen.getByRole("searchbox");
+
+    expect(searchInput).toHaveFocus();
+  });
+
   it("renders a list of products fetched based on the query string", async () => {
     const { user } = setup();
 
