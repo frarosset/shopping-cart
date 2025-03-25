@@ -1,11 +1,14 @@
+import { useContext } from "react";
 import styled from "styled-components";
-import StarRatingIcons from "./Icons/StarRatingIcons.jsx";
-import ClampedText from "./Generic/ClampedText.jsx";
-import Heading from "./Generic/Heading.jsx";
-import Image from "./Generic/Image.jsx";
+import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
+import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
+import ClampedText from "../Generic/ClampedText.jsx";
+import Heading from "../Generic/Heading.jsx";
+import Image from "../Generic/Image.jsx";
+import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
 
-import { getDiscountedPrice, getPriceStr } from "../utils/priceUtils.js";
-import data from "../assets/data.json";
+import { getDiscountedPrice, getPriceStr } from "../../utils/priceUtils.js";
+import data from "../../assets/data.json";
 
 const Title = styled(({ title, nRows = null, className = "" }) => {
   return (
@@ -86,6 +89,19 @@ const AvailabilityStatus = styled(
   }
 )``;
 
+const WishlistButton = styled(({ product, className = "" }) => {
+  const { isInWishlist, dispatch } = useContext(SavedProductsContext);
+
+  return (
+    <button
+      className={className}
+      onClick={() => dispatch({ type: "toggleWishlist", product })}
+    >
+      <HeartToggleIcon fill={isInWishlist(product.id)} />
+    </button>
+  );
+})``;
+
 // StyledProductInfo.jsx
 const StyledRowContainer = styled.div`
   display: flex;
@@ -152,4 +168,5 @@ export {
   DiscountPercentage,
   AvailabilityStatus,
   StyledRowContainer,
+  WishlistButton,
 };
