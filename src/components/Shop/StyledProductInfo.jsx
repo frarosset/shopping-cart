@@ -2,6 +2,7 @@ import { useContext } from "react";
 import styled from "styled-components";
 import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
+import CartIcon from "../Icons/CartIcon.jsx";
 import ClampedText from "../Generic/ClampedText.jsx";
 import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
@@ -102,9 +103,30 @@ const WishlistButton = styled(({ product, className = "" }) => {
   );
 })``;
 
+const AddToCartButton = styled(({ product, className = "" }) => {
+  const { dispatch } = useContext(SavedProductsContext);
+
+  return (
+    <StyledAddToCartButton
+      className={className}
+      onClick={() => dispatch({ type: "addToCart", product })}
+    >
+      <CartIcon />
+    </StyledAddToCartButton>
+  );
+})``;
+
 const StyledWishlistButton = styled.button`
   font-size: 1lh;
   padding: 0;
+`;
+
+const StyledAddToCartButton = styled.button`
+  font-size: 1lh;
+  padding: 0.3lh;
+  border-radius: 50%;
+  background-color: var(--product-tag-bg-col);
+  color: var(--product-tag-col);
 `;
 
 const StyledRowContainer = styled.div`
@@ -173,4 +195,5 @@ export {
   AvailabilityStatus,
   StyledRowContainer,
   WishlistButton,
+  AddToCartButton,
 };
