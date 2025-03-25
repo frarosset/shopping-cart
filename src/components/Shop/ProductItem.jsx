@@ -37,9 +37,13 @@ const ProductItem = styled(({ productData, className = "" }) => {
           </StyledThumbnailContainer>
           <Title {...productData} nRows={2} />
         </Link>
-        <RatingContainer {...productData} />
-        <PriceContainer {...productData} />
-        <AddToCartButton product={productData} />
+        <StyledBottomContainer>
+          <StyledBottomTextContainer>
+            <RatingContainer {...productData} />
+            <PriceContainer {...productData} />
+          </StyledBottomTextContainer>
+          <AddToCartButton product={productData} />
+        </StyledBottomContainer>
       </StyledProductItem>
     </HeadingLevelContextProvider>
   );
@@ -50,6 +54,15 @@ const StyledHighlightTags = styled(StyledRowContainer)`
   top: var(--small-padding);
   left: var(--small-padding);
   z-index: 1;
+`;
+
+const StyledBottomContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledBottomTextContainer = styled.div`
+  flex: 1;
 `;
 
 const StyledWishlistButtonContainer = styled.div`
