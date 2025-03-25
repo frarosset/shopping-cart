@@ -6,7 +6,7 @@ import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelConte
 import data from "../../../assets/data.json";
 
 const navRoutesTo = ["shop"];
-const routesTo = ["", "search", ...navRoutesTo];
+const routesTo = ["", "search", "wishlist", ...navRoutesTo];
 
 const setup = () => ({
   ...render(
@@ -53,10 +53,10 @@ describe("Header", () => {
     });
   });
 
-  it("renders profile, watchlist and cart buttons", () => {
+  it("renders profile, wishlist and cart buttons", () => {
     setup();
 
-    const buttonNames = ["profile", "watchlist", "cart"];
+    const buttonNames = ["profile", "cart"];
 
     const allButtons = screen.getAllByRole("button");
     const buttons = buttonNames.map((name) =>
