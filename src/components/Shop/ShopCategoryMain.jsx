@@ -36,6 +36,7 @@ const productDataKeys = [
   "rating",
   "thumbnail",
   "availabilityStatus",
+  "stock",
 ];
 const productKeysStr = productDataKeys.join(",");
 
