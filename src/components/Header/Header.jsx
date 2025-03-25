@@ -1,4 +1,5 @@
 import data from "../../assets/data.json";
+import { useContext } from "react";
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
 import Heading from "../Generic/Heading.jsx";
@@ -6,9 +7,12 @@ import Heading from "../Generic/Heading.jsx";
 import UserCircleIcon from "../Icons/UserCircleIcon.jsx";
 import HeartIcon from "../Icons/HeartIcon.jsx";
 import SearchIcon from "../Icons/SearchIcon.jsx";
-import CartIcon from "../Icons/CartIcon.jsx";
+import CartIconWithText from "../Icons/CartIconWithText.jsx";
+import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
 
 function Header({ className = "" }) {
+  const { cartItems } = useContext(SavedProductsContext);
+
   return (
     <StyledHeader className={`${className}`}>
       <StyledShopNameHeading>
@@ -31,7 +35,7 @@ function Header({ className = "" }) {
           <HeartIcon />
         </button>
         <button aria-label="cart">
-          <CartIcon />
+          <CartIconWithText cartItems={cartItems} />
         </button>
       </StyledButtonContainer>
     </StyledHeader>
