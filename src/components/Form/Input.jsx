@@ -1,6 +1,15 @@
 import StyledInput from "./StyledInput.jsx";
 
-function Input({ id, name, value, setValue, type, maxLength, placeholder }) {
+function Input({
+  id,
+  name,
+  value,
+  setValue,
+  type,
+  maxLength,
+  placeholder,
+  ref,
+}) {
   return (
     <StyledInput
       id={id}
@@ -10,6 +19,7 @@ function Input({ id, name, value, setValue, type, maxLength, placeholder }) {
       type={type}
       maxLength={maxLength}
       placeholder={placeholder}
+      ref={ref}
     />
   );
 }

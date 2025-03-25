@@ -1,5 +1,5 @@
 import Heading from "../Generic/Heading.jsx";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Input from "../Form/Input.jsx";
 import ProductFetchList from "./ProductFetchList.jsx";
 import { getSearchProductsApiUrl } from "../../fetching-utils/getApiUrl.js";
@@ -36,6 +36,13 @@ function SearchMain({ className = "" }) {
       order: order,
     });
 
+  const inputRef = useRef(null);
+
+  // set focus on component mount
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
     <StyledMain className={className}>
       <StyledHeader>
@@ -46,6 +53,7 @@ function SearchMain({ className = "" }) {
           id="query"
           name="query"
           value={query}
+          ref={inputRef}
           setValue={(val) => {
             val
               ? setSearchParams({
