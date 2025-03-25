@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { WishlistButton } from "../StyledProductInfo.jsx";
+import { WishlistButton, AddToCartButton } from "../StyledProductInfo.jsx";
 import { SavedProductsContextProvider } from "../../../contexts/SavedProductsContext.jsx";
 import userEvent from "@testing-library/user-event";
 
@@ -14,17 +14,28 @@ vi.mock("../../Icons/HeartToggleIcon.jsx", () => ({
   },
 }));
 
+const mockCartIcon = vi.fn();
+vi.mock("../../Icons/CartIcon.jsx", () => ({
+  default: (props) => {
+    mockCartIcon();
+    return <span>{`Cart icon ${props.cartItems}`}</span>;
+  },
+}));
+
 /* mocks are hoisted: reset them before each test */
 afterEach(() => {
   vi.resetAllMocks();
 });
 
-const setup = () => {
+const setup = (which = "") => {
   return {
     user: userEvent.setup(),
     ...render(
       <SavedProductsContextProvider>
-        <WishlistButton product={productInfo} />
+        {which == "WishlistButton" && <WishlistButton product={productInfo} />}
+        {which == "AddToCartButton" && (
+          <AddToCartButton product={productInfo} />
+        )}
       </SavedProductsContextProvider>
     ),
   };
@@ -33,7 +44,7 @@ const setup = () => {
 describe("StyledProductInfo", () => {
   describe("WishlistButton", () => {
     it("correctly renders the component", () => {
-      setup();
+      setup("WishlistButton");
 
       const button = screen.getByRole("button");
 
@@ -42,7 +53,7 @@ describe("StyledProductInfo", () => {
     });
 
     it("correctly adds the product to the wishlist", async () => {
-      const { user } = setup();
+      const { user } = setup("WishlistButton");
 
       const button = screen.getByRole("button");
 
@@ -53,7 +64,7 @@ describe("StyledProductInfo", () => {
     });
 
     it("correctly removes the product from the wishlist after having set it", async () => {
-      const { user } = setup();
+      const { user } = setup("WishlistButton");
 
       const button = screen.getByRole("button");
 
@@ -61,6 +72,28 @@ describe("StyledProductInfo", () => {
       await user.click(button);
 
       expect(mockHeartToggleIcon).toHaveBeenCalledWith(false);
+      expect(button).toBeInTheDocument();
+    });
+  });
+
+  describe("AddToCartButton", () => {
+    it("correctly renders the component", () => {
+      setup("AddToCartButton");
+
+      const button = screen.getByRole("button");
+
+      expect(mockCartIcon).toHaveBeenCalled();
+      expect(button).toBeInTheDocument();
+    });
+
+    it("correctly adds a product to the cart", async () => {
+      const { user } = setup("AddToCartButton");
+
+      const button = screen.getByRole("button");
+
+      await user.click(button);
+
+      expect(mockCartIcon).toHaveBeenCalled();
       expect(button).toBeInTheDocument();
     });
   });
