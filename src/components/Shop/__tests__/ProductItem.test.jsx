@@ -30,6 +30,18 @@ vi.mock("../../Icons/StarRatingIcons.jsx", () => ({
   },
 }));
 
+const mockWishlistButton = vi.fn();
+vi.mock("../StyledProductInfo.jsx", async () => {
+  const actual = await vi.importActual("../StyledProductInfo.jsx");
+  return {
+    ...actual,
+    WishlistButton: (props) => {
+      mockWishlistButton(props.product);
+      return <button>Wishlist</button>;
+    },
+  };
+});
+
 /* mocks are hoisted: reset them before each test */
 afterEach(() => {
   vi.resetAllMocks();
@@ -76,6 +88,15 @@ describe("ProductItem", () => {
     expect(img).toBeInTheDocument();
     expect(img.src).toBe(basePath + productData.thumbnail);
     expect(img.alt).toBe(productData.title);
+  });
+
+  it("renders button to toggle the wishlish status of the product", () => {
+    setup();
+
+    const wishlistButton = screen.queryByRole("button", { name: "Wishlist" });
+
+    expect(mockWishlistButton).toHaveBeenCalledExactlyOnceWith(productData);
+    expect(wishlistButton).toBeInTheDocument();
   });
 
   it("renders the price of the product", () => {

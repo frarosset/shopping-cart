@@ -8,7 +8,7 @@ import {
   DiscountPercentage,
   AvailabilityStatus,
   StyledRowContainer,
-} from "../StyledProductInfo.jsx";
+} from "./StyledProductInfo.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 import data from "../../assets/data.json";
 
