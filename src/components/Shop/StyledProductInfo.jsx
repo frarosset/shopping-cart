@@ -93,16 +93,20 @@ const WishlistButton = styled(({ product, className = "" }) => {
   const { isInWishlist, dispatch } = useContext(SavedProductsContext);
 
   return (
-    <button
+    <StyledWishlistButton
       className={className}
       onClick={() => dispatch({ type: "toggleWishlist", product })}
     >
       <HeartToggleIcon fill={isInWishlist(product.id)} />
-    </button>
+    </StyledWishlistButton>
   );
 })``;
 
-// StyledProductInfo.jsx
+const StyledWishlistButton = styled.button`
+  font-size: 1lh;
+  padding: 0;
+`;
+
 const StyledRowContainer = styled.div`
   display: flex;
   gap: var(--small-gap);
