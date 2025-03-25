@@ -31,9 +31,9 @@ function Header({ className = "" }) {
         <button aria-label="profile">
           <UserCircleIcon />
         </button>
-        <button aria-label="watchlist">
+        <Link aria-label="wishlist" to="/wishlist">
           <HeartIcon />
-        </button>
+        </Link>
         <button aria-label="cart">
           <CartIconWithText cartItems={cartItems} />
         </button>
