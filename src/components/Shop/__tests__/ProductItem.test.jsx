@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import ProductItem from "../ProductItem.jsx";
 import data from "../../../assets/data.json";
+import { SavedProductsContextProvider } from "../../../contexts/SavedProductsContext.jsx";
 
 const maxRating = data.maxRating;
 
@@ -16,6 +17,7 @@ const productData = {
   priceStr: "10 €",
   discountedPriceStr: "7.50 €",
   rating: 3.6,
+  stock: 10,
 };
 
 const mockStarRatingIcons = vi.fn();
@@ -31,6 +33,7 @@ vi.mock("../../Icons/StarRatingIcons.jsx", () => ({
 }));
 
 const mockWishlistButton = vi.fn();
+const mockAddToCartButton = vi.fn();
 vi.mock("../StyledProductInfo.jsx", async () => {
   const actual = await vi.importActual("../StyledProductInfo.jsx");
   return {
@@ -38,6 +41,10 @@ vi.mock("../StyledProductInfo.jsx", async () => {
     WishlistButton: (props) => {
       mockWishlistButton(props.product);
       return <button>Wishlist</button>;
+    },
+    AddToCartButton: (props) => {
+      mockAddToCartButton(props.product);
+      return <button>AddToCartButton</button>;
     },
   };
 });
@@ -48,9 +55,14 @@ afterEach(() => {
 });
 
 const customSetup = (data) => ({
-  ...render(<ProductItem productData={data} />, {
-    wrapper: MemoryRouter,
-  }),
+  ...render(
+    <SavedProductsContextProvider>
+      <ProductItem productData={data} />
+    </SavedProductsContextProvider>,
+    {
+      wrapper: MemoryRouter,
+    }
+  ),
 });
 
 const setup = () => customSetup(productData);
@@ -59,7 +71,7 @@ describe("ProductItem", () => {
   it("renders a heading with the product title", () => {
     setup();
 
-    screen.debug();
+    // screen.debug();
 
     const productTitle = screen.getByRole("heading", {
       name: productData.title,
@@ -97,6 +109,17 @@ describe("ProductItem", () => {
 
     expect(mockWishlistButton).toHaveBeenCalledExactlyOnceWith(productData);
     expect(wishlistButton).toBeInTheDocument();
+  });
+
+  it("renders button to add a product to the cart", () => {
+    setup();
+
+    const addToCartButton = screen.queryByRole("button", {
+      name: "AddToCartButton",
+    });
+
+    expect(mockAddToCartButton).toHaveBeenCalledExactlyOnceWith(productData);
+    expect(addToCartButton).toBeInTheDocument();
   });
 
   it("renders the price of the product", () => {
