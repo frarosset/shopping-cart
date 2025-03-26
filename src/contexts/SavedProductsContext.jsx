@@ -1,5 +1,6 @@
-import { createContext, useReducer } from "react";
+import { createContext } from "react";
 import savedProductsReducer from "../reducers/savedProductsReducer.jsx";
+import { useLocalStorageReducer } from "../custom-hooks/useLocalStorage.js";
 
 // Sample state:
 // {
@@ -34,7 +35,12 @@ const initialState = {
 const SavedProductsContext = createContext(initialState);
 
 function SavedProductsContextProvider({ children }) {
-  const [state, dispatch] = useReducer(savedProductsReducer, initialState);
+  // const [state, dispatch] = useReducer(savedProductsReducer, initialState);
+  const [state, dispatch] = useLocalStorageReducer(
+    "savedProducts",
+    savedProductsReducer,
+    initialState
+  );
 
   const isInWishlist = (id) =>
     state.productList[id] != null && state.productList[id].inWishlist;
