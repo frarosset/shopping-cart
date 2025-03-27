@@ -91,6 +91,7 @@
 
   /* product-list */
   --product-list-padding: var(--page-padding);
+  --product-list-padding-lr: var(--page-padding-lr);
   --product-list-gap: var(--page-gap);
   --product-list-centered-icon-fontsize: 10vmin;
 

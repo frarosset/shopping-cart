@@ -1,6 +1,6 @@
-const List = ({ items, className = "" }) => {
+const List = ({ items, ref, className = "" }) => {
   return (
-    <ul className={className}>
+    <ul className={className} ref={ref}>
       {items.map((item) => (
         <li key={item.key}>{item.element}</li>
       ))}

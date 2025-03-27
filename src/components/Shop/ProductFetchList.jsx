@@ -9,6 +9,7 @@ function ProductFetchList({
   apiUrl,
   resetOnFetch = false,
   sortBySelect = null,
+  rowScroll = false,
   className = "",
 }) {
   const { data, error, loading } = useFetchFromApiUrl(apiUrl, resetOnFetch);
@@ -28,7 +29,10 @@ function ProductFetchList({
               {loading && <LoaderIcon />}
               {sortBySelect}
             </StyledSortByContainer>
-            <ProductList productDataList={data.products} />
+            <ProductList
+              productDataList={data.products}
+              rowScroll={rowScroll}
+            />
           </>
         ) : (
           <MessageWithImageBelow imageUrl="/images/vector/product-not-found.jpg">
