@@ -12,16 +12,24 @@ function ProductList({ productDataList, rowScroll = false, className = "" }) {
   const ref = useRef();
 
   return (
-    <>
-      <button onClick={() => scroll(ref, true)}>{"⯇"}</button>
-      <button onClick={() => scroll(ref)}>{"⯈"}</button>
+    <StyledProductListContainer>
+      {rowScroll && (
+        <>
+          <StyledGoLeftButton onClick={() => scroll(ref, true)}>
+            {"⯇"}
+          </StyledGoLeftButton>
+          <StyledGoRightButton onClick={() => scroll(ref)}>
+            {"⯈"}
+          </StyledGoRightButton>
+        </>
+      )}
       <StyledProductList
         className={className}
         items={items}
         $rowScroll={rowScroll}
         ref={ref}
       />
-    </>
+    </StyledProductListContainer>
   );
 }
 
@@ -82,6 +90,37 @@ const StyledProductList = styled(List)`
     justify-content: center;
     scroll-snap-align: start;
   }
+`;
+
+const StyledProductListContainer = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const StyledButton = styled.button`
+  position: absolute;
+  top: calc(var(--product-item-min-size) / 2);
+
+  background-color: var(--product-tag-bg-col);
+  color: var(--product-tag-col);
+
+  padding: 0;
+
+  width: var(--scroll-buttons-width);
+  height: var(--scroll-buttons-width);
+  z-index: 1;
+`;
+
+const StyledGoLeftButton = styled(StyledButton)`
+  padding-left: var(--half-scroll-buttons-width);
+  left: var(--negative-half-scroll-buttons-width);
+  border-radius: 0 50% 50% 0;
+`;
+
+const StyledGoRightButton = styled(StyledButton)`
+  padding-right: var(--half-scroll-buttons-width);
+  right: var(--negative-half-scroll-buttons-width);
+  border-radius: 50% 0 0 50%;
 `;
 
 export default ProductList;
