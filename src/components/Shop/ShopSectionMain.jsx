@@ -34,11 +34,10 @@ function ShopSectionMain({ className = "" }) {
 }
 
 const StyledMain = styled.main`
-  // width: 100%;
-  // display: flex;
-  // flex-direction: column;
-  // gap: 1lh;
-  // align-items: flex-start;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-gap);
 `;
 
 const StyledCategoryList = styled(CategoryList)`
