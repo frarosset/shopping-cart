@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import Header from "./components/Header/Header.jsx";
 import { HeadingLevelContextProvider } from "./contexts/HeadingLevelContext.jsx";
 import { SavedProductsContextProvider } from "./contexts/SavedProductsContext.jsx";
+import CreditFooter from "./components/CreditFooter.jsx";
 
 function App() {
   const location = useLocation();
@@ -14,14 +15,17 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <SavedProductsContextProvider>
-      <HeadingLevelContextProvider>
-        <Header />
+    <>
+      <SavedProductsContextProvider>
         <HeadingLevelContextProvider>
-          <Outlet />
+          <Header />
+          <HeadingLevelContextProvider>
+            <Outlet />
+          </HeadingLevelContextProvider>
         </HeadingLevelContextProvider>
-      </HeadingLevelContextProvider>
-    </SavedProductsContextProvider>
+      </SavedProductsContextProvider>
+      <CreditFooter />
+    </>
   );
 }
 
