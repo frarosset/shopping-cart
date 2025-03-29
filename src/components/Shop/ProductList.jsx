@@ -91,7 +91,14 @@ const StyledProductList = styled(List)`
          scroll-behavior: smooth;
          scroll-snap-type: x mandatory;
          scroll-padding: 0 var(--product-list-padding-lr);
-         -webkit-overflow-scrolling: touch;`
+         -webkit-overflow-scrolling: touch;
+
+         -ms-overflow-style: none;
+         scrollbar-width: none;
+         
+         &::-webkit-scrollbar {
+          display: none;
+         }`
       : `display: grid;
          grid-template-columns: repeat(
             auto-fit,
@@ -121,6 +128,7 @@ const StyledButton = styled.button`
 
   background-color: var(--product-tag-bg-col);
   color: var(--product-tag-col);
+  border: 2px solid var(--product-tag-col);
 
   padding: 0;
 
