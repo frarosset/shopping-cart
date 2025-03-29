@@ -17,6 +17,18 @@ vi.mock("../CategorySectionList.jsx", () => ({
   },
 }));
 
+const mockShopHighlightPresentation = vi.fn();
+vi.mock("../ShopHighlightPresentation.jsx", () => ({
+  default: () => {
+    mockShopHighlightPresentation();
+    return (
+      <div data-testid="__shop-highlight-presentation__">
+        Shop Highlight Presentation
+      </div>
+    );
+  },
+}));
+
 /* mocks are hoisted: reset them before each test */
 afterEach(() => {
   vi.resetAllMocks();
@@ -38,5 +50,16 @@ describe("ShopMain", () => {
     expect(mockCategorySectionList).toHaveBeenCalledExactlyOnceWith({
       sectionList: sectionList,
     });
+  });
+
+  it("renders a shop highlight presentation", () => {
+    setup();
+
+    const shopHighlightPresentation = screen.getByTestId(
+      "__shop-highlight-presentation__"
+    );
+
+    expect(mockShopHighlightPresentation).toHaveBeenCalledOnce();
+    expect(shopHighlightPresentation).toBeInTheDocument();
   });
 });
