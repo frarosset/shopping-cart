@@ -2,7 +2,6 @@ import Heading from "../Generic/Heading.jsx";
 import useSortBy from "../../custom-hooks/useSortBy.jsx";
 import ProductFetchList from "./ProductFetchList.jsx";
 import { getCategoryProductsApiUrl } from "../../fetching-utils/getApiUrl.js";
-import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import data from "../../assets/data.json";
@@ -31,23 +30,21 @@ function SectionCategoriesPresentation({ sectionCategories, className = "" }) {
     });
 
   return (
-    <HeadingLevelContextProvider>
-      <StyledSectionCategoriesPresentation className={className}>
-        {sectionCategories.map((category) => {
-          const categoryName = data.categories[category].name;
+    <StyledSectionCategoriesPresentation className={className}>
+      {sectionCategories.map((category) => {
+        const categoryName = data.categories[category].name;
 
-          return (
-            <li key={category}>
-              <StyledHeader>
-                <StyledHeading>{categoryName}</StyledHeading>
-                <Link to={`/shop/c/${category}`}>See all</Link>
-              </StyledHeader>
-              <ProductFetchList apiUrl={getApiUrl(category)} rowScroll={true} />
-            </li>
-          );
-        })}
-      </StyledSectionCategoriesPresentation>
-    </HeadingLevelContextProvider>
+        return (
+          <li key={category}>
+            <StyledHeader>
+              <StyledHeading>{categoryName}</StyledHeading>
+              <Link to={`/shop/c/${category}`}>See all</Link>
+            </StyledHeader>
+            <ProductFetchList apiUrl={getApiUrl(category)} rowScroll={true} />
+          </li>
+        );
+      })}
+    </StyledSectionCategoriesPresentation>
   );
 }
 

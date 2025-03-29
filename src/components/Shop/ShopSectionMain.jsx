@@ -4,6 +4,7 @@ import Heading from "../Generic/Heading.jsx";
 import styled from "styled-components";
 import data from "../../assets/data.json";
 import SectionCategoriesPresentation from "./SectionCategoriesPresentation.jsx";
+import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 
 const getSectionData = (section) => {
   const sectionData = data.sections[section];
@@ -28,7 +29,9 @@ function ShopSectionMain({ className = "" }) {
         <StyledHeading $bgUrl={sectionData.image}>{sectionName}</StyledHeading>
         <StyledCategoryList categoryList={sectionCategories} />
       </StyledHeader>
-      <SectionCategoriesPresentation sectionCategories={sectionCategories} />
+      <HeadingLevelContextProvider>
+        <SectionCategoriesPresentation sectionCategories={sectionCategories} />
+      </HeadingLevelContextProvider>
     </StyledMain>
   );
 }
