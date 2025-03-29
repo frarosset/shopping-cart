@@ -87,6 +87,7 @@ const StyledProductList = styled(List)`
     $rowScroll
       ? `display: flex;
          align-items: flex-start;
+         background-color: var(--col-white);
          max-width: 100%;
          overflow: auto hidden;
          scroll-behavior: smooth;
