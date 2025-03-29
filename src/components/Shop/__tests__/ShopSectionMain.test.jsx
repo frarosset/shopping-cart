@@ -28,6 +28,18 @@ vi.mock("../CategoryList.jsx", () => ({
   },
 }));
 
+const mockSectionCategoriesPresentation = vi.fn();
+vi.mock("../SectionCategoriesPresentation.jsx", () => ({
+  default: (props) => {
+    mockSectionCategoriesPresentation(props.sectionCategories);
+    return (
+      <div data-testid="__section-categories-presentation__">
+        {props.sectionCategories.join(",")}
+      </div>
+    );
+  },
+}));
+
 /* mocks are hoisted: reset them before each test */
 afterEach(() => {
   vi.resetAllMocks();
@@ -77,5 +89,18 @@ describe("ShopSectionMain", () => {
 
   it("throws an error if an invalid section is present in the url", () => {
     expect(() => setup(sampleInvalidSectionRoute)).toThrowError();
+  });
+
+  it("renders a section categories presentation", () => {
+    setup(sampleSectionRoute);
+
+    const sectionCategoriesPresentation = screen.getByTestId(
+      "__section-categories-presentation__"
+    );
+
+    expect(mockSectionCategoriesPresentation).toHaveBeenCalledExactlyOnceWith(
+      sampleSectionData.categories
+    );
+    expect(sectionCategoriesPresentation).toBeInTheDocument();
   });
 });
