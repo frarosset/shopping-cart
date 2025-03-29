@@ -49,7 +49,14 @@ const PriceContainer = styled(
       </StyledRowContainer>
     );
   }
-)``;
+)`
+  && {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0 var(--small-gap);
+  }
+`;
 
 const DiscountPercentage = styled(({ discountPercentage, className = "" }) => {
   const highlightDiscountsAt = data.highlightDiscountsAt;
@@ -170,6 +177,7 @@ const StyledTitle = styled(Heading)`
 const StyledPrice = styled.span`
   font-family: var(--product-price-font);
   font-size: var(--product-price-size);
+  width: max-content;
 
   ${(props) =>
     props.$oldPrice &&
