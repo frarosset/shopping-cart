@@ -3,6 +3,7 @@ import useSortBy from "../../custom-hooks/useSortBy.jsx";
 import ProductFetchList from "./ProductFetchList.jsx";
 import { getCategoryProductsApiUrl } from "../../fetching-utils/getApiUrl.js";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
+import { Link } from "react-router-dom";
 import data from "../../assets/data.json";
 
 const productsLimit = 10;
@@ -38,6 +39,7 @@ function SectionCategoriesPresentation({ sectionCategories, className = "" }) {
             <li key={category}>
               <header>
                 <Heading>{categoryName}</Heading>
+                <Link to={`/shop/c/${category}`}>See all</Link>
               </header>
               <ProductFetchList apiUrl={getApiUrl(category)} rowScroll={true} />
             </li>
