@@ -14,7 +14,7 @@ const mockHeader = vi.fn();
 vi.mock("./components/Header/Header.jsx", () => ({
   default: (props) => {
     mockHeader(props);
-    return <header data-testid="page-header">"Header"</header>;
+    return <header data-testid="page-header">Header</header>;
   },
 }));
 
@@ -22,7 +22,7 @@ const mockShopMain = vi.fn();
 vi.mock("./components/Shop/ShopMain.jsx", () => ({
   default: (props) => {
     mockShopMain(props);
-    return <main data-testid="shop-main">"ShopMain"</main>;
+    return <main data-testid="shop-main">ShopMain</main>;
   },
 }));
 
@@ -30,7 +30,7 @@ const mockShopSectionMain = vi.fn();
 vi.mock("./components/Shop/ShopSectionMain.jsx", () => ({
   default: (props) => {
     mockShopSectionMain(props);
-    return <main data-testid="shop-section-main">"ShopSectionMain"</main>;
+    return <main data-testid="shop-section-main">ShopSectionMain</main>;
   },
 }));
 
@@ -38,7 +38,15 @@ const mockShopCategoryMain = vi.fn();
 vi.mock("./components/Shop/ShopCategoryMain.jsx", () => ({
   default: (props) => {
     mockShopCategoryMain(props);
-    return <main data-testid="shop-category-main">"ShopCategoryMain"</main>;
+    return <main data-testid="shop-category-main">ShopCategoryMain</main>;
+  },
+}));
+
+const mockCreditFooter = vi.fn();
+vi.mock("./components/CreditFooter.jsx", () => ({
+  default: () => {
+    mockCreditFooter();
+    return <main data-testid="credit-footer">CreditFooter</main>;
   },
 }));
 
@@ -64,10 +72,13 @@ describe("App", () => {
     setupWithRoute("/");
 
     const pageHeader = screen.getByTestId("page-header");
+    const creditFooter = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
+    expect(creditFooter).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
+    expect(mockCreditFooter).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop page", () => {
@@ -75,12 +86,15 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopMain = screen.getByTestId("shop-main");
+    const creditFooter = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopMain).toBeInTheDocument();
+    expect(creditFooter).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopMain).toHaveBeenCalledOnce();
+    expect(mockCreditFooter).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop/:section page", () => {
@@ -88,12 +102,15 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopSectionMain = screen.getByTestId("shop-section-main");
+    const creditFooter = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopSectionMain).toBeInTheDocument();
+    expect(creditFooter).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopSectionMain).toHaveBeenCalledOnce();
+    expect(mockCreditFooter).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop/c/:category page", () => {
@@ -101,11 +118,14 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopCategoryMain = screen.getByTestId("shop-category-main");
+    const creditFooter = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopCategoryMain).toBeInTheDocument();
+    expect(creditFooter).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopCategoryMain).toHaveBeenCalledOnce();
+    expect(mockCreditFooter).toHaveBeenCalledOnce();
   });
 });
