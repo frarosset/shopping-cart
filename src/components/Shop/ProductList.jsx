@@ -55,11 +55,29 @@ function scroll(ref, reverse = false) {
   // (to make it possible to show the partially hidden item on next scroll)
   const scrollOffset = ulWidth - liWidth / 2;
 
-  ref.current.scrollBy({
-    top: 0,
-    left: reverse ? -scrollOffset : scrollOffset,
-    behavior: "smooth",
-  });
+  const scrollLeft = Math.round(ref.current.scrollLeft);
+  const maxScrollWidth = ref.current.scrollWidth - ref.current.clientWidth;
+
+  if (scrollLeft == maxScrollWidth && !reverse)
+    // return to start
+    ref.current.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  else if (scrollLeft == 0 && reverse)
+    // 'go back' to end
+    ref.current.scrollTo({
+      top: 0,
+      left: maxScrollWidth,
+      behavior: "smooth",
+    });
+  else
+    ref.current.scrollBy({
+      top: 0,
+      left: reverse ? -scrollOffset : scrollOffset,
+      behavior: "smooth",
+    });
 }
 
 // horizontal scrolling build based on:
