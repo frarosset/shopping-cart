@@ -6,7 +6,7 @@ import styled from "styled-components";
 function ProductList({ productDataList, rowScroll = false, className = "" }) {
   const items = productDataList.map((productData) => ({
     key: productData.id,
-    element: <ProductItem productData={productData} />,
+    element: <ProductItem productData={productData} minimized={rowScroll} />,
   }));
 
   const ref = useRef();
@@ -86,6 +86,7 @@ const StyledProductList = styled(List)`
   ${({ $rowScroll }) =>
     $rowScroll
       ? `display: flex;
+         align-items: flex-start;
          max-width: 100%;
          overflow: auto hidden;
          scroll-behavior: smooth;
@@ -124,7 +125,7 @@ const StyledProductListContainer = styled.div`
 
 const StyledButton = styled.button`
   position: absolute;
-  top: calc(var(--product-item-min-size) / 2);
+  top: calc(var(--product-item-min-size-minimized) / 2);
 
   background-color: var(--product-tag-bg-col);
   color: var(--product-tag-col);

@@ -72,6 +72,10 @@
   /* product */
   --product-item-min-size: min(300px, 90vmin);
   --product-item-max-size: max(400px, 20vw);
+
+  --product-item-min-size-minimized: min(250px, 80vmin);
+  --product-item-max-size-minimized: max(250px, 10vw);
+
   --product-item-hover-thumbnail-scale: 1.2;
   --product-item-hover-thumbnail-greyscale: 0.6;
   --product-item-hover-thumbnail-opacity: 0.6;

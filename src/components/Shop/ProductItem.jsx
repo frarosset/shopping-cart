@@ -14,40 +14,46 @@ import {
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 import data from "../../assets/data.json";
 
-const ProductItem = styled(({ productData, className = "" }) => {
-  const outOfStock =
-    productData.availabilityStatus == data.availability.outOfStock;
+const ProductItem = styled(
+  ({ productData, minimized = false, className = "" }) => {
+    const outOfStock =
+      productData.availabilityStatus == data.availability.outOfStock;
 
-  return (
-    <HeadingLevelContextProvider>
-      <StyledProductItem className={className} $outOfStock={outOfStock}>
-        <StyledHighlightTags>
-          <DiscountPercentage {...productData} />
-          <AvailabilityStatus
-            product={productData}
-            ignoreStatusList={[data.availability.inStock]}
-          />
-        </StyledHighlightTags>
-        <StyledWishlistButtonContainer>
-          <WishlistButton product={productData} />
-        </StyledWishlistButtonContainer>
-        <Link to={`/shop/p/${productData.id}`}>
-          <StyledThumbnailContainer>
-            <Thumbnail {...productData} />
-          </StyledThumbnailContainer>
-          <Title {...productData} nRows={2} />
-        </Link>
-        <StyledBottomContainer>
-          <StyledBottomTextContainer>
-            <RatingContainer {...productData} />
-            <PriceContainer {...productData} />
-          </StyledBottomTextContainer>
-          <AddToCartButton product={productData} />
-        </StyledBottomContainer>
-      </StyledProductItem>
-    </HeadingLevelContextProvider>
-  );
-})``;
+    return (
+      <HeadingLevelContextProvider>
+        <StyledProductItem
+          className={className}
+          $outOfStock={outOfStock}
+          $minimized={minimized}
+        >
+          <StyledHighlightTags>
+            <DiscountPercentage {...productData} />
+            <AvailabilityStatus
+              product={productData}
+              ignoreStatusList={[data.availability.inStock]}
+            />
+          </StyledHighlightTags>
+          <StyledWishlistButtonContainer>
+            <WishlistButton product={productData} />
+          </StyledWishlistButtonContainer>
+          <Link to={`/shop/p/${productData.id}`}>
+            <StyledThumbnailContainer>
+              <Thumbnail {...productData} />
+            </StyledThumbnailContainer>
+            <Title {...productData} nRows={2} />
+          </Link>
+          <StyledBottomContainer>
+            <StyledBottomTextContainer>
+              <RatingContainer {...productData} />
+              <PriceContainer {...productData} />
+            </StyledBottomTextContainer>
+            {!minimized && <AddToCartButton product={productData} />}
+          </StyledBottomContainer>
+        </StyledProductItem>
+      </HeadingLevelContextProvider>
+    );
+  }
+)``;
 
 const StyledHighlightTags = styled(StyledRowContainer)`
   position: absolute;
@@ -80,6 +86,7 @@ const StyledThumbnailContainer = styled.div`
   overflow: hidden;
   box-shadow: 0 0 var(--product-photo-shadow-size) var(--product-photo-color)
     inset;
+  background-color: var(--col-pure-white);
 
   ${Thumbnail} {
     box-shadow: none;
@@ -87,6 +94,13 @@ const StyledThumbnailContainer = styled.div`
 `;
 
 const StyledProductItem = styled.div`
+  ${({ $minimized }) =>
+    $minimized &&
+    `
+      --product-item-min-size: var(--product-item-min-size-minimized);
+      --product-item-max-size: var(--product-item-max-size-minimized);
+  `}
+
   position: relative;
   width: 100%;
   min-width: var(--product-item-min-size);
