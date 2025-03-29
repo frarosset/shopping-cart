@@ -34,6 +34,7 @@ function SearchMain({ className = "" }) {
       select: productKeysStr,
       sortBy: sortBy,
       order: order,
+      limit: 0, // get all items
     });
 
   const inputRef = useRef(null);

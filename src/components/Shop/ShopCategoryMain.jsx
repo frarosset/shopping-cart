@@ -56,6 +56,7 @@ function ShopCategoryMain({ className = "" }) {
     select: productKeysStr,
     sortBy: sortBy,
     order: order,
+    limit: 0, // get all items
   });
 
   return (
