@@ -5,14 +5,6 @@ import { MemoryRouter } from "react-router";
 
 const sampleError = { error: { message: "Test Error Message" } };
 
-const mockHeader = vi.fn();
-vi.mock("../../Header/Header.jsx", () => ({
-  default: (props) => {
-    mockHeader(props);
-    return <header data-testid="__page-header__">Header</header>;
-  },
-}));
-
 const mockError = vi.fn();
 vi.mock("../Error.jsx", () => ({
   default: (props) => {
@@ -48,24 +40,20 @@ const setup = (state) => {
 window.history.replaceState = vi.fn();
 
 describe("ErrorPage", () => {
-  it("correctly renders Header and erroromponent when location state contains error", () => {
+  it("correctly renders Error commponent when location state contains error", () => {
     setup(sampleError);
 
-    const header = screen.getByTestId("__page-header__");
     const error = screen.getByTestId("__error__");
 
-    expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockError).toHaveBeenCalledExactlyOnceWith(sampleError);
     expect(mockNavigate).not.toHaveBeenCalled();
 
-    expect(header).toBeInTheDocument();
     expect(error).toBeInTheDocument();
   });
 
   it("navigates to '/' when location state does not contain error", () => {
     setup(null);
 
-    expect(mockHeader).not.toHaveBeenCalled();
     expect(mockError).not.toHaveBeenCalled();
 
     expect(mockNavigate).toHaveBeenCalledExactlyOnceWith({

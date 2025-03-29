@@ -20,11 +20,8 @@ const routes = [
       { path: "/shop/p/:productId", element: <div>Product</div> },
       { path: "/search", element: <SearchMain /> },
       { path: "/wishlist", element: <WishlistMain /> },
+      { path: "/error", element: <ErrorPage /> },
     ],
-  },
-  {
-    path: "/error",
-    element: <ErrorPage />,
   },
 ];
 
