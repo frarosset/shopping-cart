@@ -3,6 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import SectionCategoriesPresentation from "../SectionCategoriesPresentation.jsx";
 import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelContext.jsx";
 import data from "../../../assets/data.json";
+import { MemoryRouter } from "react-router-dom";
 
 const sampleCategories = data.sections["electronics"].categories;
 const sampleCategoriesData = data.categories;
@@ -11,9 +12,11 @@ const sampleCategoryUrl = (category) => `category/${category}/url/`;
 const setup = () => {
   return {
     ...render(
-      <HeadingLevelContextProvider>
-        <SectionCategoriesPresentation sectionCategories={sampleCategories} />
-      </HeadingLevelContextProvider>
+      <MemoryRouter>
+        <HeadingLevelContextProvider>
+          <SectionCategoriesPresentation sectionCategories={sampleCategories} />
+        </HeadingLevelContextProvider>
+      </MemoryRouter>
     ),
   };
 };
@@ -51,6 +54,24 @@ describe("SectionCategoriesPresentation", () => {
       });
 
       expect(heading).toBeInTheDocument();
+    });
+  });
+
+  it("renders a list of links to the category pages at /shop/c/:category", () => {
+    setup();
+
+    const list = screen.getByRole("list");
+    const liAll = within(list).getAllByRole("listitem");
+
+    liAll.forEach((li, idx) => {
+      const category = sampleCategories[idx];
+      const routeTo = `shop/c/${category}`;
+      const basePath = window.location.href;
+
+      const link = within(li).getByRole("link");
+
+      expect(link).toBeInTheDocument();
+      expect(link.href).toBe(`${basePath}${routeTo}`);
     });
   });
 
