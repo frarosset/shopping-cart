@@ -48,10 +48,10 @@
   /* header */
   --header-shop-name-font: var(--highlight-font);
   --header-shop-name-fontsize: 1.5rem;
-  --header-col: var(--col-txt);
+  --header-col: var(--col-txt-alt);
   --header-gap: 1rem;
   --header-padding: var(--page-padding);
-  --header-background: linear-gradient(var(--bg-col) 70%, transparent 100%);
+  --header-background: var(--col-black);
 
   --header-buttons-padding: 1rem min(1rem, 2.5vw);
   --header-buttons-fontsize: 1.2rem;

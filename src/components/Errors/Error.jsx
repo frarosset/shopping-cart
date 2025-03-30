@@ -27,6 +27,7 @@ const StyledError = styled.main`
   // gap: var(--page-gap);
   align-items: center;
   height: 100%;
+  padding: var(--page-padding-tb) 0;
 `;
 
 const StyledHeading = styled(Heading)`
