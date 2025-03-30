@@ -40,7 +40,7 @@ const ProductItem = styled(
             <StyledThumbnailContainer>
               <Thumbnail {...productData} />
             </StyledThumbnailContainer>
-            <Title {...productData} nRows={2} />
+            <Title {...productData} nRows={minimized ? 1 : 2} />
           </Link>
           <StyledBottomContainer>
             <StyledBottomTextContainer>
@@ -99,7 +99,11 @@ const StyledProductItem = styled.div`
     `
       --product-item-min-size: var(--product-item-min-size-minimized);
       --product-item-max-size: var(--product-item-max-size-minimized);
-  `}
+  
+      && ${PriceContainer}>span {
+        font-size: var(--product-text-size);
+      }
+   `}
 
   position: relative;
   width: 100%;
