@@ -15,7 +15,11 @@ function ProductFetchList({
   const { data, error, loading } = useFetchFromApiUrl(apiUrl, resetOnFetch);
 
   return (
-    <StyledProductFetchList $data={data} className={`${className}`}>
+    <StyledProductFetchList
+      $data={data}
+      className={`${className}`}
+      $rowScroll={rowScroll}
+    >
       {loading && !data && (
         <StyledCenteredItemContainer>
           <LoaderIcon />
@@ -64,6 +68,12 @@ const StyledSortByContainer = styled.div`
 const StyledProductFetchList = styled.div`
   width: 100%;
   height: 100%;
+
+  ${({ $rowScroll }) =>
+    $rowScroll &&
+    `height: calc(2 * var(--product-list-padding-tb) + var(--product-item-min-size-minimized) + 3lh);
+    background-color: var(--col-white);
+    `}
 `;
 
 export default ProductFetchList;
