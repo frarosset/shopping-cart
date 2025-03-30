@@ -6,6 +6,7 @@ import ShopSectionMain from "./components/Shop/ShopSectionMain.jsx";
 import ShopCategoryMain from "./components/Shop/ShopCategoryMain.jsx";
 import SearchMain from "./components/Shop/SearchMain.jsx";
 import WishlistMain from "./components/Shop/WishlistMain.jsx";
+import HomeMain from "./components/Home/HomeMain.jsx";
 
 const routes = [
   {
@@ -13,7 +14,7 @@ const routes = [
     element: <App />,
     errorElement: <ErrorRedirect />,
     children: [
-      { index: true, element: <div>Home</div> },
+      { index: true, element: <HomeMain /> },
       { path: "/shop", element: <ShopMain /> },
       { path: "/shop/:section", element: <ShopSectionMain /> },
       { path: "/shop/c/:category", element: <ShopCategoryMain /> },

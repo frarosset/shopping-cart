@@ -63,6 +63,11 @@
   --footer-shop-name-font: var(--header-shop-name-font);
   --footer-shop-name-fontsize: var(--header-shop-name-fontsize);
 
+  /* home */
+  --home-shop-name-font: var(--header-shop-name-font);
+  --home-shop-name-fontsize: 13vmin;
+  --home-shop-padding-bottom: 5vh;
+
   /* heading */
   --heading-font: var(--highlight-font);
   --heading-size: 1rem;

@@ -42,6 +42,10 @@ const FullpageContainer = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
 
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
   & > main {
     flex: 1;
     width: 100%;
