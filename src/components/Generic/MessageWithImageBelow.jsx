@@ -15,6 +15,12 @@ const StyledMessageWithImageBelow = styled.p`
   justify-content: flex-start;
   height: 100%;
   width: 100%;
+  flex: 1;
+
+  *:has(&) {
+    display: flex;
+    flex-direction: column;
+  }
 
   &::after {
     content: "";
