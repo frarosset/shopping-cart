@@ -56,6 +56,13 @@
   --header-buttons-padding: 1rem min(1rem, 2.5vw);
   --header-buttons-fontsize: 1.2rem;
 
+  /* footer */
+  --footer-col: var(--col-txt-alt);
+  --footer-background: var(--col-black);
+
+  --footer-shop-name-font: var(--header-shop-name-font);
+  --footer-shop-name-fontsize: var(--header-shop-name-fontsize);
+
   /* heading */
   --heading-font: var(--highlight-font);
   --heading-size: 1rem;

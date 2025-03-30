@@ -69,7 +69,6 @@ const StyledNav = styled.nav`
 `;
 
 const StyledShopIcon = styled.span`
-  border: 2px solid var(--header-col);
   min-width: 1lh;
 `;
 
