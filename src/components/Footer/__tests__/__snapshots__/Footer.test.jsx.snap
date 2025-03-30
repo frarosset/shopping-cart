@@ -1,0 +1,350 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Footer > renders the footer correctly 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <footer>
+        <p>
+          DummyDeals
+        </p>
+        <p>
+          All You Need, Right Here
+        </p>
+        <div>
+          <p>
+            Product data provided by the
+            <a
+              href="https://dummyjson.com/docs/products"
+              target="_blank"
+            >
+              DummyJSON API (products endpoint)
+            </a>
+            . Background images are from
+            <a
+              href="https://www.freepik.com"
+              target="_blank"
+            >
+              Freepik
+            </a>
+            . Vector images are from
+            <a
+              href="https://www.vecteezy.com/free-vector/not-found"
+              target="_blank"
+            >
+              Vecteezy
+            </a>
+            . Icons are from
+            <a
+              href="https://phosphoricons.com/"
+              target="_blank"
+            >
+              Phosphor icons
+            </a>
+            . Spinner Icon is from
+            <a
+              href="https://github.com/n3r4zzurr0/svg-spinners"
+              target="_blank"
+            >
+              SVG Spinners Link
+            </a>
+            .
+          </p>
+        </div>
+        <footer
+          class="credit-footer "
+        >
+          <style>
+            
+    @import url('https://fonts.googleapis.com/css2?family=Bad Script:wght@400;700&family=Montserradt:wght@400;700&display=swap');
+
+    .credit-footer {
+      --color: rgb(30,30,30);
+      /*--bg-color: linear-gradient(0deg, rgb(235,235,235, 100%) 0%, rgb(235,235,235, 50%) 60%, rgb(235,235,235, 0%) 100%);;*/
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      width: 100%;
+      color: var(--color);
+      background: var(--bg-color);
+    }
+
+    .credit-footer.dark-theme {
+      --color: rgb(200,200,200);
+      --bg-color: linear-gradient(0deg, rgb(30,30,30, 100%) 0%, rgb(30,30,30, 50%) 60%, rgb(30,30,30, 0%) 100%);;
+    }
+
+    .credit-footer p {
+      color: inherit;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.3em;
+      font-family: Montserradt, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      text-align: center;
+      vertical-align: middle;
+      width: 100%;
+    }
+
+    .credit-footer a {
+      color: inherit;
+      font-family: Bad Script, monospace;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: inherit;
+      text-decoration: none;
+      vertical-align: middle;
+      /* transform-origin: left; */
+      /* if bold fontdace is not available */
+      text-shadow:-0.06ex 0 var(--color), 0.06ex 0 var(--color);
+    }
+
+    @supports (-webkit-text-stroke-width: 0.04ex) { /* 2017+, mobile 2022+ */
+      .credit-footer a { 
+        text-shadow: -0.03ex 0 0 var(--color), 0.03ex 0 0 var(--color);
+        -webkit-text-stroke-width: 0.04ex; 
+      }
+    } 
+
+    .credit-footer a:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 0.04ex var(--color));
+    }
+
+    .credit-footer a:active {
+      transform: scale(1)
+    }
+
+    .credit-footer svg {
+      display: initial;
+      font-size: 21px;
+      width: 21px;
+      line-height: 1;
+      vertical-align: top;
+      fill: var(--color);
+    }
+  
+          </style>
+          <p>
+            Created by
+            <a
+              href="https://github.com/frarosset"
+            >
+              F. Rosset 
+              <svg
+                viewBox="0 0 496 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
+                />
+              </svg>
+            </a>
+          </p>
+        </footer>
+      </footer>
+    </div>
+  </body>,
+  "container": <div>
+    <footer>
+      <p>
+        DummyDeals
+      </p>
+      <p>
+        All You Need, Right Here
+      </p>
+      <div>
+        <p>
+          Product data provided by the
+          <a
+            href="https://dummyjson.com/docs/products"
+            target="_blank"
+          >
+            DummyJSON API (products endpoint)
+          </a>
+          . Background images are from
+          <a
+            href="https://www.freepik.com"
+            target="_blank"
+          >
+            Freepik
+          </a>
+          . Vector images are from
+          <a
+            href="https://www.vecteezy.com/free-vector/not-found"
+            target="_blank"
+          >
+            Vecteezy
+          </a>
+          . Icons are from
+          <a
+            href="https://phosphoricons.com/"
+            target="_blank"
+          >
+            Phosphor icons
+          </a>
+          . Spinner Icon is from
+          <a
+            href="https://github.com/n3r4zzurr0/svg-spinners"
+            target="_blank"
+          >
+            SVG Spinners Link
+          </a>
+          .
+        </p>
+      </div>
+      <footer
+        class="credit-footer "
+      >
+        <style>
+          
+    @import url('https://fonts.googleapis.com/css2?family=Bad Script:wght@400;700&family=Montserradt:wght@400;700&display=swap');
+
+    .credit-footer {
+      --color: rgb(30,30,30);
+      /*--bg-color: linear-gradient(0deg, rgb(235,235,235, 100%) 0%, rgb(235,235,235, 50%) 60%, rgb(235,235,235, 0%) 100%);;*/
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      width: 100%;
+      color: var(--color);
+      background: var(--bg-color);
+    }
+
+    .credit-footer.dark-theme {
+      --color: rgb(200,200,200);
+      --bg-color: linear-gradient(0deg, rgb(30,30,30, 100%) 0%, rgb(30,30,30, 50%) 60%, rgb(30,30,30, 0%) 100%);;
+    }
+
+    .credit-footer p {
+      color: inherit;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.3em;
+      font-family: Montserradt, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      text-align: center;
+      vertical-align: middle;
+      width: 100%;
+    }
+
+    .credit-footer a {
+      color: inherit;
+      font-family: Bad Script, monospace;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: inherit;
+      text-decoration: none;
+      vertical-align: middle;
+      /* transform-origin: left; */
+      /* if bold fontdace is not available */
+      text-shadow:-0.06ex 0 var(--color), 0.06ex 0 var(--color);
+    }
+
+    @supports (-webkit-text-stroke-width: 0.04ex) { /* 2017+, mobile 2022+ */
+      .credit-footer a { 
+        text-shadow: -0.03ex 0 0 var(--color), 0.03ex 0 0 var(--color);
+        -webkit-text-stroke-width: 0.04ex; 
+      }
+    } 
+
+    .credit-footer a:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 0.04ex var(--color));
+    }
+
+    .credit-footer a:active {
+      transform: scale(1)
+    }
+
+    .credit-footer svg {
+      display: initial;
+      font-size: 21px;
+      width: 21px;
+      line-height: 1;
+      vertical-align: top;
+      fill: var(--color);
+    }
+  
+        </style>
+        <p>
+          Created by
+          <a
+            href="https://github.com/frarosset"
+          >
+            F. Rosset 
+            <svg
+              viewBox="0 0 496 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
+              />
+            </svg>
+          </a>
+        </p>
+      </footer>
+    </footer>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
