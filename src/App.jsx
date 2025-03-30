@@ -41,7 +41,6 @@ const FullpageContainer = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: var(--page-padding-tb);
 
   & > main {
     flex: 1;

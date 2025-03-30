@@ -86,7 +86,6 @@ const StyledProductList = styled(List)`
   ${({ $rowScroll }) =>
     $rowScroll
       ? `display: flex;
-         align-items: flex-start;
          background-color: var(--col-white);
          max-width: 100%;
          overflow: auto hidden;
@@ -110,6 +109,7 @@ const StyledProductList = styled(List)`
   padding: var(--product-list-padding);
   gap: var(--product-list-gap);
   width: 100%;
+  align-items: flex-start;
 
   li {
     display: flex;
