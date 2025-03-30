@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Header from "./components/Header/Header.jsx";
 import { HeadingLevelContextProvider } from "./contexts/HeadingLevelContext.jsx";
 import { SavedProductsContextProvider } from "./contexts/SavedProductsContext.jsx";
-import CreditFooter from "./components/CreditFooter.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 import styled from "styled-components";
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
           </HeadingLevelContextProvider>
         </SavedProductsContextProvider>
       </FullpageContainer>
-      <CreditFooter />
+      <Footer />
     </>
   );
 }

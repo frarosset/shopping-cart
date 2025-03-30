@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, afterEach } from "vitest";
+import { vi, describe, it, expect, afterEach, afterAll } from "vitest";
 import { render, screen } from "@testing-library/react";
 // import the following from "react-router" instead of "react-router-dom"
 // otherwise, among other problems, Outlets are not rendered
@@ -9,6 +9,8 @@ import data from "./assets/data.json";
 
 const sampleSection = Object.keys(data.sections)[0];
 const sampleCategory = Object.keys(data.categories)[0];
+
+window.scrollTo = vi.fn();
 
 const mockHeader = vi.fn();
 vi.mock("./components/Header/Header.jsx", () => ({
@@ -42,17 +44,21 @@ vi.mock("./components/Shop/ShopCategoryMain.jsx", () => ({
   },
 }));
 
-const mockCreditFooter = vi.fn();
-vi.mock("./components/CreditFooter.jsx", () => ({
+const mockFooter = vi.fn();
+vi.mock("./components/Footer/Footer.jsx", () => ({
   default: () => {
-    mockCreditFooter();
-    return <main data-testid="credit-footer">CreditFooter</main>;
+    mockFooter();
+    return <main data-testid="credit-footer">Footer</main>;
   },
 }));
 
 /* mocks are hoisted: reset them before each test */
 afterEach(() => {
   vi.resetAllMocks();
+});
+
+afterAll(() => {
+  vi.clearAllMocks();
 });
 
 const setupWithRoute = (initialEntry = "/") => {
@@ -72,13 +78,13 @@ describe("App", () => {
     setupWithRoute("/");
 
     const pageHeader = screen.getByTestId("page-header");
-    const creditFooter = screen.getByTestId("credit-footer");
+    const Footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
-    expect(creditFooter).toBeInTheDocument();
+    expect(Footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
-    expect(mockCreditFooter).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop page", () => {
@@ -86,15 +92,15 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopMain = screen.getByTestId("shop-main");
-    const creditFooter = screen.getByTestId("credit-footer");
+    const Footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopMain).toBeInTheDocument();
-    expect(creditFooter).toBeInTheDocument();
+    expect(Footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopMain).toHaveBeenCalledOnce();
-    expect(mockCreditFooter).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop/:section page", () => {
@@ -102,15 +108,15 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopSectionMain = screen.getByTestId("shop-section-main");
-    const creditFooter = screen.getByTestId("credit-footer");
+    const Footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopSectionMain).toBeInTheDocument();
-    expect(creditFooter).toBeInTheDocument();
+    expect(Footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopSectionMain).toHaveBeenCalledOnce();
-    expect(mockCreditFooter).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
   });
 
   it("correctly render the shop/c/:category page", () => {
@@ -118,14 +124,14 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopCategoryMain = screen.getByTestId("shop-category-main");
-    const creditFooter = screen.getByTestId("credit-footer");
+    const Footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopCategoryMain).toBeInTheDocument();
-    expect(creditFooter).toBeInTheDocument();
+    expect(Footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopCategoryMain).toHaveBeenCalledOnce();
-    expect(mockCreditFooter).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
   });
 });
