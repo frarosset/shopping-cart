@@ -1,3 +1,9 @@
+Home image by Freepik:
+
+- home.jpg by freepik
+
+  Link: https://www.freepik.com/free-ai-image/black-friday-shopping_355373530.htm
+
 Section images from Freepik:
 
 - electronics.jpg image by jannoon028 on Freepik
