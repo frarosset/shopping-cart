@@ -56,6 +56,8 @@
   --header-buttons-padding: 1rem min(1rem, 2.5vw);
   --header-buttons-fontsize: 1.2rem;
 
+  --header-height: calc(2 * var(--page-padding-tb) + 3lh);
+
   /* footer */
   --footer-col: var(--col-txt-alt);
   --footer-background: var(--col-black);

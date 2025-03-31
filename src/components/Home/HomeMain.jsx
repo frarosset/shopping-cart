@@ -6,8 +6,10 @@ function HomeMain() {
   return (
     <StyledMain>
       <StyledTitleContainer>
-        <StyledShopName>{data.shopName}</StyledShopName>
-        <StyledShopSlogan>{data.slogan}</StyledShopSlogan>
+        <StyledStickyTitleContainer>
+          <StyledShopName>{data.shopName}</StyledShopName>
+          <StyledShopSlogan>{data.slogan}</StyledShopSlogan>
+        </StyledStickyTitleContainer>
       </StyledTitleContainer>
       <StyledShopContainer>
         <Link to="/shop">SHOP NOW</Link>
@@ -19,16 +21,23 @@ function HomeMain() {
 const StyledMain = styled.main`
   width: 100%;
   height: 100%;
-  position: relative;
+  display: flex;
+  position: static;
+  flex-direction: column;
 `;
 
-const StyledTitleContainer = styled.div`
-  position: fixed;
+const StyledStickyTitleContainer = styled.div`
+  position: sticky;
+  top: var(--header-height);
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   color: var(--header-col);
+`;
+
+const StyledTitleContainer = styled.div`
+  flex: 1;
 `;
 
 const StyledShopName = styled.p`
@@ -50,8 +59,7 @@ const StyledShopContainer = styled.div`
   font-size: calc(0.45 * var(--home-shop-name-fontsize));
   text-align: center;
   width: 100%;
-  position: absolute;
-  bottom: var(--home-shop-padding-bottom);
+  padding: var(--home-shop-padding-bottom) 0;
 `;
 
 export default HomeMain;
