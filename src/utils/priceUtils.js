@@ -28,7 +28,22 @@ function getCartDiscountValue(cart) {
 }
 
 function getShippingFee(subtotal, baseShippingFee, freeShippingAt) {
-  return subtotal < freeShippingAt ? baseShippingFee : 0;
+  return subtotal && subtotal < freeShippingAt ? baseShippingFee : 0;
+}
+
+function getCartSummary(cart, baseShippingFee, freeShippingAt) {
+  const cartValue = getCartValue(cart);
+  const cartDiscountValue = getCartDiscountValue(cart);
+
+  const cartSubtotal = cartValue - cartDiscountValue;
+  const shippingFee = getShippingFee(
+    cartSubtotal,
+    baseShippingFee,
+    freeShippingAt
+  );
+  const cartTotal = cartSubtotal + shippingFee;
+
+  return { cartValue, cartDiscountValue, cartSubtotal, shippingFee, cartTotal };
 }
 
 export {
@@ -38,4 +53,5 @@ export {
   getDiscountValue,
   getCartDiscountValue,
   getShippingFee,
+  getCartSummary,
 };
