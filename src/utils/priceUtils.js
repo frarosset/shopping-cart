@@ -47,12 +47,18 @@ function getCartSummary(cart, baseShippingFee, freeShippingAt) {
   );
   const cartTotal = cartSubtotal + shippingFee;
 
+  const toAddForFreeShipping = getToAddForFreeShipping(
+    cartSubtotal,
+    freeShippingAt
+  );
+
   return {
     cartValue,
     cartDiscountValue,
     cartSubtotal,
     shippingFee,
     cartTotal,
+    toAddForFreeShipping,
   };
 }
 
