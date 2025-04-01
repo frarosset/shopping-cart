@@ -31,6 +31,10 @@ function getShippingFee(subtotal, baseShippingFee, freeShippingAt) {
   return subtotal && subtotal < freeShippingAt ? baseShippingFee : 0;
 }
 
+function getToAddForFreeShipping(subtotal, freeShippingAt) {
+  return subtotal < freeShippingAt ? freeShippingAt - subtotal : 0;
+}
+
 function getCartSummary(cart, baseShippingFee, freeShippingAt) {
   const cartValue = getCartValue(cart);
   const cartDiscountValue = getCartDiscountValue(cart);
@@ -43,7 +47,13 @@ function getCartSummary(cart, baseShippingFee, freeShippingAt) {
   );
   const cartTotal = cartSubtotal + shippingFee;
 
-  return { cartValue, cartDiscountValue, cartSubtotal, shippingFee, cartTotal };
+  return {
+    cartValue,
+    cartDiscountValue,
+    cartSubtotal,
+    shippingFee,
+    cartTotal,
+  };
 }
 
 export {
@@ -54,4 +64,5 @@ export {
   getCartDiscountValue,
   getShippingFee,
   getCartSummary,
+  getToAddForFreeShipping,
 };
