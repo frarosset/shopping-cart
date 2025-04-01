@@ -6,6 +6,7 @@ import {
   getCartValue,
   getCartDiscountValue,
   getShippingFee,
+  getCartSummary,
 } from "../priceUtils.js";
 
 const currency = "€";
@@ -27,6 +28,7 @@ const shippingFeeData = [
   { subtotal: freeShippingAt - 5, shippingFee: baseShippingFee },
   { subtotal: freeShippingAt, shippingFee: 0 },
   { subtotal: freeShippingAt + 5, shippingFee: 0 },
+  { subtotal: 0, shippingFee: 0 },
 ];
 
 const sampleCart = [
@@ -50,6 +52,9 @@ const sampleCart = [
 const sampleCartValue = 10 * 5 + 100 * 2 + 1000 * 1;
 const sampleCartDiscountValue =
   (10 * 5 * 20) / 100 + (100 * 2 * 75) / 100 + (1000 * 1 * 0) / 100;
+const sampleSubtotal = sampleCartValue - sampleCartDiscountValue;
+const sampleShippingFee = sampleSubtotal < freeShippingAt ? baseShippingFee : 0;
+const sampleTotal = sampleSubtotal + sampleShippingFee;
 
 describe("priceUtils", () => {
   describe("getPriceStr", () => {
@@ -121,6 +126,40 @@ describe("priceUtils", () => {
 
         expect(shippingFee).toBe(data.shippingFee);
       });
+    });
+  });
+
+  describe("getCartSummary", () => {
+    it("correctly computes the cart summary values when not-empty", () => {
+      const {
+        cartValue,
+        cartDiscountValue,
+        cartSubtotal,
+        shippingFee,
+        cartTotal,
+      } = getCartSummary(sampleCart, baseShippingFee, freeShippingAt);
+
+      expect(cartValue).toBe(sampleCartValue);
+      expect(cartDiscountValue).toBe(sampleCartDiscountValue);
+      expect(cartSubtotal).toBe(sampleSubtotal);
+      expect(shippingFee).toBe(sampleShippingFee);
+      expect(cartTotal).toBe(sampleTotal);
+    });
+
+    it("correctly computes the cart summary values when it is empty", () => {
+      const {
+        cartValue,
+        cartDiscountValue,
+        cartSubtotal,
+        shippingFee,
+        cartTotal,
+      } = getCartSummary([], baseShippingFee, freeShippingAt);
+
+      expect(cartValue).toBe(0);
+      expect(cartDiscountValue).toBe(0);
+      expect(cartSubtotal).toBe(0);
+      expect(shippingFee).toBe(0);
+      expect(cartTotal).toBe(0);
     });
   });
 });
