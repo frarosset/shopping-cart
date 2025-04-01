@@ -4,6 +4,7 @@ import {
   getDiscountedPrice,
   getDiscountValue,
   getCartValue,
+  getCartDiscountValue,
 } from "../priceUtils.js";
 
 const currency = "€";
@@ -38,6 +39,8 @@ const sampleCart = [
 ];
 
 const sampleCartValue = 10 * 5 + 100 * 2 + 1000 * 1;
+const sampleCartDiscountValue =
+  (10 * 5 * 20) / 100 + (100 * 2 * 75) / 100 + (1000 * 1 * 0) / 100;
 
 describe("priceUtils", () => {
   describe("getPriceStr", () => {
@@ -79,6 +82,20 @@ describe("priceUtils", () => {
 
     it("correctly computes the cart value when it is empty", () => {
       const cartSubtotal = getCartValue([]);
+
+      expect(cartSubtotal).toBe(0);
+    });
+  });
+
+  describe("getCartDiscountValue", () => {
+    it("correctly computes the cart discount value when not-empty", () => {
+      const cartSubtotal = getCartDiscountValue(sampleCart);
+
+      expect(cartSubtotal).toBe(sampleCartDiscountValue);
+    });
+
+    it("correctly computes the cart discount value when it is empty", () => {
+      const cartSubtotal = getCartDiscountValue([]);
 
       expect(cartSubtotal).toBe(0);
     });
