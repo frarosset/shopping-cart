@@ -45,7 +45,7 @@ const setup = (savedProducts = { wishlist: [] }) => {
   };
 };
 
-describe("ShopCategoryMain", () => {
+describe("WishlistMain", () => {
   it("renders a heading with the Wishlist text", () => {
     setup();
 
