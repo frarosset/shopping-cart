@@ -7,6 +7,7 @@ import ShopCategoryMain from "./components/Shop/ShopCategoryMain.jsx";
 import SearchMain from "./components/Shop/SearchMain.jsx";
 import WishlistMain from "./components/Shop/WishlistMain.jsx";
 import HomeMain from "./components/Home/HomeMain.jsx";
+import CartMain from "./components/Shop/CartMain.jsx";
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const routes = [
       { path: "/shop/p/:productId", element: <div>Product</div> },
       { path: "/search", element: <SearchMain /> },
       { path: "/wishlist", element: <WishlistMain /> },
+      { path: "/cart", element: <CartMain /> },
       { path: "/error", element: <ErrorPage /> },
     ],
   },
