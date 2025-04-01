@@ -14,7 +14,9 @@ function CartSummary({
     <HeadingLevelContextProvider>
       <div className={className}>
         <header>
-          <Heading>{`Summary (${cartItems} items)`}</Heading>
+          <Heading>{`Summary (${cartItems} item${
+            cartItems > 1 ? "s" : ""
+          })`}</Heading>
         </header>
         <table>
           <tbody>
