@@ -34,9 +34,9 @@ function Header({ className = "" }) {
         <Link aria-label="wishlist" to="/wishlist">
           <HeartIcon />
         </Link>
-        <button aria-label="cart">
+        <Link aria-label="cart" to="/cart">
           <CartIconWithText cartItems={cartItems} />
-        </button>
+        </Link>
       </StyledButtonContainer>
     </StyledHeader>
   );
