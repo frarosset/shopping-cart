@@ -7,6 +7,7 @@ import {
   getCartDiscountValue,
   getShippingFee,
   getCartSummary,
+  getToAddForFreeShipping,
 } from "../priceUtils.js";
 
 const currency = "€";
@@ -25,10 +26,14 @@ const discountPricesData = [
 const baseShippingFee = 6;
 const freeShippingAt = 10;
 const shippingFeeData = [
-  { subtotal: freeShippingAt - 5, shippingFee: baseShippingFee },
-  { subtotal: freeShippingAt, shippingFee: 0 },
-  { subtotal: freeShippingAt + 5, shippingFee: 0 },
-  { subtotal: 0, shippingFee: 0 },
+  {
+    subtotal: freeShippingAt - 5,
+    shippingFee: baseShippingFee,
+    toAddForFreeShipping: 5,
+  },
+  { subtotal: freeShippingAt, shippingFee: 0, toAddForFreeShipping: 0 },
+  { subtotal: freeShippingAt + 5, shippingFee: 0, toAddForFreeShipping: 0 },
+  { subtotal: 0, shippingFee: 0, toAddForFreeShipping: freeShippingAt },
 ];
 
 const sampleCart = [
@@ -125,6 +130,19 @@ describe("priceUtils", () => {
         );
 
         expect(shippingFee).toBe(data.shippingFee);
+      });
+    });
+  });
+
+  describe("getToAddForFreeShipping", () => {
+    it("correctly computes amount to add to get free shipping", () => {
+      shippingFeeData.forEach((data) => {
+        const toAddForFreeShipping = getToAddForFreeShipping(
+          data.subtotal,
+          freeShippingAt
+        );
+
+        expect(toAddForFreeShipping).toBe(data.toAddForFreeShipping);
       });
     });
   });
