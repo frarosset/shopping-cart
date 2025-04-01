@@ -70,7 +70,7 @@ describe("WishlistMain", () => {
     expect(linkToShopPage).toBeInTheDocument();
   });
 
-  it("renders an empty ..", async () => {
+  it("renders the wishlist items if the wishlist list is not empty", async () => {
     setup({ wishlist: [productData] });
 
     const productList = screen.getByTestId("__product-list__");
