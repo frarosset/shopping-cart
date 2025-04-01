@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   getPriceStr,
   getDiscountedPrice,
+  getDiscountValue,
   getCartValue,
 } from "../priceUtils.js";
 
@@ -14,8 +15,8 @@ const strPricesData = [
 ];
 
 const discountPricesData = [
-  { price: 10, discount: 0, discountedPrice: 10 },
-  { price: 10, discount: 25, discountedPrice: 7.5 },
+  { price: 10, discount: 0, discountedPrice: 10, discountValue: 0 },
+  { price: 10, discount: 25, discountedPrice: 7.5, discountValue: 2.5 },
 ];
 
 const sampleCart = [
@@ -55,6 +56,16 @@ describe("priceUtils", () => {
         const discountedPrice = getDiscountedPrice(data.price, data.discount);
 
         expect(discountedPrice).toBe(data.discountedPrice);
+      });
+    });
+  });
+
+  describe("getDiscount", () => {
+    it("correctly computes the discount", () => {
+      discountPricesData.forEach((data) => {
+        const discountValue = getDiscountValue(data.price, data.discount);
+
+        expect(discountValue).toBe(data.discountValue);
       });
     });
   });
