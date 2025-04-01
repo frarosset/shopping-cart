@@ -9,4 +9,9 @@ function getDiscountedPrice(price, discount) {
   return price * (1 - discount / 100);
 }
 
-export { getPriceStr, getDiscountedPrice };
+function getCartValue(cart) {
+  // Total value of the items in the cart (without disocunt applied)
+  return cart.reduce((tot, { price, inCart }) => tot + price * inCart, 0);
+}
+
+export { getPriceStr, getDiscountedPrice, getCartValue };
