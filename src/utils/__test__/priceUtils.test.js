@@ -5,6 +5,7 @@ import {
   getDiscountValue,
   getCartValue,
   getCartDiscountValue,
+  getShippingFee,
 } from "../priceUtils.js";
 
 const currency = "€";
@@ -18,6 +19,14 @@ const strPricesData = [
 const discountPricesData = [
   { price: 10, discount: 0, discountedPrice: 10, discountValue: 0 },
   { price: 10, discount: 25, discountedPrice: 7.5, discountValue: 2.5 },
+];
+
+const baseShippingFee = 6;
+const freeShippingAt = 10;
+const shippingFeeData = [
+  { subtotal: freeShippingAt - 5, shippingFee: baseShippingFee },
+  { subtotal: freeShippingAt, shippingFee: 0 },
+  { subtotal: freeShippingAt + 5, shippingFee: 0 },
 ];
 
 const sampleCart = [
@@ -98,6 +107,20 @@ describe("priceUtils", () => {
       const cartSubtotal = getCartDiscountValue([]);
 
       expect(cartSubtotal).toBe(0);
+    });
+  });
+
+  describe("getShippingFee", () => {
+    it("correctly computes the shipping fees", () => {
+      shippingFeeData.forEach((data) => {
+        const shippingFee = getShippingFee(
+          data.subtotal,
+          baseShippingFee,
+          freeShippingAt
+        );
+
+        expect(shippingFee).toBe(data.shippingFee);
+      });
     });
   });
 });
