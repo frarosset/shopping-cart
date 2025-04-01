@@ -18,4 +18,19 @@ function getCartValue(cart) {
   return cart.reduce((tot, { price, inCart }) => tot + price * inCart, 0);
 }
 
-export { getPriceStr, getDiscountedPrice, getCartValue, getDiscountValue };
+function getCartDiscountValue(cart) {
+  // Total discount value of the items in the cart
+  return cart.reduce(
+    (tot, { price, inCart, discountPercentage }) =>
+      tot + getDiscountValue(price, discountPercentage) * inCart,
+    0
+  );
+}
+
+export {
+  getPriceStr,
+  getDiscountedPrice,
+  getCartValue,
+  getDiscountValue,
+  getCartDiscountValue,
+};
