@@ -27,10 +27,15 @@ function getCartDiscountValue(cart) {
   );
 }
 
+function getShippingFee(subtotal, baseShippingFee, freeShippingAt) {
+  return subtotal < freeShippingAt ? baseShippingFee : 0;
+}
+
 export {
   getPriceStr,
   getDiscountedPrice,
   getCartValue,
   getDiscountValue,
   getCartDiscountValue,
+  getShippingFee,
 };
