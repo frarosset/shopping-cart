@@ -24,7 +24,9 @@ function CartSummary({
             </tr>
             <tr>
               <th>Discount</th>
-              <td>{getPriceStr(cartDiscountValue)}</td>
+              <td>
+                {cartDiscountValue ? getPriceStr(-cartDiscountValue) : "-"}
+              </td>
             </tr>
             <tr>
               <th>Shipping Fee</th>
