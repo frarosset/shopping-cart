@@ -60,6 +60,7 @@ const sampleCartDiscountValue =
 const sampleSubtotal = sampleCartValue - sampleCartDiscountValue;
 const sampleShippingFee = sampleSubtotal < freeShippingAt ? baseShippingFee : 0;
 const sampleTotal = sampleSubtotal + sampleShippingFee;
+const sampleToAddForFreeShipping = Math.max(freeShippingAt - sampleSubtotal, 0);
 
 describe("priceUtils", () => {
   describe("getPriceStr", () => {
@@ -155,6 +156,7 @@ describe("priceUtils", () => {
         cartSubtotal,
         shippingFee,
         cartTotal,
+        toAddForFreeShipping,
       } = getCartSummary(sampleCart, baseShippingFee, freeShippingAt);
 
       expect(cartValue).toBe(sampleCartValue);
@@ -162,6 +164,7 @@ describe("priceUtils", () => {
       expect(cartSubtotal).toBe(sampleSubtotal);
       expect(shippingFee).toBe(sampleShippingFee);
       expect(cartTotal).toBe(sampleTotal);
+      expect(toAddForFreeShipping).toBe(sampleToAddForFreeShipping);
     });
 
     it("correctly computes the cart summary values when it is empty", () => {
@@ -171,6 +174,7 @@ describe("priceUtils", () => {
         cartSubtotal,
         shippingFee,
         cartTotal,
+        toAddForFreeShipping,
       } = getCartSummary([], baseShippingFee, freeShippingAt);
 
       expect(cartValue).toBe(0);
@@ -178,6 +182,7 @@ describe("priceUtils", () => {
       expect(cartSubtotal).toBe(0);
       expect(shippingFee).toBe(0);
       expect(cartTotal).toBe(0);
+      expect(toAddForFreeShipping).toBe(freeShippingAt);
     });
   });
 });
