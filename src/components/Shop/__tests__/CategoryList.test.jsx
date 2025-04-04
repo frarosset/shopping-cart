@@ -15,7 +15,7 @@ vi.mock("../../Generic/List.jsx", { spy: true });
 const mockCategoryItem = vi.fn();
 vi.mock("../CategoryItem.jsx", () => ({
   default: (props) => {
-    mockCategoryItem(props);
+    mockCategoryItem(props.category);
     return <p data-testid="__category-item__">{props.category}</p>;
   },
 }));
@@ -46,6 +46,9 @@ describe("CategoryList", () => {
     const items = within(list).getAllByTestId("__category-item__");
 
     expect(mockCategoryItem).toHaveBeenCalledTimes(categoryList.length);
+    categoryList.forEach((itm, idx) => {
+      expect(mockCategoryItem).toHaveBeenNthCalledWith(idx + 1, itm);
+    });
     expect(items.length).toBe(categoryList.length);
   });
 });

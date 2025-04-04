@@ -18,7 +18,7 @@ vi.mock("../../Generic/List.jsx", { spy: true });
 const mockProductItem = vi.fn();
 vi.mock("../ProductItem.jsx", () => ({
   default: (props) => {
-    mockProductItem(props);
+    mockProductItem(props.productData);
     return <p data-testid="__product-item__">{props.productData.title}</p>;
   },
 }));
@@ -49,6 +49,9 @@ describe("ProductList", () => {
     const items = within(list).getAllByTestId("__product-item__");
 
     expect(mockProductItem).toHaveBeenCalledTimes(productDataList.length);
+    productDataList.forEach((itm, idx) => {
+      expect(mockProductItem).toHaveBeenNthCalledWith(idx + 1, itm);
+    });
     expect(items.length).toBe(productDataList.length);
   });
 });
