@@ -5,6 +5,8 @@
   "currency": "€",
   "maxRating": 5,
   "highlightDiscountsAt": 15,
+  "baseShippingFee": 6,
+  "freeShippingAt": 60,
   "availability": {
     "inStock": "In Stock",
     "lowStock": "Low Stock",
