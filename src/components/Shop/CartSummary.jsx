@@ -1,6 +1,7 @@
 import Heading from "../Generic/Heading.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 import { getPriceStr } from "../../utils/priceUtils.js";
+import styled from "styled-components";
 
 function CartSummary({
   cartItems,
@@ -12,37 +13,74 @@ function CartSummary({
 }) {
   return (
     <HeadingLevelContextProvider>
-      <div className={className}>
+      <StyledCartSummary className={className}>
         <header>
           <Heading>{`Summary (${cartItems} item${
             cartItems > 1 ? "s" : ""
           })`}</Heading>
         </header>
-        <table>
+        <StyledTable>
           <tbody>
-            <tr>
-              <th>Order Value</th>
-              <td>{getPriceStr(cartValue)}</td>
-            </tr>
-            <tr>
-              <th>Discount</th>
-              <td>
+            <StyledTr>
+              <StyledTh>Order Value</StyledTh>
+              <StyledTd>{getPriceStr(cartValue)}</StyledTd>
+            </StyledTr>
+            <StyledTr>
+              <StyledTh>Discount</StyledTh>
+              <StyledTd $highlight={true}>
                 {cartDiscountValue ? getPriceStr(-cartDiscountValue) : "-"}
-              </td>
-            </tr>
-            <tr>
-              <th>Shipping Fee</th>
-              <td>{shippingFee ? getPriceStr(shippingFee) : "FREE"}</td>
-            </tr>
-            <tr>
-              <th>TOTAL</th>
-              <td>{getPriceStr(cartTotal)}</td>
-            </tr>
+              </StyledTd>
+            </StyledTr>
+            <StyledTr>
+              <StyledTh>Shipping Fee</StyledTh>
+              <StyledTd>
+                {shippingFee ? getPriceStr(shippingFee) : "FREE"}
+              </StyledTd>
+            </StyledTr>
+            <StyledTr>
+              <StyledTh>TOTAL</StyledTh>
+              <StyledTd>{getPriceStr(cartTotal)}</StyledTd>
+            </StyledTr>
           </tbody>
-        </table>
-      </div>
+        </StyledTable>
+      </StyledCartSummary>
     </HeadingLevelContextProvider>
   );
 }
+
+const StyledCartSummary = styled.div`
+  width: 100%;
+  max-width: var(--cart-summary-max-width);
+`;
+
+const StyledTable = styled.table`
+  width: 100%;
+`;
+
+const StyledTr = styled.tr`
+  &:first-child > *,
+  &:last-child > * {
+    padding-top: var(--cart-summary-gap);
+  }
+
+  &:last-child > * {
+    font-weight: bold;
+    font-size: var(--cart-total-price-size);
+  }
+`;
+
+const StyledTh = styled.th`
+  text-align: left;
+  font-weight: normal;
+  padding-right: var(--small-gap);
+`;
+
+const StyledTd = styled.td`
+  font-family: var(--cart-price-font);
+  text-align: right;
+  font-weight: bold;
+
+  ${({ $highlight }) => $highlight && "color: var(--cart-price-highlight-col)"}
+`;
 
 export default CartSummary;

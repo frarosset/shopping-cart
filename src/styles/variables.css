@@ -107,6 +107,13 @@
   --product-tag-size: 0.8rem;
   --product-transition-duration: var(--transition-duration);
 
+  /* cart */
+  --cart-price-font: var(--product-price-font);
+  --cart-price-highlight-col: var(--col-highlight);
+  --cart-total-price-size: 1.3rem;
+  --cart-summary-max-width: 420px;
+  --cart-summary-gap: 1lh;
+
   /* product-list */
   --product-list-padding: var(--page-padding);
   --product-list-padding-tb: var(--page-padding-tb);
