@@ -7,6 +7,7 @@ import CartSummary from "./CartSummary.jsx";
 import { Link } from "react-router-dom";
 import data from "../../assets/data.json";
 import { getCartSummary } from "../../utils/priceUtils.js";
+import CartShippingFeeInfo from "./CartShippingFeeInfo.jsx";
 
 const baseShippingFee = data.baseShippingFee;
 const freeShippingAt = data.freeShippingAt;
@@ -24,11 +25,15 @@ function CartMain({ className = "" }) {
 
       {cart &&
         (cart.length > 0 ? (
-          <CartSummary {...{ ...cartSummaryData, cartItems }} />
+          <>
+            <CartShippingFeeInfo {...cartSummaryData} />
+            <CartSummary {...{ ...cartSummaryData, cartItems }} />
+          </>
         ) : (
           <MessageWithImageBelow imageUrl="/images/vector/empty-cart.jpg">
             Your cart is empty!
             <Link to="/shop">Go shopping now!</Link>
+            <CartShippingFeeInfo {...cartSummaryData} />
           </MessageWithImageBelow>
         ))}
     </StyledMain>
