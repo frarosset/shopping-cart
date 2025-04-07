@@ -103,13 +103,15 @@ const AvailabilityStatus = styled(
 
 const WishlistButton = styled(({ product, className = "" }) => {
   const { isInWishlist, dispatch } = useContext(SavedProductsContext);
+  const inWishlist = isInWishlist(product.id);
 
   return (
     <StyledWishlistButton
       className={className}
       onClick={() => dispatch({ type: "toggleWishlist", product })}
+      aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
     >
-      <HeartToggleIcon fill={isInWishlist(product.id)} />
+      <HeartToggleIcon fill={inWishlist} />
     </StyledWishlistButton>
   );
 })``;
@@ -124,6 +126,7 @@ const AddToCartButton = styled(({ product, className = "" }) => {
       className={className}
       onClick={() => dispatch({ type: "addToCart", product })}
       disabled={outOfStock}
+      aria-label="Add to cart"
     >
       <CartIcon />
     </StyledAddToCartButton>
