@@ -54,7 +54,7 @@ describe("StyledProductInfo", () => {
     it("correctly renders the component", () => {
       setup("WishlistButton");
 
-      const button = screen.getByRole("button");
+      const button = screen.getByRole("button", { name: "Add to wishlist" });
       const heartIcon = within(button).getByTestId("__heart-icon__");
 
       expect(mockHeartToggleIcon).toHaveBeenCalledExactlyOnceWith(false);
@@ -62,27 +62,22 @@ describe("StyledProductInfo", () => {
       expect(heartIcon).toBeInTheDocument();
     });
 
-    it("correctly adds the product to the wishlist", async () => {
+    it("correctly adds the product to the wishlist and removes it after having set it", async () => {
       const { user } = setup("WishlistButton");
 
-      const button = screen.getByRole("button");
+      const button = screen.getByRole("button", { name: "Add to wishlist" });
 
       await user.click(button);
 
-      expect(mockHeartToggleIcon).toHaveBeenCalledWith(true);
+      expect(mockHeartToggleIcon).toHaveBeenLastCalledWith(true);
       expect(button).toBeInTheDocument();
-    });
-
-    it("correctly removes the product from the wishlist after having set it", async () => {
-      const { user } = setup("WishlistButton");
-
-      const button = screen.getByRole("button");
+      expect(button.ariaLabel).toBe("Remove from wishlist");
 
       await user.click(button);
-      await user.click(button);
 
-      expect(mockHeartToggleIcon).toHaveBeenCalledWith(false);
+      expect(mockHeartToggleIcon).toHaveBeenLastCalledWith(false);
       expect(button).toBeInTheDocument();
+      expect(button.ariaLabel).toBe("Add to wishlist");
     });
   });
 
@@ -90,7 +85,7 @@ describe("StyledProductInfo", () => {
     it("correctly renders the component", () => {
       setup("AddToCartButton");
 
-      const button = screen.getByRole("button");
+      const button = screen.getByRole("button", { name: "Add to cart" });
       const cartIcon = within(button).getByTestId("__cart-icon__");
 
       expect(button).toBeInTheDocument();
@@ -100,7 +95,7 @@ describe("StyledProductInfo", () => {
     it("correctly adds a product to the cart", async () => {
       const { user } = setup("AddToCartButton");
 
-      const button = screen.getByRole("button");
+      const button = screen.getByRole("button", { name: "Add to cart" });
 
       await user.click(button);
 
