@@ -1,6 +1,10 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
-import { WishlistButton, AddToCartButton } from "../StyledProductInfo.jsx";
+import {
+  WishlistButton,
+  AddToCartButton,
+  EditInCartButton,
+} from "../StyledProductInfo.jsx";
 import SavedProductsContext from "../../../contexts/SavedProductsContext.jsx";
 import userEvent from "@testing-library/user-event";
 
@@ -24,6 +28,12 @@ vi.mock("../../Icons/CartIcon.jsx", () => ({
   },
 }));
 
+vi.mock("../../Icons/PlusIcon.jsx", () => ({
+  default: () => {
+    return <span data-testid="__plus-icon__">{"Plus icon"}</span>;
+  },
+}));
+
 const contextDispatch = vi.fn();
 
 /* mocks are hoisted: reset them before each test */
@@ -37,6 +47,8 @@ const getComponentToTest = (which) => {
       return <WishlistButton product={productInfo} />;
     case "AddToCartButton":
       return <AddToCartButton product={productInfo} />;
+    case "EditInCartButton":
+      return <EditInCartButton product={productInfo} />;
   }
 };
 
@@ -125,6 +137,7 @@ describe("StyledProductInfo", () => {
       const button = screen.getByRole("button", { name: "Add to cart" });
       const cartIcon = within(button).getByTestId("__cart-icon__");
 
+      expect(contextDispatch).not.toHaveBeenCalled();
       expect(button).toBeInTheDocument();
       expect(cartIcon).toBeInTheDocument();
     });
@@ -137,6 +150,7 @@ describe("StyledProductInfo", () => {
       const button = screen.getByRole("button", { name: "Add to cart" });
       const cartIcon = within(button).getByTestId("__cart-icon__");
 
+      expect(contextDispatch).not.toHaveBeenCalled();
       expect(button).toBeInTheDocument();
       expect(cartIcon).toBeInTheDocument();
       expect(button).toBeDisabled();
@@ -156,6 +170,41 @@ describe("StyledProductInfo", () => {
         type: "addToCart",
         product: productInfo,
       });
+    });
+  });
+
+  describe("EditInCartButton", () => {
+    it("correctly renders the component (when product not out of stock)", () => {
+      setup("EditInCartButton", {
+        outOfStock: false,
+      });
+
+      const button = screen.getByRole("button", {
+        name: "Add one item to cart",
+      });
+      const plusIcon = within(button).getByTestId("__plus-icon__");
+
+      expect(contextDispatch).not.toHaveBeenCalled();
+
+      expect(button).toBeInTheDocument();
+      expect(plusIcon).toBeInTheDocument();
+    });
+
+    it("correctly renders the component (when product not out of stock)", () => {
+      setup("EditInCartButton", {
+        outOfStock: true,
+      });
+
+      const addButton = screen.getByRole("button", {
+        name: "Add one item to cart",
+      });
+      const plusIcon = within(addButton).getByTestId("__plus-icon__");
+
+      expect(contextDispatch).not.toHaveBeenCalled();
+
+      expect(addButton).toBeInTheDocument();
+      expect(plusIcon).toBeInTheDocument();
+      expect(addButton).toBeDisabled();
     });
   });
 });
