@@ -27,15 +27,21 @@ afterEach(() => {
   vi.resetAllMocks();
 });
 
+const getComponentToTest = (which) => {
+  switch (which) {
+    case "WishlistButton":
+      return <WishlistButton product={productInfo} />;
+    case "AddToCartButton":
+      return <AddToCartButton product={productInfo} />;
+  }
+};
+
 const setup = (which = "") => {
   return {
     user: userEvent.setup(),
     ...render(
       <SavedProductsContextProvider>
-        {which == "WishlistButton" && <WishlistButton product={productInfo} />}
-        {which == "AddToCartButton" && (
-          <AddToCartButton product={productInfo} />
-        )}
+        {getComponentToTest(which)}
       </SavedProductsContextProvider>
     ),
   };
