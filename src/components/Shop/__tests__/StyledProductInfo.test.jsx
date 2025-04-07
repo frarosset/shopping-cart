@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { WishlistButton, AddToCartButton } from "../StyledProductInfo.jsx";
 import { SavedProductsContextProvider } from "../../../contexts/SavedProductsContext.jsx";
 import userEvent from "@testing-library/user-event";
@@ -10,15 +10,17 @@ const mockHeartToggleIcon = vi.fn();
 vi.mock("../../Icons/HeartToggleIcon.jsx", () => ({
   default: (props) => {
     mockHeartToggleIcon(props.fill);
-    return <span>{`Heart icon ${props.fill ? "fill" : ""}`}</span>;
+    return (
+      <span data-testid="__heart-icon__">{`Heart icon ${
+        props.fill ? "fill" : ""
+      }`}</span>
+    );
   },
 }));
 
-const mockCartIcon = vi.fn();
 vi.mock("../../Icons/CartIcon.jsx", () => ({
-  default: (props) => {
-    mockCartIcon();
-    return <span>{`Cart icon ${props.cartItems}`}</span>;
+  default: () => {
+    return <span data-testid="__cart-icon__">{"Cart icon"}</span>;
   },
 }));
 
@@ -53,9 +55,11 @@ describe("StyledProductInfo", () => {
       setup("WishlistButton");
 
       const button = screen.getByRole("button");
+      const heartIcon = within(button).getByTestId("__heart-icon__");
 
       expect(mockHeartToggleIcon).toHaveBeenCalledExactlyOnceWith(false);
       expect(button).toBeInTheDocument();
+      expect(heartIcon).toBeInTheDocument();
     });
 
     it("correctly adds the product to the wishlist", async () => {
@@ -87,9 +91,10 @@ describe("StyledProductInfo", () => {
       setup("AddToCartButton");
 
       const button = screen.getByRole("button");
+      const cartIcon = within(button).getByTestId("__cart-icon__");
 
-      expect(mockCartIcon).toHaveBeenCalled();
       expect(button).toBeInTheDocument();
+      expect(cartIcon).toBeInTheDocument();
     });
 
     it("correctly adds a product to the cart", async () => {
@@ -99,7 +104,6 @@ describe("StyledProductInfo", () => {
 
       await user.click(button);
 
-      expect(mockCartIcon).toHaveBeenCalled();
       expect(button).toBeInTheDocument();
     });
   });
