@@ -8,6 +8,9 @@ function Input({
   type,
   maxLength,
   placeholder,
+  min,
+  max,
+  step,
   ref,
 }) {
   return (
@@ -18,6 +21,9 @@ function Input({
       onChange={(e) => setValue(e.target.value)}
       type={type}
       maxLength={maxLength}
+      min={min}
+      max={max}
+      step={step}
       placeholder={placeholder}
       ref={ref}
     />
