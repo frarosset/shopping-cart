@@ -156,7 +156,7 @@ describe("StyledProductInfo", () => {
       expect(button).toBeDisabled();
     });
 
-    it("correctly adds a product to the cart", async () => {
+    it("can add a product to the cart  (when product not out of stock)", async () => {
       const { user } = setup("AddToCartButton", {
         outOfStock: false,
       });
@@ -174,7 +174,7 @@ describe("StyledProductInfo", () => {
   });
 
   describe("EditInCartButton", () => {
-    it("correctly renders the component (when product not out of stock)", () => {
+    it("correctly renders the component (when not out of stock)", () => {
       setup("EditInCartButton", {
         outOfStock: false,
       });
@@ -205,6 +205,24 @@ describe("StyledProductInfo", () => {
       expect(addButton).toBeInTheDocument();
       expect(plusIcon).toBeInTheDocument();
       expect(addButton).toBeDisabled();
+    });
+
+    it("can add a product to the cart  (when not out of stock)", async () => {
+      const { user } = setup("EditInCartButton", {
+        outOfStock: false,
+      });
+
+      const button = screen.getByRole("button", {
+        name: "Add one item to cart",
+      });
+
+      vi.resetAllMocks();
+      await user.click(button);
+
+      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+        type: "addToCart",
+        product: productInfo,
+      });
     });
   });
 });
