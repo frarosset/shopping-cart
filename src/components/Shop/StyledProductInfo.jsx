@@ -3,11 +3,10 @@ import styled from "styled-components";
 import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
 import CartIcon from "../Icons/CartIcon.jsx";
-import PlusIcon from "../Icons/PlusIcon.jsx";
-import MinusIcon from "../Icons/MinusIcon.jsx";
 import ClampedText from "../Generic/ClampedText.jsx";
 import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
+import CustomNumericInput from "../Form/CustomNumericInput.jsx";
 import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
 
 import { getDiscountedPrice, getPriceStr } from "../../utils/priceUtils.js";
@@ -136,26 +135,19 @@ const AddToCartButton = styled(({ product, className = "" }) => {
 })``;
 
 const EditInCartButton = styled(({ product, className = "" }) => {
-  const { isOutOfStock, inCart, dispatch } = useContext(SavedProductsContext);
-  const outOfStock = isOutOfStock(product);
+  const { inCart, dispatch } = useContext(SavedProductsContext);
 
   return (
-    <div className={className}>
-      <button
-        onClick={() => dispatch({ type: "pushFromCart", product })}
-        disabled={inCart(product.id) == 1}
-        aria-label="Remove one item from cart"
-      >
-        <MinusIcon />
-      </button>
-      <button
-        onClick={() => dispatch({ type: "addToCart", product })}
-        disabled={outOfStock}
-        aria-label="Add one item to cart"
-      >
-        <PlusIcon />
-      </button>
-    </div>
+    <CustomNumericInput
+      className={className}
+      value={inCart(product.id)}
+      min={1}
+      max={product.stock}
+      decrementValueCallback={() => dispatch({ type: "pushFromCart", product })}
+      incrementValueCallback={() => dispatch({ type: "addToCart", product })}
+      decrementAriaLabel={"Remove one item from cart"}
+      incrementAriaLabel={"Add one item to cart"}
+    />
   );
 })``;
 

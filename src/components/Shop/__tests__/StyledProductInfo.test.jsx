@@ -28,17 +28,43 @@ vi.mock("../../Icons/CartIcon.jsx", () => ({
   },
 }));
 
-vi.mock("../../Icons/PlusIcon.jsx", () => ({
-  default: () => {
-    return <span data-testid="__plus-icon__">{"Plus icon"}</span>;
+const mockCustomNumericInput = vi.fn();
+vi.mock("../../Form/CustomNumericInput.jsx", () => ({
+  default: (props) => {
+    // The component has already been tested.
+    // We just need to check that it is called with the correct props
+
+    // This is used to test that the correct non-function props are passed
+    mockCustomNumericInput({
+      value: props.value,
+      id: props.id,
+      min: props.min,
+      max: props.max,
+      decrementAriaLabel: props.decrementAriaLabel,
+      incrementAriaLabel: props.incrementAriaLabel,
+    });
+
+    // The function props are called during setup to ensure they are the correct ones
+    // As you will see from the test below, this means the dispatch function
+    // from the context has to be called properly
+    props.incrementValueCallback();
+    props.decrementValueCallback();
+
+    return <div>Mock CustomNumericInput</div>;
   },
 }));
 
-vi.mock("../../Icons/MinusIcon.jsx", () => ({
-  default: () => {
-    return <span data-testid="__minus-icon__">{"Minus icon"}</span>;
-  },
-}));
+const sampleEditInCartButtonData = {
+  min: 1,
+  max: productInfo.stock,
+  decrementAriaLabel: "Remove one item from cart",
+  incrementAriaLabel: "Add one item to cart",
+};
+
+const getSampleEditInCartButtonData = (val) => ({
+  value: val,
+  ...sampleEditInCartButtonData,
+});
 
 const contextDispatch = vi.fn();
 
@@ -185,102 +211,24 @@ describe("StyledProductInfo", () => {
   });
 
   describe("EditInCartButton", () => {
-    it("correctly renders the component (when not out of stock, at least two items in cart)", () => {
+    it("correctly renders the component", () => {
+      const inCart = 2;
+
       setup("EditInCartButton", {
-        outOfStock: false,
-        inCart: 2,
+        inCart: inCart,
       });
 
-      const addButton = screen.getByRole("button", {
-        name: "Add one item to cart",
-      });
-      const plusIcon = within(addButton).getByTestId("__plus-icon__");
+      expect(mockCustomNumericInput).toHaveBeenCalledExactlyOnceWith(
+        getSampleEditInCartButtonData(inCart)
+      );
+      expect(contextDispatch).toHaveBeenCalledTimes(2);
 
-      const removeButton = screen.getByRole("button", {
-        name: "Remove one item from cart",
-      });
-      const minusIcon = within(removeButton).getByTestId("__minus-icon__");
-
-      expect(contextDispatch).not.toHaveBeenCalled();
-
-      expect(addButton).toBeInTheDocument();
-      expect(plusIcon).toBeInTheDocument();
-      expect(addButton).not.toBeDisabled();
-
-      expect(removeButton).toBeInTheDocument();
-      expect(minusIcon).toBeInTheDocument();
-      expect(removeButton).not.toBeDisabled();
-    });
-
-    it("correctly renders the component (when product out of stock)", () => {
-      setup("EditInCartButton", {
-        outOfStock: true,
-        inCart: 2,
-      });
-
-      const addButton = screen.getByRole("button", {
-        name: "Add one item to cart",
-      });
-      const plusIcon = within(addButton).getByTestId("__plus-icon__");
-
-      expect(contextDispatch).not.toHaveBeenCalled();
-
-      expect(addButton).toBeInTheDocument();
-      expect(plusIcon).toBeInTheDocument();
-      expect(addButton).toBeDisabled();
-    });
-
-    it("correctly renders the component (when only one item in cart)", () => {
-      setup("EditInCartButton", {
-        outOfStock: false,
-        inCart: 1,
-      });
-
-      const removeButton = screen.getByRole("button", {
-        name: "Remove one item from cart",
-      });
-      const minusIcon = within(removeButton).getByTestId("__minus-icon__");
-
-      expect(contextDispatch).not.toHaveBeenCalled();
-
-      expect(removeButton).toBeInTheDocument();
-      expect(minusIcon).toBeInTheDocument();
-      expect(removeButton).toBeDisabled();
-    });
-
-    it("can add a product to the cart  (when not out of stock)", async () => {
-      const { user } = setup("EditInCartButton", {
-        outOfStock: false,
-        inCart: 2,
-      });
-
-      const button = screen.getByRole("button", {
-        name: "Add one item to cart",
-      });
-
-      vi.resetAllMocks();
-      await user.click(button);
-
-      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+      expect(contextDispatch).toHaveBeenNthCalledWith(1, {
         type: "addToCart",
         product: productInfo,
       });
-    });
 
-    it("can remove a product from the cart  (when at least two items in cart)", async () => {
-      const { user } = setup("EditInCartButton", {
-        outOfStock: false,
-        inCart: 2,
-      });
-
-      const button = screen.getByRole("button", {
-        name: "Remove one item from cart",
-      });
-
-      vi.resetAllMocks();
-      await user.click(button);
-
-      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+      expect(contextDispatch).toHaveBeenNthCalledWith(2, {
         type: "pushFromCart",
         product: productInfo,
       });
