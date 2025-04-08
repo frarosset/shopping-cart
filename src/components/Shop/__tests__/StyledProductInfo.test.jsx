@@ -34,6 +34,12 @@ vi.mock("../../Icons/PlusIcon.jsx", () => ({
   },
 }));
 
+vi.mock("../../Icons/MinusIcon.jsx", () => ({
+  default: () => {
+    return <span data-testid="__minus-icon__">{"Minus icon"}</span>;
+  },
+}));
+
 const contextDispatch = vi.fn();
 
 /* mocks are hoisted: reset them before each test */
@@ -52,7 +58,10 @@ const getComponentToTest = (which) => {
   }
 };
 
-const setup = (which = "", { inWishlist = false, outOfStock = false }) => {
+const setup = (
+  which = "",
+  { inWishlist = false, outOfStock = false, inCart = 1 }
+) => {
   return {
     user: userEvent.setup(),
     ...render(
@@ -60,6 +69,7 @@ const setup = (which = "", { inWishlist = false, outOfStock = false }) => {
         value={{
           isInWishlist: () => inWishlist,
           isOutOfStock: () => outOfStock,
+          inCart: () => inCart,
           dispatch: contextDispatch,
         }}
       >
@@ -140,6 +150,7 @@ describe("StyledProductInfo", () => {
       expect(contextDispatch).not.toHaveBeenCalled();
       expect(button).toBeInTheDocument();
       expect(cartIcon).toBeInTheDocument();
+      expect(button).not.toBeDisabled();
     });
 
     it("correctly renders the component (when product out of stock)", () => {
@@ -174,25 +185,37 @@ describe("StyledProductInfo", () => {
   });
 
   describe("EditInCartButton", () => {
-    it("correctly renders the component (when not out of stock)", () => {
+    it("correctly renders the component (when not out of stock, at least two items in cart)", () => {
       setup("EditInCartButton", {
         outOfStock: false,
+        inCart: 2,
       });
 
-      const button = screen.getByRole("button", {
+      const addButton = screen.getByRole("button", {
         name: "Add one item to cart",
       });
-      const plusIcon = within(button).getByTestId("__plus-icon__");
+      const plusIcon = within(addButton).getByTestId("__plus-icon__");
+
+      const removeButton = screen.getByRole("button", {
+        name: "Remove one item from cart",
+      });
+      const minusIcon = within(removeButton).getByTestId("__minus-icon__");
 
       expect(contextDispatch).not.toHaveBeenCalled();
 
-      expect(button).toBeInTheDocument();
+      expect(addButton).toBeInTheDocument();
       expect(plusIcon).toBeInTheDocument();
+      expect(addButton).not.toBeDisabled();
+
+      expect(removeButton).toBeInTheDocument();
+      expect(minusIcon).toBeInTheDocument();
+      expect(removeButton).not.toBeDisabled();
     });
 
-    it("correctly renders the component (when product not out of stock)", () => {
+    it("correctly renders the component (when product out of stock)", () => {
       setup("EditInCartButton", {
         outOfStock: true,
+        inCart: 2,
       });
 
       const addButton = screen.getByRole("button", {
@@ -207,9 +230,28 @@ describe("StyledProductInfo", () => {
       expect(addButton).toBeDisabled();
     });
 
+    it("correctly renders the component (when only one item in cart)", () => {
+      setup("EditInCartButton", {
+        outOfStock: false,
+        inCart: 1,
+      });
+
+      const removeButton = screen.getByRole("button", {
+        name: "Remove one item from cart",
+      });
+      const minusIcon = within(removeButton).getByTestId("__minus-icon__");
+
+      expect(contextDispatch).not.toHaveBeenCalled();
+
+      expect(removeButton).toBeInTheDocument();
+      expect(minusIcon).toBeInTheDocument();
+      expect(removeButton).toBeDisabled();
+    });
+
     it("can add a product to the cart  (when not out of stock)", async () => {
       const { user } = setup("EditInCartButton", {
         outOfStock: false,
+        inCart: 2,
       });
 
       const button = screen.getByRole("button", {
