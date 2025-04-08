@@ -135,12 +135,16 @@ const AddToCartButton = styled(({ product, className = "" }) => {
 })``;
 
 const EditInCartButton = styled(({ product, className = "" }) => {
-  const { isOutOfStock } = useContext(SavedProductsContext);
+  const { isOutOfStock, dispatch } = useContext(SavedProductsContext);
   const outOfStock = isOutOfStock(product);
 
   return (
     <div className={className}>
-      <button disabled={outOfStock} aria-label="Add one item to cart">
+      <button
+        onClick={() => dispatch({ type: "addToCart", product })}
+        disabled={outOfStock}
+        aria-label="Add one item to cart"
+      >
         <PlusIcon />
       </button>
     </div>
