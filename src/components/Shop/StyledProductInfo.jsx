@@ -4,6 +4,7 @@ import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
 import CartIcon from "../Icons/CartIcon.jsx";
 import PlusIcon from "../Icons/PlusIcon.jsx";
+import MinusIcon from "../Icons/MinusIcon.jsx";
 import ClampedText from "../Generic/ClampedText.jsx";
 import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
@@ -135,11 +136,17 @@ const AddToCartButton = styled(({ product, className = "" }) => {
 })``;
 
 const EditInCartButton = styled(({ product, className = "" }) => {
-  const { isOutOfStock, dispatch } = useContext(SavedProductsContext);
+  const { isOutOfStock, inCart, dispatch } = useContext(SavedProductsContext);
   const outOfStock = isOutOfStock(product);
 
   return (
     <div className={className}>
+      <button
+        disabled={inCart(product.id) == 1}
+        aria-label="Remove one item from cart"
+      >
+        <MinusIcon />
+      </button>
       <button
         onClick={() => dispatch({ type: "addToCart", product })}
         disabled={outOfStock}
