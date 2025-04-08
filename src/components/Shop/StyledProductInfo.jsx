@@ -142,6 +142,7 @@ const EditInCartButton = styled(({ product, className = "" }) => {
   return (
     <div className={className}>
       <button
+        onClick={() => dispatch({ type: "pushFromCart", product })}
         disabled={inCart(product.id) == 1}
         aria-label="Remove one item from cart"
       >
