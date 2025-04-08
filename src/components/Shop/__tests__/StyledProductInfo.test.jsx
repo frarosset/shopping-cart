@@ -266,5 +266,24 @@ describe("StyledProductInfo", () => {
         product: productInfo,
       });
     });
+
+    it("can remove a product from the cart  (when at least two items in cart)", async () => {
+      const { user } = setup("EditInCartButton", {
+        outOfStock: false,
+        inCart: 2,
+      });
+
+      const button = screen.getByRole("button", {
+        name: "Remove one item from cart",
+      });
+
+      vi.resetAllMocks();
+      await user.click(button);
+
+      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+        type: "pushFromCart",
+        product: productInfo,
+      });
+    });
   });
 });
