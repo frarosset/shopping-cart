@@ -3,6 +3,7 @@ import styled from "styled-components";
 import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
 import CartIcon from "../Icons/CartIcon.jsx";
+import PlusIcon from "../Icons/PlusIcon.jsx";
 import ClampedText from "../Generic/ClampedText.jsx";
 import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
@@ -133,6 +134,19 @@ const AddToCartButton = styled(({ product, className = "" }) => {
   );
 })``;
 
+const EditInCartButton = styled(({ product, className = "" }) => {
+  const { isOutOfStock } = useContext(SavedProductsContext);
+  const outOfStock = isOutOfStock(product);
+
+  return (
+    <div className={className}>
+      <button disabled={outOfStock} aria-label="Add one item to cart">
+        <PlusIcon />
+      </button>
+    </div>
+  );
+})``;
+
 const StyledWishlistButton = styled.button`
   font-size: 1lh;
   padding: 0;
@@ -219,4 +233,5 @@ export {
   StyledRowContainer,
   WishlistButton,
   AddToCartButton,
+  EditInCartButton,
 };
