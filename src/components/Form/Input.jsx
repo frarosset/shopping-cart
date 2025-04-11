@@ -32,6 +32,7 @@ function Input({
   step,
   ref,
   setOnBlur = false,
+  ariaLabel,
 }) {
   return (
     <StyledInput
@@ -66,6 +67,7 @@ function Input({
       step={step}
       placeholder={placeholder}
       ref={ref}
+      aria-label={ariaLabel}
     />
   );
 }
