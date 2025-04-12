@@ -8,10 +8,12 @@ const mockDecrementValueCallback = vi.fn();
 const mockIncrementValueCallback = vi.fn();
 
 const sampleData = {
+  id: "componentId",
   min: 1,
-  max: 5,
+  max: 100,
   decrementValueCallback: mockDecrementValueCallback,
   incrementValueCallback: mockIncrementValueCallback,
+  inputAriaLabel: "Set Value Aria Label",
   decrementAriaLabel: "Decrement Value Aria Label",
   incrementAriaLabel: "Increment Value Aria Label",
 };
@@ -58,11 +60,17 @@ const getElements = () => {
   });
   const minusIcon = within(decrementButton).getByTestId("__minus-icon__");
 
+  // spinbutton = input with type="numeric"
+  const numericInput = screen.getByRole("spinbutton", {
+    name: sampleData.inputAriaLabel,
+  });
+
   return {
     incrementButton,
     plusIcon,
     decrementButton,
     minusIcon,
+    numericInput,
   };
 };
 
@@ -79,6 +87,9 @@ describe("CustomNumericInput", () => {
     expect(el.decrementButton).toBeInTheDocument();
     expect(el.minusIcon).toBeInTheDocument();
     expect(el.decrementButton).not.toBeDisabled();
+
+    expect(el.numericInput).toBeInTheDocument();
+    expect(el.numericInput.value).toBe(String(validValue));
   });
 
   it("correctly renders the component (when at lower limit)", () => {
@@ -93,6 +104,9 @@ describe("CustomNumericInput", () => {
     expect(el.decrementButton).toBeInTheDocument();
     expect(el.minusIcon).toBeInTheDocument();
     expect(el.decrementButton).toBeDisabled();
+
+    expect(el.numericInput).toBeInTheDocument();
+    expect(el.numericInput.value).toBe(String(sampleData.min));
   });
 
   it("correctly renders the component (when at upper limit)", () => {
@@ -107,6 +121,9 @@ describe("CustomNumericInput", () => {
     expect(el.decrementButton).toBeInTheDocument();
     expect(el.minusIcon).toBeInTheDocument();
     expect(el.decrementButton).not.toBeDisabled();
+
+    expect(el.numericInput).toBeInTheDocument();
+    expect(el.numericInput.value).toBe(String(sampleData.max));
   });
 
   it("can increment the value (when min <= value < max)", async () => {
