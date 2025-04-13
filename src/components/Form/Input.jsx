@@ -44,14 +44,18 @@ function Input({
       onInput={
         !setOnBlur
           ? (e) => {
-              setValue(e.target.value);
+              setValue(
+                type == "number" ? Number(e.target.value) : e.target.value
+              );
             }
           : undefined
       }
       onBlur={
         setOnBlur
           ? (e) => {
-              setValue(e.target.value);
+              setValue(
+                type == "number" ? Number(e.target.value) : e.target.value
+              );
             }
           : undefined
       }
