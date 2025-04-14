@@ -186,7 +186,7 @@ describe("CustomNumericInput", () => {
     // For simplicity, in the following test the input has been cleared before setting a new value
     // and the blurring has been achieved by pressing Enter
 
-    it(`can set the specified value (when min < value < max, onBlur)`, async () => {
+    it(`can set the specified value (when min <= value <= max, onBlur)`, async () => {
       const { user } = setup(validValue);
 
       const el = getElements();
@@ -202,7 +202,7 @@ describe("CustomNumericInput", () => {
       expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(typedValue);
     });
 
-    it(`can set the specified value rounding it to the nearest integer (when min < value < max, fractional value, onBlur)`, async () => {
+    it(`rounds the value to set to the nearest integer (when min <= value <= max, fractional value, onBlur)`, async () => {
       const { user } = setup(validValue);
 
       const el = getElements();
@@ -241,6 +241,36 @@ describe("CustomNumericInput", () => {
       );
       expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(
         Math.round(typedFractRoundDownValue)
+      );
+    });
+
+    it(`clips the value to set out of bound (when value < min OR value > max, onBlur)`, async () => {
+      const { user } = setup(validValue);
+
+      const el = getElements();
+
+      vi.resetAllMocks();
+      await user.clear(el.numericInput);
+      await user.type(el.numericInput, String(sampleData.min - 1) + "[Enter]");
+
+      // see above
+      el.updateReferenceOfNumericInput();
+
+      expect(el.numericInput.value).toBe(String(sampleData.min));
+      expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(
+        sampleData.min
+      );
+
+      vi.resetAllMocks();
+      await user.clear(el.numericInput);
+      await user.type(el.numericInput, String(sampleData.max + 10) + "[Enter]");
+
+      // see above
+      el.updateReferenceOfNumericInput();
+
+      expect(el.numericInput.value).toBe(String(Math.round(sampleData.max)));
+      expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(
+        Math.round(sampleData.max)
       );
     });
   });
