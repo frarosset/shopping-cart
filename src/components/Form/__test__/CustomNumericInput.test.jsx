@@ -11,6 +11,7 @@ const sampleData = {
   id: "componentId",
   min: 1,
   max: 100,
+  setValueCallback: mockSetValueCallback,
   decrementValueCallback: mockDecrementValueCallback,
   incrementValueCallback: mockIncrementValueCallback,
   inputAriaLabel: "Set Value Aria Label",
@@ -24,6 +25,7 @@ const getSampleData = (val) => ({
 });
 
 const validValue = 3; // min < validValue < max
+const typedValue = 9; // min < validValue < max
 
 vi.mock("../../Icons/PlusIcon.jsx", () => ({
   default: () => {
@@ -126,29 +128,56 @@ describe("CustomNumericInput", () => {
     expect(el.numericInput.value).toBe(String(sampleData.max));
   });
 
-  it("can increment the value (when min <= value < max)", async () => {
-    const { user } = setup(validValue);
+  describe("increment button", () => {
+    it("can increment the value (when min <= value < max)", async () => {
+      const { user } = setup(validValue);
 
-    const el = getElements();
+      const el = getElements();
 
-    vi.resetAllMocks();
-    await user.click(el.incrementButton);
+      vi.resetAllMocks();
+      await user.click(el.incrementButton);
 
-    expect(mockSetValueCallback).not.toHaveBeenCalled();
-    expect(mockDecrementValueCallback).not.toHaveBeenCalled();
-    expect(mockIncrementValueCallback).toHaveBeenCalledOnce();
+      expect(mockDecrementValueCallback).not.toHaveBeenCalled();
+      expect(mockIncrementValueCallback).toHaveBeenCalledOnce();
+      expect(mockSetValueCallback).not.toHaveBeenCalled();
+    });
   });
 
-  it("can decrement the value (when min < value <= max)", async () => {
-    const { user } = setup(validValue);
+  describe("decrement button", () => {
+    it("can decrement the value (when min < value <= max)", async () => {
+      const { user } = setup(validValue);
 
-    const el = getElements();
+      const el = getElements();
 
-    vi.resetAllMocks();
-    await user.click(el.decrementButton);
+      vi.resetAllMocks();
+      await user.click(el.decrementButton);
 
-    expect(mockSetValueCallback).not.toHaveBeenCalled();
-    expect(mockDecrementValueCallback).toHaveBeenCalledOnce();
-    expect(mockIncrementValueCallback).not.toHaveBeenCalled();
+      expect(mockDecrementValueCallback).toHaveBeenCalledOnce();
+      expect(mockIncrementValueCallback).not.toHaveBeenCalled();
+      expect(mockSetValueCallback).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("numeric input", () => {
+    // The Input component behaviour has already been tested.
+    // In this component, the Input component is rendered with the setOnBlur prop set to true
+    // For simplicity, in the following test the input has been cleared before setting a new value
+    // and the blurring has been achieved by pressing Enter
+
+    it(`can set the specified value (when min < value < max, onBlur)`, async () => {
+      const { user } = setup(validValue);
+
+      const el = getElements();
+
+      vi.resetAllMocks();
+      await user.clear(el.numericInput);
+      await user.type(el.numericInput, String(typedValue) + "[Enter]");
+
+      expect(mockDecrementValueCallback).not.toHaveBeenCalled();
+      expect(mockIncrementValueCallback).not.toHaveBeenCalled();
+
+      expect(el.numericInput.value).toBe(String(typedValue));
+      expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(typedValue);
+    });
   });
 });
