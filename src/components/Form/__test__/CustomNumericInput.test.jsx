@@ -1,5 +1,6 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
+import { useState } from "react";
 import CustomNumericInput from "../CustomNumericInput.jsx";
 import userEvent from "@testing-library/user-event";
 
@@ -11,7 +12,6 @@ const sampleData = {
   id: "componentId",
   min: 1,
   max: 100,
-  setValueCallback: mockSetValueCallback,
   decrementValueCallback: mockDecrementValueCallback,
   incrementValueCallback: mockIncrementValueCallback,
   inputAriaLabel: "Set Value Aria Label",
@@ -19,13 +19,16 @@ const sampleData = {
   incrementAriaLabel: "Increment Value Aria Label",
 };
 
-const getSampleData = (val) => ({
+const getSampleData = (val, setValueCallback) => ({
   value: val,
+  setValueCallback: setValueCallback,
   ...sampleData,
 });
 
 const validValue = 3; // min < validValue < max
 const typedValue = 9; // min < validValue < max
+const typedFractRoundUpValue = 9.7; // min < validValue < max
+const typedFractRoundDownValue = 9.3; // min < validValue < max
 
 vi.mock("../../Icons/PlusIcon.jsx", () => ({
   default: () => {
@@ -44,10 +47,20 @@ afterEach(() => {
   vi.resetAllMocks();
 });
 
-const setup = (value) => {
+const setup = (initialValue) => {
+  const Wrapper = () => {
+    const [value, setValue] = useState(initialValue);
+    const setValueCallback = (val) => {
+      mockSetValueCallback(val);
+      setValue(val);
+    };
+
+    return <CustomNumericInput {...getSampleData(value, setValueCallback)} />;
+  };
+
   return {
     user: userEvent.setup(),
-    ...render(<CustomNumericInput {...getSampleData(value)} />),
+    ...render(<Wrapper />),
   };
 };
 
@@ -63,17 +76,26 @@ const getElements = () => {
   const minusIcon = within(decrementButton).getByTestId("__minus-icon__");
 
   // spinbutton = input with type="numeric"
-  const numericInput = screen.getByRole("spinbutton", {
-    name: sampleData.inputAriaLabel,
-  });
+  const getNumericInput = () =>
+    screen.getByRole("spinbutton", {
+      name: sampleData.inputAriaLabel,
+    });
 
-  return {
+  const numericInput = getNumericInput();
+
+  const el = {
     incrementButton,
     plusIcon,
     decrementButton,
     minusIcon,
     numericInput,
+    updateReferenceOfNumericInput: function () {
+      // useful if the component is unmounted and mounted again (see below)
+      this.numericInput = getNumericInput();
+    },
   };
+
+  return el;
 };
 
 describe("CustomNumericInput", () => {
@@ -178,6 +200,48 @@ describe("CustomNumericInput", () => {
 
       expect(el.numericInput.value).toBe(String(typedValue));
       expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(typedValue);
+    });
+
+    it(`can set the specified value rounding it to the nearest integer (when min < value < max, fractional value, onBlur)`, async () => {
+      const { user } = setup(validValue);
+
+      const el = getElements();
+
+      vi.resetAllMocks();
+      await user.clear(el.numericInput);
+      await user.type(
+        el.numericInput,
+        String(typedFractRoundUpValue) + "[Enter]"
+      );
+
+      // get again the input element (the Input component is
+      // unmounted at each value change if setOnBlur prop is true
+      // and the value changes)
+      el.updateReferenceOfNumericInput();
+
+      expect(el.numericInput.value).toBe(
+        String(Math.round(typedFractRoundUpValue))
+      );
+      expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(
+        Math.round(typedFractRoundUpValue)
+      );
+
+      vi.resetAllMocks();
+      await user.clear(el.numericInput);
+      await user.type(
+        el.numericInput,
+        String(typedFractRoundDownValue) + "[Enter]"
+      );
+
+      // see above
+      el.updateReferenceOfNumericInput();
+
+      expect(el.numericInput.value).toBe(
+        String(Math.round(typedFractRoundDownValue))
+      );
+      expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(
+        Math.round(typedFractRoundDownValue)
+      );
     });
   });
 });
