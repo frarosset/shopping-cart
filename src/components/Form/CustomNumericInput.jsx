@@ -11,6 +11,7 @@ function CustomNumericInput({
   value,
   min,
   max,
+  setValueCallback,
   decrementValueCallback,
   incrementValueCallback,
   inputAriaLabel,
@@ -32,6 +33,7 @@ function CustomNumericInput({
         name={name}
         type="number"
         value={value}
+        setValue={setValueCallback}
         min={min}
         max={max}
         step={step}
