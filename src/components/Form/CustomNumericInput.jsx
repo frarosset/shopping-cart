@@ -34,7 +34,7 @@ function CustomNumericInput({
         type="number"
         value={value}
         setValue={(val) => {
-          const valToSet = Math.round(val);
+          const valToSet = Math.round(Math.max(Math.min(val, max), min));
           setValueCallback(valToSet);
         }}
         min={min}
