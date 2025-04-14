@@ -33,7 +33,10 @@ function CustomNumericInput({
         name={name}
         type="number"
         value={value}
-        setValue={setValueCallback}
+        setValue={(val) => {
+          const valToSet = Math.round(val);
+          setValueCallback(valToSet);
+        }}
         min={min}
         max={max}
         step={step}
