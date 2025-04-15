@@ -19,6 +19,7 @@ const productData = {
 
 const mockWishlistButton = vi.fn();
 const mockEditItemsInCart = vi.fn();
+const mockRemoveFromCartButton = vi.fn();
 vi.mock("../StyledProductInfo.jsx", async () => {
   const actual = await vi.importActual("../StyledProductInfo.jsx");
   return {
@@ -30,6 +31,10 @@ vi.mock("../StyledProductInfo.jsx", async () => {
     EditItemsInCart: (props) => {
       mockEditItemsInCart(props.product);
       return <button>EditItemsInCart</button>;
+    },
+    RemoveFromCartButton: (props) => {
+      mockRemoveFromCartButton(props.product);
+      return <button>RemoveFromCart</button>;
     },
   };
 });
@@ -105,6 +110,19 @@ describe("CartProductItem", () => {
 
     expect(mockEditItemsInCart).toHaveBeenCalledExactlyOnceWith(productData);
     expect(editItemsInCart).toBeInTheDocument();
+  });
+
+  it("renders button to remove the product from the cart", () => {
+    setup();
+
+    const removeFromCartButton = screen.queryByRole("button", {
+      name: "RemoveFromCart",
+    });
+
+    expect(mockRemoveFromCartButton).toHaveBeenCalledExactlyOnceWith(
+      productData
+    );
+    expect(removeFromCartButton).toBeInTheDocument();
   });
 
   it("renders the price of the product", () => {
