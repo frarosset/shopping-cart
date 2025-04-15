@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import CartMain from "../CartMain.jsx";
 import { MemoryRouter } from "react-router";
 import { HeadingLevelContextProvider } from "../../../contexts/HeadingLevelContext.jsx";
@@ -77,6 +77,14 @@ vi.mock("../CartProductList.jsx", () => ({
   },
 }));
 
+vi.mock("../../Icons/CashRegisterIcon.jsx", () => ({
+  default: () => {
+    return (
+      <span data-testid="__cash-register-icon__">{"Cash register icon"}</span>
+    );
+  },
+}));
+
 /* mocks are hoisted: reset them before each test */
 afterEach(() => {
   vi.resetAllMocks();
@@ -111,6 +119,11 @@ const getElements = () => {
     "__cart-to-add-for-free-shipping__"
   );
   const cartProductList = screen.queryByTestId("__cart-product-list__");
+  const checkoutButton = screen.queryByRole("button", { name: "Checkout" });
+
+  const cashRegisterIcon = checkoutButton
+    ? within(checkoutButton).queryByTestId("__cash-register-icon__")
+    : screen.queryByTestId("__cash-register-icon__");
 
   return {
     emptyText,
@@ -118,6 +131,8 @@ const getElements = () => {
     cartSummary,
     cartShippingFeeInfo,
     cartProductList,
+    checkoutButton,
+    cashRegisterIcon,
   };
 };
 
@@ -148,6 +163,8 @@ describe("CartMain", () => {
     expect(el.cartSummary).not.toBeInTheDocument();
     expect(el.cartShippingFeeInfo).toBeInTheDocument();
     expect(el.cartProductList).not.toBeInTheDocument();
+    expect(el.checkoutButton).not.toBeInTheDocument();
+    expect(el.cashRegisterIcon).not.toBeInTheDocument();
   });
 
   it("renders a summary of the order costs when not-empty cart", () => {
@@ -169,5 +186,7 @@ describe("CartMain", () => {
     expect(el.cartSummary).toBeInTheDocument();
     expect(el.cartShippingFeeInfo).toBeInTheDocument();
     expect(el.cartProductList).toBeInTheDocument();
+    expect(el.checkoutButton).toBeInTheDocument();
+    expect(el.cashRegisterIcon).toBeInTheDocument();
   });
 });
