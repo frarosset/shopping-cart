@@ -3,7 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import {
   WishlistButton,
   AddToCartButton,
-  EditInCartButton,
+  EditItemsInCart,
 } from "../StyledProductInfo.jsx";
 import SavedProductsContext from "../../../contexts/SavedProductsContext.jsx";
 import userEvent from "@testing-library/user-event";
@@ -57,7 +57,7 @@ vi.mock("../../Form/CustomNumericInput.jsx", () => ({
   },
 }));
 
-const sampleEditInCartButtonData = {
+const sampleEditItemsInCartData = {
   id: "itemsInCartInput-#1", // 1: product id
   min: 1,
   max: productInfo.stock,
@@ -66,9 +66,9 @@ const sampleEditInCartButtonData = {
   incrementAriaLabel: "Add one item to cart",
 };
 
-const getSampleEditInCartButtonData = (val) => ({
+const getSampleEditItemsInCartData = (val) => ({
   value: val,
-  ...sampleEditInCartButtonData,
+  ...sampleEditItemsInCartData,
 });
 
 const contextDispatch = vi.fn();
@@ -84,8 +84,8 @@ const getComponentToTest = (which) => {
       return <WishlistButton product={productInfo} />;
     case "AddToCartButton":
       return <AddToCartButton product={productInfo} />;
-    case "EditInCartButton":
-      return <EditInCartButton product={productInfo} />;
+    case "EditItemsInCart":
+      return <EditItemsInCart product={productInfo} />;
   }
 };
 
@@ -215,18 +215,18 @@ describe("StyledProductInfo", () => {
     });
   });
 
-  describe("EditInCartButton", () => {
+  describe("EditItemsInCart", () => {
     it("correctly renders the component", () => {
       const inCart = 2;
 
-      setup("EditInCartButton", {
+      setup("EditItemsInCart", {
         inCart: inCart,
       });
 
       const allStockInCart = screen.queryByText("No more stock available");
 
       expect(mockCustomNumericInput).toHaveBeenCalledExactlyOnceWith(
-        getSampleEditInCartButtonData(inCart)
+        getSampleEditItemsInCartData(inCart)
       );
       expect(contextDispatch).toHaveBeenCalledTimes(3);
 
@@ -252,7 +252,7 @@ describe("StyledProductInfo", () => {
     it("shows a custom message when all the stock is in the cart", () => {
       const inCart = productInfo.stock;
 
-      setup("EditInCartButton", {
+      setup("EditItemsInCart", {
         inCart: inCart,
       });
 

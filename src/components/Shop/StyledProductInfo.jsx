@@ -134,7 +134,7 @@ const AddToCartButton = styled(({ product, className = "" }) => {
   );
 })``;
 
-const EditInCartButton = styled(({ product, className = "" }) => {
+const EditItemsInCart = styled(({ product, className = "" }) => {
   const { inCart, dispatch } = useContext(SavedProductsContext);
 
   const allStockInCart = inCart(product.id) == product.stock;
@@ -248,5 +248,5 @@ export {
   StyledRowContainer,
   WishlistButton,
   AddToCartButton,
-  EditInCartButton,
+  EditItemsInCart,
 };
