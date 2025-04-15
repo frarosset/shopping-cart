@@ -137,22 +137,28 @@ const AddToCartButton = styled(({ product, className = "" }) => {
 const EditInCartButton = styled(({ product, className = "" }) => {
   const { inCart, dispatch } = useContext(SavedProductsContext);
 
+  const allStockInCart = inCart(product.id) == product.stock;
+
   return (
-    <CustomNumericInput
-      id={`itemsInCartInput-#${product.id}`}
-      className={className}
-      value={inCart(product.id)}
-      min={1}
-      max={product.stock}
-      setValueCallback={(count) => {
-        dispatch({ type: "setMultipleToCart", product, count });
-      }}
-      decrementValueCallback={() => dispatch({ type: "pushFromCart", product })}
-      incrementValueCallback={() => dispatch({ type: "addToCart", product })}
-      inputAriaLabel={"Set number of items in cart"}
-      decrementAriaLabel={"Remove one item from cart"}
-      incrementAriaLabel={"Add one item to cart"}
-    />
+    <div className={className}>
+      <CustomNumericInput
+        id={`itemsInCartInput-#${product.id}`}
+        value={inCart(product.id)}
+        min={1}
+        max={product.stock}
+        setValueCallback={(count) => {
+          dispatch({ type: "setMultipleToCart", product, count });
+        }}
+        decrementValueCallback={() =>
+          dispatch({ type: "pushFromCart", product })
+        }
+        incrementValueCallback={() => dispatch({ type: "addToCart", product })}
+        inputAriaLabel={"Set number of items in cart"}
+        decrementAriaLabel={"Remove one item from cart"}
+        incrementAriaLabel={"Add one item to cart"}
+      />
+      {allStockInCart && <p>No more stock available</p>}
+    </div>
   );
 })``;
 
