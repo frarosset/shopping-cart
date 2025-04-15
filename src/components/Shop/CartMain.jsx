@@ -4,6 +4,7 @@ import { useContext } from "react";
 import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
 import MessageWithImageBelow from "../Generic/MessageWithImageBelow.jsx";
 import CartSummary from "./CartSummary.jsx";
+import CashRegisterIcon from "../Icons/CashRegisterIcon.jsx";
 import { Link } from "react-router-dom";
 import data from "../../assets/data.json";
 import { getCartSummary } from "../../utils/priceUtils.js";
@@ -30,6 +31,10 @@ function CartMain({ className = "" }) {
             <CartShippingFeeInfo {...cartSummaryData} />
             <CartProductList productDataList={cart} />
             <CartSummary {...{ ...cartSummaryData, cartItems }} />
+            <button aria-label="Checkout">
+              <CashRegisterIcon />
+              Checkout
+            </button>
           </>
         ) : (
           <MessageWithImageBelow imageUrl="/images/vector/empty-cart.jpg">
