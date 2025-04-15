@@ -273,5 +273,33 @@ describe("CustomNumericInput", () => {
         Math.round(sampleData.max)
       );
     });
+
+    it(`set the value of 1 when the input is empty (when value = "")`, async () => {
+      const { user } = setup("");
+
+      const el = getElements();
+
+      expect(el.numericInput.value).toBe(String(1));
+      expect(mockSetValueCallback).not.toHaveBeenCalled();
+
+      // type something and then clear
+
+      vi.resetAllMocks();
+
+      await user.type(el.numericInput, String(validValue) + "[Enter]");
+
+      // see above
+      el.updateReferenceOfNumericInput();
+
+      vi.resetAllMocks();
+      await user.clear(el.numericInput);
+      await user.keyboard("[Enter]");
+
+      // see above
+      el.updateReferenceOfNumericInput();
+
+      expect(el.numericInput.value).toBe(String(1));
+      expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(1);
+    });
   });
 });
