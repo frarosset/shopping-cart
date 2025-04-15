@@ -8,7 +8,7 @@ import {
 import SavedProductsContext from "../../../contexts/SavedProductsContext.jsx";
 import userEvent from "@testing-library/user-event";
 
-const productInfo = { id: 1, title: "test product" };
+const productInfo = { id: 1, title: "test product", stock: 100 };
 
 const mockHeartToggleIcon = vi.fn();
 vi.mock("../../Icons/HeartToggleIcon.jsx", () => ({
@@ -223,6 +223,8 @@ describe("StyledProductInfo", () => {
         inCart: inCart,
       });
 
+      const allStockInCart = screen.queryByText("No more stock available");
+
       expect(mockCustomNumericInput).toHaveBeenCalledExactlyOnceWith(
         getSampleEditInCartButtonData(inCart)
       );
@@ -243,6 +245,20 @@ describe("StyledProductInfo", () => {
         product: productInfo,
         count: sampleNewItemsInCartToSet,
       });
+
+      expect(allStockInCart).not.toBeInTheDocument();
+    });
+
+    it("shows a custom message when all the stock is in the cart", () => {
+      const inCart = productInfo.stock;
+
+      setup("EditInCartButton", {
+        inCart: inCart,
+      });
+
+      const allStockInCart = screen.queryByText("No more stock available");
+
+      expect(allStockInCart).toBeInTheDocument();
     });
   });
 });
