@@ -1,13 +1,15 @@
 import { getPriceStr } from "../../utils/priceUtils.js";
+import styled from "styled-components";
 
 function CartShippingFeeInfo({ toAddForFreeShipping, className = "" }) {
-  const freeShipping = <em>FREE shipping</em>;
+  const freeShipping = <StyledEm>FREE shipping</StyledEm>;
 
   return (
     <div className={className}>
       {toAddForFreeShipping > 0 ? (
         <>
-          Add at least {<em>{getPriceStr(toAddForFreeShipping)}</em>} to your
+          Add at least{" "}
+          {<StyledEm>{getPriceStr(toAddForFreeShipping)}</StyledEm>} to your
           cart to get {freeShipping}
         </>
       ) : (
@@ -16,5 +18,11 @@ function CartShippingFeeInfo({ toAddForFreeShipping, className = "" }) {
     </div>
   );
 }
+
+const StyledEm = styled.em`
+  font-weight: bold;
+  font-family: var(--product-price-font);
+  text-transform: uppercase;
+`;
 
 export default CartShippingFeeInfo;
