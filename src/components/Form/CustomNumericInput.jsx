@@ -5,6 +5,9 @@ import MinusIcon from "../Icons/MinusIcon.jsx";
 // Note: currently this works only with numbers with step=1
 const step = 1;
 
+const getValue = (value, min, max) =>
+  Math.round(Math.max(Math.min(Number(value || 0), max), min));
+
 function CustomNumericInput({
   id,
   name = id,
@@ -19,11 +22,13 @@ function CustomNumericInput({
   incrementAriaLabel,
   className = "",
 }) {
+  const actualValue = getValue(value, min, max);
+
   return (
     <div className={className}>
       <button
         onClick={decrementValueCallback}
-        disabled={value == min}
+        disabled={actualValue == min}
         aria-label={decrementAriaLabel}
       >
         <MinusIcon />
@@ -32,9 +37,9 @@ function CustomNumericInput({
         id={id}
         name={name}
         type="number"
-        value={value}
-        setValue={(val) => {
-          const valToSet = Math.round(Math.max(Math.min(val, max), min));
+        value={actualValue}
+        setValue={(value) => {
+          const valToSet = getValue(value, min, max);
           setValueCallback(valToSet);
         }}
         min={min}
@@ -45,7 +50,7 @@ function CustomNumericInput({
       />
       <button
         onClick={incrementValueCallback}
-        disabled={value == max}
+        disabled={actualValue == max}
         aria-label={incrementAriaLabel}
       >
         <PlusIcon />

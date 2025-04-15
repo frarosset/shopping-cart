@@ -19,6 +19,9 @@ import StyledInput from "./StyledInput.jsx";
 // See: https://stackoverflow.com/a/30346251
 // and: https://stackoverflow.com/questions/30792526/defaultvalue-change-does-not-re-render-input
 
+const getValueFromType = (value, type) =>
+  type == "number" ? Number(value || 0) : value || "";
+
 function Input({
   id,
   name,
@@ -34,28 +37,26 @@ function Input({
   setOnBlur = false,
   ariaLabel,
 }) {
+  const actualValue = getValueFromType(value, type);
+
   return (
     <StyledInput
       id={id}
       name={name}
-      value={!setOnBlur ? value : undefined}
-      defaultValue={setOnBlur ? value : undefined}
+      value={!setOnBlur ? actualValue : undefined}
+      defaultValue={setOnBlur ? actualValue : undefined}
       key={setOnBlur ? crypto.randomUUID() : undefined}
       onInput={
         !setOnBlur
           ? (e) => {
-              setValue(
-                type == "number" ? Number(e.target.value) : e.target.value
-              );
+              setValue(getValueFromType(e.target.value, type));
             }
           : undefined
       }
       onBlur={
         setOnBlur
           ? (e) => {
-              setValue(
-                type == "number" ? Number(e.target.value) : e.target.value
-              );
+              setValue(getValueFromType(e.target.value, type));
             }
           : undefined
       }
