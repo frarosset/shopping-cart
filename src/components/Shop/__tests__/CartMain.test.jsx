@@ -69,6 +69,14 @@ vi.mock("../CartShippingFeeInfo.jsx", () => ({
   },
 }));
 
+const mockCartProductList = vi.fn();
+vi.mock("../CartProductList.jsx", () => ({
+  default: ({ productDataList }) => {
+    mockCartProductList(productDataList);
+    return <span data-testid="__cart-product-list__">Cart items list</span>;
+  },
+}));
+
 /* mocks are hoisted: reset them before each test */
 afterEach(() => {
   vi.resetAllMocks();
@@ -109,6 +117,7 @@ describe("CartMain", () => {
 
     setup();
 
+    expect(mockCartProductList).not.toHaveBeenCalled();
     expect(mockCartSummary).not.toHaveBeenCalled();
     expect(mockCartShippingFeeInfo).toHaveBeenCalledExactlyOnceWith(
       freeShippingAt
@@ -120,16 +129,19 @@ describe("CartMain", () => {
     const cartShippingFeeInfo = screen.queryByTestId(
       "__cart-to-add-for-free-shipping__"
     );
+    const cartProductList = screen.queryByTestId("__cart-product-list__");
 
     expect(emptyText).toBeInTheDocument();
     expect(linkToShopPage).toBeInTheDocument();
     expect(cartSummary).not.toBeInTheDocument();
     expect(cartShippingFeeInfo).toBeInTheDocument();
+    expect(cartProductList).not.toBeInTheDocument();
   });
 
   it("renders a summary of the order costs when not-empty cart", () => {
     const { cartItems, cartSummaryData } = setup(sampleCart);
 
+    expect(mockCartProductList).toHaveBeenCalledExactlyOnceWith(sampleCart);
     expect(mockCartSummary).toHaveBeenCalledExactlyOnceWith({
       ...cartSummaryData,
       cartItems,
@@ -143,9 +155,11 @@ describe("CartMain", () => {
     const cartShippingFeeInfo = screen.queryByTestId(
       "__cart-to-add-for-free-shipping__"
     );
+    const cartProductList = screen.queryByTestId("__cart-product-list__");
 
     expect(emptyText).not.toBeInTheDocument();
     expect(cartSummary).toBeInTheDocument();
     expect(cartShippingFeeInfo).toBeInTheDocument();
+    expect(cartProductList).toBeInTheDocument();
   });
 });
