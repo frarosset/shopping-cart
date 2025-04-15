@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import data from "../../assets/data.json";
 import { getCartSummary } from "../../utils/priceUtils.js";
 import CartShippingFeeInfo from "./CartShippingFeeInfo.jsx";
+import CartProductList from "./CartProductList.jsx";
 
 const baseShippingFee = data.baseShippingFee;
 const freeShippingAt = data.freeShippingAt;
@@ -27,6 +28,7 @@ function CartMain({ className = "" }) {
         (cart.length > 0 ? (
           <>
             <CartShippingFeeInfo {...cartSummaryData} />
+            <CartProductList productDataList={cart} />
             <CartSummary {...{ ...cartSummaryData, cartItems }} />
           </>
         ) : (
