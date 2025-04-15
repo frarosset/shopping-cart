@@ -31,10 +31,10 @@ function CartMain({ className = "" }) {
             <CartShippingFeeInfo {...cartSummaryData} />
             <CartProductList productDataList={cart} />
             <CartSummary {...{ ...cartSummaryData, cartItems }} />
-            <button aria-label="Checkout">
+            <CheckoutButton aria-label="Checkout">
               <CashRegisterIcon />
               Checkout
-            </button>
+            </CheckoutButton>
           </>
         ) : (
           <MessageWithImageBelow imageUrl="/images/vector/empty-cart.jpg">
@@ -60,6 +60,21 @@ const StyledMain = styled.main`
   gap: var(--page-gap);
   align-items: center;
   padding: var(--page-outlet-padding);
+`;
+
+const CheckoutButton = styled.button`
+  display: flex;
+  gap: var(--small-gap);
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--col-highlight);
+  color: var(--col-txt-alt);
+
+  *:has(> svg) {
+    width: 1lh;
+    height: 1lh;
+  }
 `;
 
 export default CartMain;
