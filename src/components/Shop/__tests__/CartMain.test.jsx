@@ -103,6 +103,24 @@ const setup = (cart = []) => {
   };
 };
 
+const getElements = () => {
+  const emptyText = screen.queryByText("Your cart is empty!");
+  const linkToShopPage = screen.queryByRole("link");
+  const cartSummary = screen.queryByTestId("__cart-summary__");
+  const cartShippingFeeInfo = screen.queryByTestId(
+    "__cart-to-add-for-free-shipping__"
+  );
+  const cartProductList = screen.queryByTestId("__cart-product-list__");
+
+  return {
+    emptyText,
+    linkToShopPage,
+    cartSummary,
+    cartShippingFeeInfo,
+    cartProductList,
+  };
+};
+
 describe("CartMain", () => {
   it("renders a heading with the Cart text", () => {
     setup();
@@ -117,29 +135,25 @@ describe("CartMain", () => {
 
     setup();
 
+    const el = getElements();
+
     expect(mockCartProductList).not.toHaveBeenCalled();
     expect(mockCartSummary).not.toHaveBeenCalled();
     expect(mockCartShippingFeeInfo).toHaveBeenCalledExactlyOnceWith(
       freeShippingAt
     );
 
-    const emptyText = screen.getByText("Your cart is empty!");
-    const linkToShopPage = screen.getByRole("link");
-    const cartSummary = screen.queryByTestId("__cart-summary__");
-    const cartShippingFeeInfo = screen.queryByTestId(
-      "__cart-to-add-for-free-shipping__"
-    );
-    const cartProductList = screen.queryByTestId("__cart-product-list__");
-
-    expect(emptyText).toBeInTheDocument();
-    expect(linkToShopPage).toBeInTheDocument();
-    expect(cartSummary).not.toBeInTheDocument();
-    expect(cartShippingFeeInfo).toBeInTheDocument();
-    expect(cartProductList).not.toBeInTheDocument();
+    expect(el.emptyText).toBeInTheDocument();
+    expect(el.linkToShopPage).toBeInTheDocument();
+    expect(el.cartSummary).not.toBeInTheDocument();
+    expect(el.cartShippingFeeInfo).toBeInTheDocument();
+    expect(el.cartProductList).not.toBeInTheDocument();
   });
 
   it("renders a summary of the order costs when not-empty cart", () => {
     const { cartItems, cartSummaryData } = setup(sampleCart);
+
+    const el = getElements();
 
     expect(mockCartProductList).toHaveBeenCalledExactlyOnceWith(sampleCart);
     expect(mockCartSummary).toHaveBeenCalledExactlyOnceWith({
@@ -150,16 +164,10 @@ describe("CartMain", () => {
       cartSummaryData.toAddForFreeShipping
     );
 
-    const emptyText = screen.queryByText("Your cart is empty!");
-    const cartSummary = screen.getByTestId("__cart-summary__");
-    const cartShippingFeeInfo = screen.queryByTestId(
-      "__cart-to-add-for-free-shipping__"
-    );
-    const cartProductList = screen.queryByTestId("__cart-product-list__");
-
-    expect(emptyText).not.toBeInTheDocument();
-    expect(cartSummary).toBeInTheDocument();
-    expect(cartShippingFeeInfo).toBeInTheDocument();
-    expect(cartProductList).toBeInTheDocument();
+    expect(el.emptyText).not.toBeInTheDocument();
+    expect(el.linkToShopPage).not.toBeInTheDocument();
+    expect(el.cartSummary).toBeInTheDocument();
+    expect(el.cartShippingFeeInfo).toBeInTheDocument();
+    expect(el.cartProductList).toBeInTheDocument();
   });
 });
