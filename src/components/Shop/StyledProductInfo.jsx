@@ -3,6 +3,7 @@ import styled from "styled-components";
 import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
 import CartIcon from "../Icons/CartIcon.jsx";
+import TrashIcon from "../Icons/TrashIcon.jsx";
 import ClampedText from "../Generic/ClampedText.jsx";
 import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
@@ -107,13 +108,13 @@ const WishlistButton = styled(({ product, className = "" }) => {
   const inWishlist = isInWishlist(product.id);
 
   return (
-    <StyledWishlistButton
+    <StyledNoBgButton
       className={className}
       onClick={() => dispatch({ type: "toggleWishlist", product })}
       aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
     >
       <HeartToggleIcon fill={inWishlist} />
-    </StyledWishlistButton>
+    </StyledNoBgButton>
   );
 })``;
 
@@ -131,6 +132,21 @@ const AddToCartButton = styled(({ product, className = "" }) => {
     >
       <CartIcon />
     </StyledAddToCartButton>
+  );
+})``;
+
+const RemoveFromCartButton = styled(({ product, className = "" }) => {
+  const { inCart, dispatch } = useContext(SavedProductsContext);
+
+  return (
+    <StyledNoBgButton
+      className={className}
+      onClick={() => dispatch({ type: "removeFromCart", product })}
+      disabled={inCart(product.id) === 0}
+      aria-label="Remove from cart"
+    >
+      <TrashIcon />
+    </StyledNoBgButton>
   );
 })``;
 
@@ -162,7 +178,7 @@ const EditItemsInCart = styled(({ product, className = "" }) => {
   );
 })``;
 
-const StyledWishlistButton = styled.button`
+const StyledNoBgButton = styled.button`
   font-size: 1lh;
   padding: 0;
 `;
@@ -248,5 +264,6 @@ export {
   StyledRowContainer,
   WishlistButton,
   AddToCartButton,
+  RemoveFromCartButton,
   EditItemsInCart,
 };
