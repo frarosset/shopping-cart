@@ -4,6 +4,7 @@ import {
   WishlistButton,
   AddToCartButton,
   EditItemsInCart,
+  RemoveFromCartButton,
 } from "../StyledProductInfo.jsx";
 import SavedProductsContext from "../../../contexts/SavedProductsContext.jsx";
 import userEvent from "@testing-library/user-event";
@@ -25,6 +26,12 @@ vi.mock("../../Icons/HeartToggleIcon.jsx", () => ({
 vi.mock("../../Icons/CartIcon.jsx", () => ({
   default: () => {
     return <span data-testid="__cart-icon__">{"Cart icon"}</span>;
+  },
+}));
+
+vi.mock("../../Icons/TrashIcon.jsx", () => ({
+  default: () => {
+    return <span data-testid="__trash-icon__">{"Trash icon"}</span>;
   },
 }));
 
@@ -86,6 +93,8 @@ const getComponentToTest = (which) => {
       return <AddToCartButton product={productInfo} />;
     case "EditItemsInCart":
       return <EditItemsInCart product={productInfo} />;
+    case "RemoveFromCartButton":
+      return <RemoveFromCartButton product={productInfo} />;
   }
 };
 
@@ -210,6 +219,52 @@ describe("StyledProductInfo", () => {
 
       expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
         type: "addToCart",
+        product: productInfo,
+      });
+    });
+  });
+
+  describe("RemoveFromCartButton", () => {
+    it("correctly renders the component (when product in cart)", () => {
+      setup("RemoveFromCartButton", {
+        inCart: 3,
+      });
+
+      const button = screen.getByRole("button", { name: "Remove from cart" });
+      const trashIcon = within(button).getByTestId("__trash-icon__");
+
+      expect(contextDispatch).not.toHaveBeenCalled();
+      expect(button).toBeInTheDocument();
+      expect(trashIcon).toBeInTheDocument();
+      expect(button).not.toBeDisabled();
+    });
+
+    it("correctly renders the component (when product not in cart)", () => {
+      setup("RemoveFromCartButton", {
+        inCart: 0,
+      });
+
+      const button = screen.getByRole("button", { name: "Remove from cart" });
+      const trashIcon = within(button).getByTestId("__trash-icon__");
+
+      expect(contextDispatch).not.toHaveBeenCalled();
+      expect(button).toBeInTheDocument();
+      expect(trashIcon).toBeInTheDocument();
+      expect(button).toBeDisabled();
+    });
+
+    it("can remove a product from the cart  (when in cart, regardless on the number of items)", async () => {
+      const { user } = setup("RemoveFromCartButton", {
+        inCart: 3,
+      });
+
+      const button = screen.getByRole("button", { name: "Remove from cart" });
+
+      vi.resetAllMocks();
+      await user.click(button);
+
+      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+        type: "removeFromCart",
         product: productInfo,
       });
     });
