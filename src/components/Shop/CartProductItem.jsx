@@ -5,7 +5,7 @@ import {
   Title,
   PriceContainer,
   WishlistButton,
-  AddToCartButton,
+  EditItemsInCart,
   StyledRowContainer,
 } from "./StyledProductInfo.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
@@ -23,7 +23,7 @@ const CartProductItem = styled(({ productData, className = "" }) => {
             <PriceContainer {...productData} />
           </span>
           <StyledRowContainer>
-            <AddToCartButton product={productData} />
+            <EditItemsInCart product={productData} />
             <WishlistButton product={productData} />
           </StyledRowContainer>
         </div>
