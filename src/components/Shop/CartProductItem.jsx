@@ -5,6 +5,7 @@ import {
   Title,
   PriceContainer,
   WishlistButton,
+  RemoveFromCartButton,
   EditItemsInCart,
   StyledRowContainer,
 } from "./StyledProductInfo.jsx";
@@ -25,6 +26,7 @@ const CartProductItem = styled(({ productData, className = "" }) => {
           <StyledRowContainer>
             <EditItemsInCart product={productData} />
             <WishlistButton product={productData} />
+            <RemoveFromCartButton product={productData} />
           </StyledRowContainer>
         </div>
       </div>
