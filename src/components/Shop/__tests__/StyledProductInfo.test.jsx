@@ -28,6 +28,7 @@ vi.mock("../../Icons/CartIcon.jsx", () => ({
   },
 }));
 
+const sampleNewItemsInCartToSet = 7;
 const mockCustomNumericInput = vi.fn();
 vi.mock("../../Form/CustomNumericInput.jsx", () => ({
   default: (props) => {
@@ -40,6 +41,7 @@ vi.mock("../../Form/CustomNumericInput.jsx", () => ({
       id: props.id,
       min: props.min,
       max: props.max,
+      inputAriaLabel: props.inputAriaLabel,
       decrementAriaLabel: props.decrementAriaLabel,
       incrementAriaLabel: props.incrementAriaLabel,
     });
@@ -49,14 +51,17 @@ vi.mock("../../Form/CustomNumericInput.jsx", () => ({
     // from the context has to be called properly
     props.incrementValueCallback();
     props.decrementValueCallback();
+    props.setValueCallback(sampleNewItemsInCartToSet);
 
     return <div>Mock CustomNumericInput</div>;
   },
 }));
 
 const sampleEditInCartButtonData = {
+  id: "itemsInCartInput-#1", // 1: product id
   min: 1,
   max: productInfo.stock,
+  inputAriaLabel: "Set number of items in cart",
   decrementAriaLabel: "Remove one item from cart",
   incrementAriaLabel: "Add one item to cart",
 };
@@ -221,7 +226,7 @@ describe("StyledProductInfo", () => {
       expect(mockCustomNumericInput).toHaveBeenCalledExactlyOnceWith(
         getSampleEditInCartButtonData(inCart)
       );
-      expect(contextDispatch).toHaveBeenCalledTimes(2);
+      expect(contextDispatch).toHaveBeenCalledTimes(3);
 
       expect(contextDispatch).toHaveBeenNthCalledWith(1, {
         type: "addToCart",
@@ -231,6 +236,12 @@ describe("StyledProductInfo", () => {
       expect(contextDispatch).toHaveBeenNthCalledWith(2, {
         type: "pushFromCart",
         product: productInfo,
+      });
+
+      expect(contextDispatch).toHaveBeenNthCalledWith(3, {
+        type: "setMultipleToCart",
+        product: productInfo,
+        count: sampleNewItemsInCartToSet,
       });
     });
   });
