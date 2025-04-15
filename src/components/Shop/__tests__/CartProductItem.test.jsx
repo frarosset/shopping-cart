@@ -18,7 +18,7 @@ const productData = {
 };
 
 const mockWishlistButton = vi.fn();
-const mockAddToCartButton = vi.fn();
+const mockEditItemsInCart = vi.fn();
 vi.mock("../StyledProductInfo.jsx", async () => {
   const actual = await vi.importActual("../StyledProductInfo.jsx");
   return {
@@ -27,9 +27,9 @@ vi.mock("../StyledProductInfo.jsx", async () => {
       mockWishlistButton(props.product);
       return <button>Wishlist</button>;
     },
-    AddToCartButton: (props) => {
-      mockAddToCartButton(props.product);
-      return <button>AddToCartButton</button>;
+    EditItemsInCart: (props) => {
+      mockEditItemsInCart(props.product);
+      return <button>EditItemsInCart</button>;
     },
   };
 });
@@ -96,15 +96,15 @@ describe("CartProductItem", () => {
     expect(wishlistButton).toBeInTheDocument();
   });
 
-  it("renders button to add a product to the cart", () => {
+  it("renders a component to edit the number of items in the cart", () => {
     setup();
 
-    const addToCartButton = screen.queryByRole("button", {
-      name: "AddToCartButton",
+    const editItemsInCart = screen.queryByRole("button", {
+      name: "EditItemsInCart",
     });
 
-    expect(mockAddToCartButton).toHaveBeenCalledExactlyOnceWith(productData);
-    expect(addToCartButton).toBeInTheDocument();
+    expect(mockEditItemsInCart).toHaveBeenCalledExactlyOnceWith(productData);
+    expect(editItemsInCart).toBeInTheDocument();
   });
 
   it("renders the price of the product", () => {
