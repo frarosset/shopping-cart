@@ -40,7 +40,7 @@ const StyledMain = styled.main`
   flex-direction: column;
   gap: var(--page-gap);
   align-items: center;
-  padding: var(--page-padding-tb) 0;
+  padding: var(--page-outlet-padding);
 `;
 
 export default WishlistMain;

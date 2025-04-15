@@ -84,7 +84,7 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   gap: var(--page-gap);
-  padding: var(--page-padding-tb) 0;
+  padding: var(--page-outlet-padding);
 `;
 
 const StyledBackToSection = styled(Link)`
