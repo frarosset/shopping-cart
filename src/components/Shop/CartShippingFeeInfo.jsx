@@ -5,19 +5,25 @@ function CartShippingFeeInfo({ toAddForFreeShipping, className = "" }) {
   const freeShipping = <StyledEm>FREE shipping</StyledEm>;
 
   return (
-    <div className={className}>
+    <StyledCartShippingFeeInfo className={className}>
       {toAddForFreeShipping > 0 ? (
-        <>
+        <p>
           Add at least{" "}
           {<StyledEm>{getPriceStr(toAddForFreeShipping)}</StyledEm>} to your
           cart to get {freeShipping}
-        </>
+        </p>
       ) : (
-        <>You are eligible for {freeShipping}</>
+        <p>You are eligible for {freeShipping}</p>
       )}
-    </div>
+    </StyledCartShippingFeeInfo>
   );
 }
+
+const StyledCartShippingFeeInfo = styled.div`
+  p {
+    text-wrap: pretty;
+  }
+`;
 
 const StyledEm = styled.em`
   font-weight: bold;

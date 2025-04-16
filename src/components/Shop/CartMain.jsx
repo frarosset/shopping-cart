@@ -27,25 +27,31 @@ function CartMain({ className = "" }) {
 
       {cart &&
         (cart.length > 0 ? (
-          <>
-            <CartShippingFeeInfo {...cartSummaryData} />
-            <CartProductList productDataList={cart} />
-            <CartSummary {...{ ...cartSummaryData, cartItems }} />
-            <CheckoutButton aria-label="Checkout">
+          <StyledCartInfo>
+            <StyledCartShippingFeeInfo {...cartSummaryData} />
+            <StyledCartProductList productDataList={cart} />
+            <StyledCartSummary {...{ ...cartSummaryData, cartItems }} />
+            <StyledCheckoutButton aria-label="Checkout">
               <CashRegisterIcon />
               Checkout
-            </CheckoutButton>
-          </>
+            </StyledCheckoutButton>
+          </StyledCartInfo>
         ) : (
-          <MessageWithImageBelow imageUrl="/images/vector/empty-cart.jpg">
-            Your cart is empty!
-            <Link to="/shop">Go shopping now!</Link>
-            <CartShippingFeeInfo {...cartSummaryData} />
-          </MessageWithImageBelow>
+          <>
+            <MessageWithImageBelow imageUrl="/images/vector/empty-cart.jpg">
+              Your cart is empty!
+              <StyledLink to="/shop">Go shopping now!</StyledLink>
+            </MessageWithImageBelow>
+            <StyledCartShippingFeeInfo {...cartSummaryData} />
+          </>
         ))}
     </StyledMain>
   );
 }
+
+const StyledLink = styled(Link)`
+  font-weight: bold;
+`;
 
 const StyledHeader = styled.header`
   display: flex;
@@ -60,9 +66,61 @@ const StyledMain = styled.main`
   gap: var(--page-gap);
   align-items: center;
   padding: var(--page-outlet-padding);
+  padding-left: var(--page-padding-lr);
+  padding-right: var(--page-padding-lr);
 `;
 
-const CheckoutButton = styled.button`
+const StyledCartInfo = styled.div`
+  width: 100%;
+
+  display: grid;
+  gap: var(--page-gap);
+  align-items: start;
+  justify-items: center;
+
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "CartShippingFeeInfo"
+    "CartProductList"
+    "CartSummary"
+    "CheckoutButton";
+
+  @media screen and (min-width: 960px) {
+    justify-items: start;
+    grid-template-columns: 1fr var(--cart-summary-max-width);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "CartProductList CartShippingFeeInfo"
+      "CartProductList CartSummary"
+      "CartProductList CheckoutButton";
+  }
+`;
+
+const StyledCartShippingFeeInfo = styled(CartShippingFeeInfo)`
+  grid-area: CartShippingFeeInfo;
+  height: 3lh;
+  p {
+    background-color: var(--col-light-grey);
+    padding: var(--button-padding);
+    border-radius: var(--button-radius);
+  }
+`;
+
+const StyledCartProductList = styled(CartProductList)`
+  grid-area: CartProductList;
+`;
+
+const StyledCartSummary = styled(CartSummary)`
+  grid-area: CartSummary;
+
+  background-color: var(--col-white);
+  padding: var(--button-padding);
+  border-radius: var(--button-radius);
+`;
+
+const StyledCheckoutButton = styled.button`
+  grid-area: CheckoutButton;
+
   display: flex;
   gap: var(--small-gap);
   align-items: center;
@@ -70,6 +128,9 @@ const CheckoutButton = styled.button`
 
   background-color: var(--col-highlight);
   color: var(--col-txt-alt);
+
+  width: var(--cart-summary-max-width);
+  max-width: 100%;
 
   *:has(> svg) {
     width: 1lh;

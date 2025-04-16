@@ -21,12 +21,16 @@ function WishlistMain({ className = "" }) {
         ) : (
           <MessageWithImageBelow imageUrl="/images/vector/empty-wishlist.jpg">
             Your wishlist is empty!
-            <Link to="/shop">Go shopping now!</Link>
+            <StyledLink to="/shop">Go shopping now!</StyledLink>
           </MessageWithImageBelow>
         ))}
     </StyledMain>
   );
 }
+
+const StyledLink = styled(Link)`
+  font-weight: bold;
+`;
 
 const StyledHeader = styled.header`
   display: flex;

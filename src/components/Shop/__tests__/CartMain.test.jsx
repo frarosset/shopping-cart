@@ -176,6 +176,7 @@ describe("CartMain", () => {
     expect(mockCartSummary).toHaveBeenCalledExactlyOnceWith({
       ...cartSummaryData,
       cartItems,
+      className: expect.anything(),
     });
     expect(mockCartShippingFeeInfo).toHaveBeenCalledExactlyOnceWith(
       cartSummaryData.toAddForFreeShipping
