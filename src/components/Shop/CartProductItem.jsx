@@ -20,8 +20,10 @@ const CartProductItem = styled(({ productData, className = "" }) => {
           <Thumbnail {...productData} />
         </Link>
         <StyledCartProductItemInfo>
-          <Title {...productData} nRows={1} />
-          <InCartProductDicountedValue {...productData} />
+          <CustomStyledRowContainer>
+            <Title {...productData} nRows={1} />
+            <StyledInCartProductDicountedValue {...productData} />
+          </CustomStyledRowContainer>
           <StyledPriceContainer {...productData} />
           <CustomStyledRowContainer>
             <EditItemsInCart product={productData} />
@@ -61,6 +63,11 @@ const StyledPriceContainer = styled(PriceContainer)`
 const CustomStyledRowContainer = styled(StyledRowContainer)`
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
+`;
+
+const StyledInCartProductDicountedValue = styled(InCartProductDicountedValue)`
+  white-space: nowrap;
 `;
 
 export default CartProductItem;
