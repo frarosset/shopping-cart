@@ -10,7 +10,12 @@ function getDiscountValue(price, discount) {
 }
 
 function getDiscountedPrice(price, discount) {
-  return price * (1 - discount / 100);
+  return price - getDiscountValue(price, discount);
+}
+
+function getProductInCartDiscountedValue(price, inCart, discountPercentage) {
+  // Total value of a given item in the cart (with disocunt applied), taking into account the number of items
+  return getDiscountedPrice(price, discountPercentage) * inCart;
 }
 
 function getCartValue(cart) {
@@ -65,6 +70,7 @@ function getCartSummary(cart, baseShippingFee, freeShippingAt) {
 export {
   getPriceStr,
   getDiscountedPrice,
+  getProductInCartDiscountedValue,
   getCartValue,
   getDiscountValue,
   getCartDiscountValue,
