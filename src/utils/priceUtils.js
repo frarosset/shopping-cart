@@ -5,8 +5,13 @@ function getPriceStr(price, currency = "€") {
   return `${priceStr} ${currency}`;
 }
 
+function toFixedNumber(num, digits) {
+  const pow = Math.pow(10, digits);
+  return Math.round(num * pow) / pow;
+}
+
 function getDiscountValue(price, discount) {
-  return (price * discount) / 100;
+  return toFixedNumber((price * discount) / 100, 2);
 }
 
 function getDiscountedPrice(price, discount) {
