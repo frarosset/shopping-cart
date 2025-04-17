@@ -114,6 +114,8 @@
   --cart-summary-max-width: 18em;
   --cart-summary-gap: 1lh;
   --cart-product-list-gap: 2lh;
+  --cart-product-item-max-width: 35em;
+  --cart-product-item-thumbnail-size: min(20vw, 4lh);
 
   /* product-list */
   --product-list-padding: var(--page-padding);

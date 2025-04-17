@@ -14,24 +14,51 @@ import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.
 const CartProductItem = styled(({ productData, className = "" }) => {
   return (
     <HeadingLevelContextProvider>
-      <div className={className}>
+      <StyledCartProductItem className={className}>
         <Link to={`/shop/p/${productData.id}`}>
           <Thumbnail {...productData} />
         </Link>
-        <div>
-          <Title {...productData} nRows={2} />
-          <span>
-            <PriceContainer {...productData} />
-          </span>
-          <StyledRowContainer>
+        <StyledCartProductItemInfo>
+          <Title {...productData} nRows={1} />
+          <StyledPriceContainer {...productData} />
+          <CustomStyledRowContainer>
             <EditItemsInCart product={productData} />
-            <WishlistButton product={productData} />
-            <RemoveFromCartButton product={productData} />
-          </StyledRowContainer>
-        </div>
-      </div>
+            <StyledRowContainer>
+              <WishlistButton product={productData} />
+              <RemoveFromCartButton product={productData} />
+            </StyledRowContainer>
+          </CustomStyledRowContainer>
+        </StyledCartProductItemInfo>
+      </StyledCartProductItem>
     </HeadingLevelContextProvider>
   );
 })``;
+
+const StyledCartProductItem = styled.div`
+  display: grid;
+  grid-template-columns: var(--cart-product-item-thumbnail-size) 1fr;
+
+  max-width: var(--cart-product-item-max-width);
+  width: 100%;
+  gap: var(--mid-gap);
+`;
+
+const StyledCartProductItemInfo = styled.div`
+  display: grid;
+  align-content: space-between;
+  gap: var(--small-gap);
+`;
+
+const StyledPriceContainer = styled(PriceContainer)`
+  && * {
+    font-size: var(--smaller-fontsize);
+    font-weight: normal;
+  }
+`;
+
+const CustomStyledRowContainer = styled(StyledRowContainer)`
+  display: flex;
+  justify-content: space-between;
+`;
 
 export default CartProductItem;
