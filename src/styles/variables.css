@@ -113,6 +113,7 @@
   --cart-total-price-size: 1.3rem;
   --cart-summary-max-width: 18em;
   --cart-summary-gap: 1lh;
+  --cart-product-list-gap: 2lh;
 
   /* product-list */
   --product-list-padding: var(--page-padding);
