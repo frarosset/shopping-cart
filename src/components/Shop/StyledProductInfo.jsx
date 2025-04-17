@@ -10,7 +10,11 @@ import Image from "../Generic/Image.jsx";
 import CustomNumericInput from "../Form/CustomNumericInput.jsx";
 import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
 
-import { getDiscountedPrice, getPriceStr } from "../../utils/priceUtils.js";
+import {
+  getDiscountedPrice,
+  getPriceStr,
+  getProductInCartDiscountedValue,
+} from "../../utils/priceUtils.js";
 import data from "../../assets/data.json";
 
 const Title = styled(({ title, nRows = null, className = "" }) => {
@@ -59,6 +63,25 @@ const PriceContainer = styled(
     gap: 0 var(--small-gap);
   }
 `;
+
+const InCartProductDicountedValue = styled(
+  ({ price, id, discountPercentage, className = "" }) => {
+    const { inCart } = useContext(SavedProductsContext);
+
+    const currency = data.currency;
+    const inCartValue = getProductInCartDiscountedValue(
+      price,
+      inCart(id),
+      discountPercentage
+    );
+
+    return (
+      <StyledPrice className={className}>
+        {getPriceStr(inCartValue, currency)}
+      </StyledPrice>
+    );
+  }
+)``;
 
 const DiscountPercentage = styled(({ discountPercentage, className = "" }) => {
   const highlightDiscountsAt = data.highlightDiscountsAt;
@@ -284,4 +307,5 @@ export {
   AddToCartButton,
   RemoveFromCartButton,
   EditItemsInCart,
+  InCartProductDicountedValue,
 };
