@@ -2,7 +2,7 @@ import { vi, describe, it, expect, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import CartProductItem from "../CartProductItem.jsx";
-import { SavedProductsContextProvider } from "../../../contexts/SavedProductsContext.jsx";
+import SavedProductsContext from "../../../contexts/SavedProductsContext.jsx";
 
 const productData = {
   id: 10,
@@ -10,9 +10,11 @@ const productData = {
   thumbnail: "some/thumbnail/url",
   price: 10,
   discountPercentage: 25,
+  inCart: 4,
   discountPercentageStr: "-25 %",
   priceStr: "10 €",
   discountedPriceStr: "7.50 €",
+  inCartDiscountedValue: "30 €",
   rating: 3.6,
   stock: 10,
 };
@@ -46,9 +48,9 @@ afterEach(() => {
 
 const customSetup = (data) => ({
   ...render(
-    <SavedProductsContextProvider>
+    <SavedProductsContext.Provider value={{ inCart: () => data.inCart }}>
       <CartProductItem productData={data} />
-    </SavedProductsContextProvider>,
+    </SavedProductsContext.Provider>,
     {
       wrapper: MemoryRouter,
     }
@@ -131,6 +133,14 @@ describe("CartProductItem", () => {
     const price = screen.getByText(productData.priceStr);
 
     expect(price).toBeInTheDocument();
+  });
+
+  it("renders the in cart discounted value of the product", () => {
+    setup();
+
+    const inCartPrice = screen.getByText(productData.inCartDiscountedValue);
+
+    expect(inCartPrice).toBeInTheDocument();
   });
 
   it("renders the discounted price of the product (if the discount is non-zero)", () => {
