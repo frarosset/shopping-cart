@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   getPriceStr,
   getDiscountedPrice,
+  getProductInCartDiscountedValue,
   getDiscountValue,
   getCartValue,
   getCartDiscountValue,
@@ -54,6 +55,13 @@ const sampleCart = [
   },
 ];
 
+const sampleItemInCart = {
+  price: 10,
+  discountPercentage: 20,
+  inCart: 5,
+  totalValue: 10 * 0.8 * 5,
+};
+
 const sampleCartValue = 10 * 5 + 100 * 2 + 1000 * 1;
 const sampleCartDiscountValue =
   (10 * 5 * 20) / 100 + (100 * 2 * 75) / 100 + (1000 * 1 * 0) / 100;
@@ -90,6 +98,18 @@ describe("priceUtils", () => {
 
         expect(discountValue).toBe(data.discountValue);
       });
+    });
+  });
+
+  describe("getProductInCartDiscountedValue", () => {
+    it("correctly computes the total discounted value of a product in the cart (taking into account the number of items)", () => {
+      const totalValue = getProductInCartDiscountedValue(
+        sampleItemInCart.price,
+        sampleItemInCart.inCart,
+        sampleItemInCart.discountPercentage
+      );
+
+      expect(totalValue).toBe(sampleItemInCart.totalValue);
     });
   });
 
