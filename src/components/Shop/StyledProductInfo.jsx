@@ -4,6 +4,7 @@ import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
 import CartIcon from "../Icons/CartIcon.jsx";
 import TrashIcon from "../Icons/TrashIcon.jsx";
+import FractStarIcon from "../Icons/FractStarIcon.jsx";
 import ClampedText from "../Generic/ClampedText.jsx";
 import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
@@ -106,6 +107,15 @@ const RatingContainer = styled(({ rating, reviews, className = "" }) => {
       <StarRatingIcons rating={rating} total={maxRating} />
       <StyledText>{rating}</StyledText>
       {numOfReviews && <StyledText>{`(${numOfReviews})`}</StyledText>}
+    </StyledRowContainer>
+  );
+})``;
+
+const MinimizedRatingContainer = styled(({ rating, className = "" }) => {
+  return (
+    <StyledRowContainer className={className}>
+      <FractStarIcon />
+      <StyledText>{rating}</StyledText>
     </StyledRowContainer>
   );
 })``;
@@ -239,6 +249,7 @@ const StyledAddToCartButton = styled.button`
 
 const StyledRowContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: var(--small-gap);
   min-height: 1lh;
 `;
@@ -298,6 +309,7 @@ const StyledTag = styled.span`
 export {
   PriceContainer,
   RatingContainer,
+  MinimizedRatingContainer,
   Title,
   Thumbnail,
   DiscountPercentage,
