@@ -5,6 +5,7 @@ import {
   Title,
   PriceContainer,
   RatingContainer,
+  MinimizedRatingContainer,
   DiscountPercentage,
   AvailabilityStatus,
   StyledRowContainer,
@@ -44,7 +45,11 @@ const ProductItem = styled(
           </Link>
           <StyledBottomContainer>
             <StyledBottomTextContainer>
-              <RatingContainer {...productData} />
+              {minimized ? (
+                <MinimizedRatingContainer {...productData} />
+              ) : (
+                <RatingContainer {...productData} />
+              )}
               <PriceContainer {...productData} />
             </StyledBottomTextContainer>
             {!minimized && <AddToCartButton product={productData} />}
