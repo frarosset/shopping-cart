@@ -156,7 +156,7 @@ const EditItemsInCart = styled(({ product, className = "" }) => {
   const allStockInCart = inCart(product.id) == product.stock;
 
   return (
-    <div className={className}>
+    <StyledEditItemsInCart className={className}>
       <CustomNumericInput
         id={`itemsInCartInput-#${product.id}`}
         value={inCart(product.id)}
@@ -174,9 +174,21 @@ const EditItemsInCart = styled(({ product, className = "" }) => {
         incrementAriaLabel={"Add one item to cart"}
       />
       {allStockInCart && <p>No more stock available</p>}
-    </div>
+    </StyledEditItemsInCart>
   );
 })``;
+
+const StyledEditItemsInCart = styled.div`
+  position: relative;
+  overflow: visible;
+
+  && > p {
+    position: absolute;
+    white-space: nowrap;
+    color: var(--col-highlight);
+    font-size: 0.8em;
+  }
+`;
 
 const StyledNoBgButton = styled.button`
   font-size: 1lh;
