@@ -24,8 +24,8 @@ const CartProductItem = styled(({ productData, className = "" }) => {
           <CustomStyledRowContainer>
             <EditItemsInCart product={productData} />
             <StyledRowContainer>
-              <WishlistButton product={productData} />
-              <RemoveFromCartButton product={productData} />
+              <WishlistButton product={productData} minimized={true} />
+              <RemoveFromCartButton product={productData} minimized={true} />
             </StyledRowContainer>
           </CustomStyledRowContainer>
         </StyledCartProductItemInfo>

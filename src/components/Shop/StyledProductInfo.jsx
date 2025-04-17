@@ -103,20 +103,23 @@ const AvailabilityStatus = styled(
   }
 )``;
 
-const WishlistButton = styled(({ product, className = "" }) => {
-  const { isInWishlist, dispatch } = useContext(SavedProductsContext);
-  const inWishlist = isInWishlist(product.id);
+const WishlistButton = styled(
+  ({ product, minimized = false, className = "" }) => {
+    const { isInWishlist, dispatch } = useContext(SavedProductsContext);
+    const inWishlist = isInWishlist(product.id);
 
-  return (
-    <StyledNoBgButton
-      className={className}
-      onClick={() => dispatch({ type: "toggleWishlist", product })}
-      aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
-    >
-      <HeartToggleIcon fill={inWishlist} />
-    </StyledNoBgButton>
-  );
-})``;
+    return (
+      <StyledNoBgButton
+        className={className}
+        onClick={() => dispatch({ type: "toggleWishlist", product })}
+        aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+        $minimized={minimized}
+      >
+        <HeartToggleIcon fill={inWishlist} />
+      </StyledNoBgButton>
+    );
+  }
+)``;
 
 const AddToCartButton = styled(({ product, className = "" }) => {
   const { isOutOfStock, dispatch } = useContext(SavedProductsContext);
@@ -135,20 +138,23 @@ const AddToCartButton = styled(({ product, className = "" }) => {
   );
 })``;
 
-const RemoveFromCartButton = styled(({ product, className = "" }) => {
-  const { inCart, dispatch } = useContext(SavedProductsContext);
+const RemoveFromCartButton = styled(
+  ({ product, minimized = false, className = "" }) => {
+    const { inCart, dispatch } = useContext(SavedProductsContext);
 
-  return (
-    <StyledNoBgButton
-      className={className}
-      onClick={() => dispatch({ type: "removeFromCart", product })}
-      disabled={inCart(product.id) === 0}
-      aria-label="Remove from cart"
-    >
-      <TrashIcon />
-    </StyledNoBgButton>
-  );
-})``;
+    return (
+      <StyledNoBgButton
+        className={className}
+        onClick={() => dispatch({ type: "removeFromCart", product })}
+        disabled={inCart(product.id) === 0}
+        aria-label="Remove from cart"
+        $minimized={minimized}
+      >
+        <TrashIcon />
+      </StyledNoBgButton>
+    );
+  }
+)``;
 
 const EditItemsInCart = styled(({ product, className = "" }) => {
   const { inCart, dispatch } = useContext(SavedProductsContext);
@@ -191,7 +197,7 @@ const StyledEditItemsInCart = styled.div`
 `;
 
 const StyledNoBgButton = styled.button`
-  font-size: 1lh;
+  font-size: ${({ $minimized }) => ($minimized ? "1em" : "1lh")};
   padding: 0;
 `;
 

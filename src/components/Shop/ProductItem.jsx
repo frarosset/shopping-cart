@@ -34,7 +34,7 @@ const ProductItem = styled(
             />
           </StyledHighlightTags>
           <StyledWishlistButtonContainer>
-            <WishlistButton product={productData} />
+            <WishlistButton product={productData} minimized={minimized} />
           </StyledWishlistButtonContainer>
           <Link to={`/shop/p/${productData.id}`}>
             <StyledThumbnailContainer>
