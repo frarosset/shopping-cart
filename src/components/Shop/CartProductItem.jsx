@@ -8,6 +8,7 @@ import {
   RemoveFromCartButton,
   EditItemsInCart,
   StyledRowContainer,
+  InCartProductDicountedValue,
 } from "./StyledProductInfo.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 
@@ -20,6 +21,7 @@ const CartProductItem = styled(({ productData, className = "" }) => {
         </Link>
         <StyledCartProductItemInfo>
           <Title {...productData} nRows={1} />
+          <InCartProductDicountedValue {...productData} />
           <StyledPriceContainer {...productData} />
           <CustomStyledRowContainer>
             <EditItemsInCart product={productData} />
