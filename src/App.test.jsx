@@ -60,6 +60,14 @@ vi.mock("./components/Shop/CartMain.jsx", () => ({
   },
 }));
 
+const mockWishlistMain = vi.fn();
+vi.mock("./components/Shop/WishlistMain.jsx", () => ({
+  default: (props) => {
+    mockWishlistMain(props);
+    return <main data-testid="wishlist-main">WishlistMain</main>;
+  },
+}));
+
 const mockFooter = vi.fn();
 vi.mock("./components/Footer/Footer.jsx", () => ({
   default: () => {
@@ -167,6 +175,22 @@ describe("App", () => {
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockCartMain).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
+  });
+
+  it("correctly render the wishlist page", () => {
+    setupWithRoute(`/wishlist`);
+
+    const pageHeader = screen.getByTestId("page-header");
+    const wishlistMain = screen.getByTestId("wishlist-main");
+    const footer = screen.getByTestId("credit-footer");
+
+    expect(pageHeader).toBeInTheDocument();
+    expect(wishlistMain).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
+
+    expect(mockHeader).toHaveBeenCalledOnce();
+    expect(mockWishlistMain).toHaveBeenCalledOnce();
     expect(mockFooter).toHaveBeenCalledOnce();
   });
 });
