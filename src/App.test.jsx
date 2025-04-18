@@ -6,6 +6,7 @@ import { render, screen } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import routes from "./routes.jsx"; // this imports App component
 import data from "./assets/data.json";
+import ErrorRedirect from "./components/Errors/ErrorRedirect.jsx";
 
 const sampleSection = Object.keys(data.sections)[0];
 const sampleCategory = Object.keys(data.categories)[0];
@@ -83,6 +84,8 @@ vi.mock("./components/Errors/ErrorPage.jsx", () => ({
     return <main data-testid="error-page">ErrorPage</main>;
   },
 }));
+
+vi.mock("./components/Errors/ErrorRedirect.jsx", { spy: true });
 
 const mockFooter = vi.fn();
 vi.mock("./components/Footer/Footer.jsx", () => ({
@@ -228,6 +231,26 @@ describe("App", () => {
 
   it("correctly render the error page", () => {
     setupWithRoute(`/error`);
+
+    expect(ErrorRedirect).not.toHaveBeenCalled();
+
+    const pageHeader = screen.getByTestId("page-header");
+    const errorPage = screen.getByTestId("error-page");
+    const footer = screen.getByTestId("credit-footer");
+
+    expect(pageHeader).toBeInTheDocument();
+    expect(errorPage).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
+
+    expect(mockHeader).toHaveBeenCalledOnce();
+    expect(mockErrorPage).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
+  });
+
+  it("correctly redirects to error page when an error occurs", () => {
+    setupWithRoute(`/unknown`);
+
+    expect(ErrorRedirect).toHaveBeenCalledOnce();
 
     const pageHeader = screen.getByTestId("page-header");
     const errorPage = screen.getByTestId("error-page");
