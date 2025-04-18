@@ -76,6 +76,14 @@ vi.mock("./components/Shop/SearchMain.jsx", () => ({
   },
 }));
 
+const mockErrorPage = vi.fn();
+vi.mock("./components/Errors/ErrorPage.jsx", () => ({
+  default: (props) => {
+    mockErrorPage(props);
+    return <main data-testid="error-page">ErrorPage</main>;
+  },
+}));
+
 const mockFooter = vi.fn();
 vi.mock("./components/Footer/Footer.jsx", () => ({
   default: () => {
@@ -215,6 +223,22 @@ describe("App", () => {
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockSearchMain).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
+  });
+
+  it("correctly render the error page", () => {
+    setupWithRoute(`/error`);
+
+    const pageHeader = screen.getByTestId("page-header");
+    const errorPage = screen.getByTestId("error-page");
+    const footer = screen.getByTestId("credit-footer");
+
+    expect(pageHeader).toBeInTheDocument();
+    expect(errorPage).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
+
+    expect(mockHeader).toHaveBeenCalledOnce();
+    expect(mockErrorPage).toHaveBeenCalledOnce();
     expect(mockFooter).toHaveBeenCalledOnce();
   });
 });
