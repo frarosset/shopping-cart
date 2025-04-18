@@ -68,6 +68,14 @@ vi.mock("./components/Shop/WishlistMain.jsx", () => ({
   },
 }));
 
+const mockSearchMain = vi.fn();
+vi.mock("./components/Shop/SearchMain.jsx", () => ({
+  default: (props) => {
+    mockSearchMain(props);
+    return <main data-testid="search-main">SearchMain</main>;
+  },
+}));
+
 const mockFooter = vi.fn();
 vi.mock("./components/Footer/Footer.jsx", () => ({
   default: () => {
@@ -191,6 +199,22 @@ describe("App", () => {
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockWishlistMain).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
+  });
+
+  it("correctly render the search page", () => {
+    setupWithRoute(`/search`);
+
+    const pageHeader = screen.getByTestId("page-header");
+    const searchMain = screen.getByTestId("search-main");
+    const footer = screen.getByTestId("credit-footer");
+
+    expect(pageHeader).toBeInTheDocument();
+    expect(searchMain).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
+
+    expect(mockHeader).toHaveBeenCalledOnce();
+    expect(mockSearchMain).toHaveBeenCalledOnce();
     expect(mockFooter).toHaveBeenCalledOnce();
   });
 });
