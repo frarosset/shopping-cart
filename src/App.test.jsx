@@ -44,6 +44,14 @@ vi.mock("./components/Shop/ShopCategoryMain.jsx", () => ({
   },
 }));
 
+const mockHomeMain = vi.fn();
+vi.mock("./components/Home/HomeMain.jsx", () => ({
+  default: (props) => {
+    mockHomeMain(props);
+    return <main data-testid="home-main">HomeMain</main>;
+  },
+}));
+
 const mockFooter = vi.fn();
 vi.mock("./components/Footer/Footer.jsx", () => ({
   default: () => {
@@ -78,12 +86,15 @@ describe("App", () => {
     setupWithRoute("/");
 
     const pageHeader = screen.getByTestId("page-header");
+    const homeMain = screen.getByTestId("home-main");
     const Footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
+    expect(homeMain).toBeInTheDocument();
     expect(Footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
+    expect(mockHomeMain).toHaveBeenCalledOnce();
     expect(mockFooter).toHaveBeenCalledOnce();
   });
 
