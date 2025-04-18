@@ -8,6 +8,7 @@ import SearchMain from "./components/Shop/SearchMain.jsx";
 import WishlistMain from "./components/Shop/WishlistMain.jsx";
 import HomeMain from "./components/Home/HomeMain.jsx";
 import CartMain from "./components/Shop/CartMain.jsx";
+import ProductMain from "./components/Shop/ProductMain.jsx";
 
 const routes = [
   {
@@ -19,7 +20,7 @@ const routes = [
       { path: "/shop", element: <ShopMain /> },
       { path: "/shop/:section", element: <ShopSectionMain /> },
       { path: "/shop/c/:category", element: <ShopCategoryMain /> },
-      { path: "/shop/p/:productId", element: <div>Product</div> },
+      { path: "/shop/p/:id", element: <ProductMain /> },
       { path: "/search", element: <SearchMain /> },
       { path: "/wishlist", element: <WishlistMain /> },
       { path: "/cart", element: <CartMain /> },
