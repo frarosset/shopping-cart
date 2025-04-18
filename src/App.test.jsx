@@ -52,6 +52,14 @@ vi.mock("./components/Home/HomeMain.jsx", () => ({
   },
 }));
 
+const mockCartMain = vi.fn();
+vi.mock("./components/Shop/CartMain.jsx", () => ({
+  default: (props) => {
+    mockCartMain(props);
+    return <main data-testid="cart-main">CartMain</main>;
+  },
+}));
+
 const mockFooter = vi.fn();
 vi.mock("./components/Footer/Footer.jsx", () => ({
   default: () => {
@@ -87,11 +95,11 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const homeMain = screen.getByTestId("home-main");
-    const Footer = screen.getByTestId("credit-footer");
+    const footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(homeMain).toBeInTheDocument();
-    expect(Footer).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockHomeMain).toHaveBeenCalledOnce();
@@ -103,11 +111,11 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopMain = screen.getByTestId("shop-main");
-    const Footer = screen.getByTestId("credit-footer");
+    const footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopMain).toBeInTheDocument();
-    expect(Footer).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopMain).toHaveBeenCalledOnce();
@@ -119,11 +127,11 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopSectionMain = screen.getByTestId("shop-section-main");
-    const Footer = screen.getByTestId("credit-footer");
+    const footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopSectionMain).toBeInTheDocument();
-    expect(Footer).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopSectionMain).toHaveBeenCalledOnce();
@@ -135,14 +143,30 @@ describe("App", () => {
 
     const pageHeader = screen.getByTestId("page-header");
     const shopCategoryMain = screen.getByTestId("shop-category-main");
-    const Footer = screen.getByTestId("credit-footer");
+    const footer = screen.getByTestId("credit-footer");
 
     expect(pageHeader).toBeInTheDocument();
     expect(shopCategoryMain).toBeInTheDocument();
-    expect(Footer).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
 
     expect(mockHeader).toHaveBeenCalledOnce();
     expect(mockShopCategoryMain).toHaveBeenCalledOnce();
+    expect(mockFooter).toHaveBeenCalledOnce();
+  });
+
+  it("correctly render the cart page", () => {
+    setupWithRoute(`/cart`);
+
+    const pageHeader = screen.getByTestId("page-header");
+    const shopCartMain = screen.getByTestId("cart-main");
+    const footer = screen.getByTestId("credit-footer");
+
+    expect(pageHeader).toBeInTheDocument();
+    expect(shopCartMain).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
+
+    expect(mockHeader).toHaveBeenCalledOnce();
+    expect(mockCartMain).toHaveBeenCalledOnce();
     expect(mockFooter).toHaveBeenCalledOnce();
   });
 });
