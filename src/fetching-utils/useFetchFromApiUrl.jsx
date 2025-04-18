@@ -55,7 +55,9 @@ const fetchData = (
     .then((response) => {
       // Server error
       if (response.status >= 400) {
-        throw new Error(`${response.status}: ${response.statusText}`);
+        const err = new Error(`${response.status}: ${response.statusText}`);
+        err.status = response.status;
+        throw err;
       }
 
       return response.json();
