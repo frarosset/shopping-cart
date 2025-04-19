@@ -26,6 +26,10 @@ const Title = styled(({ title, nRows = null, className = "" }) => {
   );
 })``;
 
+const Description = styled(({ description, className = "" }) => {
+  return <StyledText className={className}>{description}</StyledText>;
+})``;
+
 const Thumbnail = styled(({ title, thumbnail, className = "" }) => {
   return (
     <StyledPhoto
@@ -311,6 +315,7 @@ export {
   RatingContainer,
   MinimizedRatingContainer,
   Title,
+  Description,
   Thumbnail,
   DiscountPercentage,
   AvailabilityStatus,
