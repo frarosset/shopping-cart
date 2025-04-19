@@ -10,6 +10,7 @@ const maxRating = data.maxRating;
 const productData = {
   id: 10,
   title: "Product Title",
+  description: "Some product description",
   category: Object.keys(data.categories)[0],
   price: 10,
   discountPercentage: 25,
@@ -76,6 +77,14 @@ describe("Product", () => {
     });
 
     expect(productTitle).toBeInTheDocument();
+  });
+
+  it("renders a text with the description of the product", () => {
+    setup();
+
+    const description = screen.getByText(productData.description);
+
+    expect(description).toBeInTheDocument();
   });
 
   it("renders a link to /shop/c/:category page", () => {
