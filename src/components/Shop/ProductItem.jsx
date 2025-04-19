@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
 import styled from "styled-components";
 import {
   Thumbnail,
@@ -13,12 +14,14 @@ import {
   AddToCartButton,
 } from "./StyledProductInfo.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
+import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
 import data from "../../assets/data.json";
 
 const ProductItem = styled(
   ({ productData, minimized = false, className = "" }) => {
-    const outOfStock =
-      productData.availabilityStatus == data.availability.outOfStock;
+    const { isOutOfStock } = useContext(SavedProductsContext);
+
+    const outOfStock = isOutOfStock(productData);
 
     return (
       <HeadingLevelContextProvider>
