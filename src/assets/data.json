@@ -3,6 +3,8 @@
   "shopShortName": "DD",
   "slogan": "All You Need, Right Here",
   "currency": "€",
+  "lengthUnit": "cm",
+  "weightUnit": "g",
   "maxRating": 5,
   "highlightDiscountsAt": 15,
   "baseShippingFee": 6,

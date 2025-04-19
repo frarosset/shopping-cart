@@ -10,6 +10,7 @@ import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
 import CustomNumericInput from "../Form/CustomNumericInput.jsx";
 import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
+import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 
 import {
   getDiscountedPrice,
@@ -28,6 +29,44 @@ const Title = styled(({ title, nRows = null, className = "" }) => {
 
 const Description = styled(({ description, className = "" }) => {
   return <StyledText className={className}>{description}</StyledText>;
+})``;
+
+const Details = styled(({ brand, sku, weight, dimensions, className = "" }) => {
+  return (
+    <HeadingLevelContextProvider>
+      <div className={className}>
+        <Heading>Details</Heading>
+        <StyledTable>
+          <tbody>
+            {brand && (
+              <tr>
+                <StyledTh>Brand</StyledTh>
+                <StyledTd>{brand}</StyledTd>
+              </tr>
+            )}
+            {sku && (
+              <tr>
+                <StyledTh>SKU</StyledTh>
+                <StyledTd>{sku}</StyledTd>
+              </tr>
+            )}
+            {weight && (
+              <tr>
+                <StyledTh>Weight</StyledTh>
+                <StyledTd>{`${weight} ${data.weightUnit}`}</StyledTd>
+              </tr>
+            )}
+            {dimensions && (
+              <tr>
+                <StyledTh>Dimensions (W×H×D)</StyledTh>
+                <StyledTd>{`${dimensions.width} × ${dimensions.height} × ${dimensions.depth} ${data.lengthUnit}`}</StyledTd>
+              </tr>
+            )}
+          </tbody>
+        </StyledTable>
+      </div>
+    </HeadingLevelContextProvider>
+  );
 })``;
 
 const Thumbnail = styled(({ title, thumbnail, className = "" }) => {
@@ -310,12 +349,30 @@ const StyledTag = styled.span`
   max-width: 100%;
 `;
 
+const StyledTable = styled.table`
+  width: 100%;
+`;
+
+const StyledTh = styled.th`
+  text-align: left;
+  font-weight: normal;
+  padding-right: var(--small-gap);
+  width: 40%;
+`;
+
+const StyledTd = styled.td`
+  font-family: var(--cart-price-font);
+  text-align: left;
+  font-weight: bold;
+`;
+
 export {
   PriceContainer,
   RatingContainer,
   MinimizedRatingContainer,
   Title,
   Description,
+  Details,
   Thumbnail,
   DiscountPercentage,
   AvailabilityStatus,
