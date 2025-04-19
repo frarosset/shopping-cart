@@ -19,6 +19,10 @@ const productData = {
   discountedPriceStr: "7.50 €",
   rating: 3.6,
   stock: 10,
+  brand: "testBrand",
+  sku: "testSKU",
+  weight: "testWeight",
+  dimensions: { width: "testWidth", height: "testHeight", depth: "testDepth" },
 };
 
 const mockStarRatingIcons = vi.fn();
@@ -85,6 +89,22 @@ describe("Product", () => {
     const description = screen.getByText(productData.description);
 
     expect(description).toBeInTheDocument();
+  });
+
+  it("renders the details of the product", () => {
+    setup();
+
+    const brand = screen.getByText(productData.brand);
+    const sku = screen.getByText(productData.sku);
+    const weight = screen.getByText(`${productData.weight} ${data.weightUnit}`);
+    const dimensions = screen.getByText(
+      `${productData.dimensions.width} × ${productData.dimensions.height} × ${productData.dimensions.depth} ${data.lengthUnit}`
+    );
+
+    expect(brand).toBeInTheDocument();
+    expect(sku).toBeInTheDocument();
+    expect(weight).toBeInTheDocument();
+    expect(dimensions).toBeInTheDocument();
   });
 
   it("renders a link to /shop/c/:category page", () => {
