@@ -1,6 +1,7 @@
 import {
   Title,
   Description,
+  Details,
   PriceContainer,
   RatingContainer,
   DiscountPercentage,
@@ -26,6 +27,7 @@ function Product({ productData, className = "" }) {
         <Description {...productData} />
         <PriceContainer {...productData} />
         <RatingContainer {...productData} />
+        <Details {...productData} />
       </div>
     </HeadingLevelContextProvider>
   );
