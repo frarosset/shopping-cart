@@ -1,5 +1,6 @@
 import {
   Title,
+  Description,
   PriceContainer,
   RatingContainer,
   DiscountPercentage,
@@ -22,6 +23,7 @@ function Product({ productData, className = "" }) {
 
         <Title {...productData} />
         <WishlistButton product={productData} />
+        <Description {...productData} />
         <PriceContainer {...productData} />
         <RatingContainer {...productData} />
       </div>
