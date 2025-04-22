@@ -69,6 +69,26 @@ const Details = styled(({ brand, sku, weight, dimensions, className = "" }) => {
   );
 })``;
 
+const PurchaseInfo = styled(({ product, className = "" }) => {
+  const { getAvailabilityStatus, stock } = useContext(SavedProductsContext);
+
+  const availabilityStr = getAvailabilityStatus(product);
+  const stockVal = stock(product);
+
+  return (
+    <div className={className}>
+      <ul>
+        <li key="availabilityStatus">{`${availabilityStr} ${
+          stockVal > 0 ? `(${stockVal} items available)` : ""
+        }`}</li>
+        <li key="shippingInformation">{product.shippingInformation}</li>
+        <li key="warrantyInformation">{product.warrantyInformation}</li>
+        <li key="returnPolicy">{product.returnPolicy}</li>
+      </ul>
+    </div>
+  );
+})``;
+
 const Thumbnail = styled(({ title, thumbnail, className = "" }) => {
   return (
     <StyledPhoto
@@ -373,6 +393,7 @@ export {
   Title,
   Description,
   Details,
+  PurchaseInfo,
   Thumbnail,
   DiscountPercentage,
   AvailabilityStatus,
