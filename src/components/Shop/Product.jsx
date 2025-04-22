@@ -1,6 +1,7 @@
 import {
   Title,
   Description,
+  PurchaseInfo,
   Details,
   PriceContainer,
   RatingContainer,
@@ -11,6 +12,7 @@ import {
 } from "./StyledProductInfo.jsx";
 import CategoryItem from "./CategoryItem.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
+import data from "../../assets/data.json";
 
 function Product({ productData, className = "" }) {
   return (
@@ -18,15 +20,18 @@ function Product({ productData, className = "" }) {
       <div className={className}>
         <CategoryItem {...productData} />
         <StyledRowContainer>
-          <AvailabilityStatus product={productData} />
+          <AvailabilityStatus
+            product={productData}
+            ignoreStatusList={[data.availability.inStock]}
+          />
           <DiscountPercentage {...productData} />
         </StyledRowContainer>
-
         <Title {...productData} />
         <WishlistButton product={productData} />
         <Description {...productData} />
         <PriceContainer {...productData} />
         <RatingContainer {...productData} />
+        <PurchaseInfo product={productData} />
         <Details {...productData} />
       </div>
     </HeadingLevelContextProvider>
