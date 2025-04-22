@@ -273,7 +273,8 @@ describe("StyledProductInfo", () => {
 
   describe("EditItemsInCart", () => {
     it("correctly renders the component", () => {
-      const inCart = data.lowStockAt + 1;
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
 
       setup("EditItemsInCart", {
         inCart: inCart,

@@ -255,7 +255,9 @@ const RemoveFromCartButton = styled(
 const EditItemsInCart = styled(({ product, className = "" }) => {
   const { inCart, dispatch } = useContext(SavedProductsContext);
 
-  const allStockInCart = inCart(product.id) == product.stock;
+  const stockLeft = product.stock - inCart(product.id);
+  const allStockInCart = stockLeft == 0;
+  const isLowStock = !allStockInCart && stockLeft <= data.lowStockAt;
 
   return (
     <StyledEditItemsInCart className={className}>
@@ -276,6 +278,7 @@ const EditItemsInCart = styled(({ product, className = "" }) => {
         incrementAriaLabel={"Add one item to cart"}
       />
       {allStockInCart && <p>No more stock available</p>}
+      {isLowStock && <p>{`Only ${stockLeft} items left`}</p>}
     </StyledEditItemsInCart>
   );
 })``;
