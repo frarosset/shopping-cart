@@ -223,40 +223,96 @@ describe("Product", () => {
 
   it("render info about the availability if 'In stock'", () => {
     const stockStr = "In Stock";
+    const stock = 120;
     const customData = Object.assign({}, productData, {
       availabilityStatus: stockStr,
+      stock: stock,
     });
 
     customSetup(customData);
 
-    const starRatingIcons = screen.queryByText(stockStr);
+    const stockInfo = screen.queryByText(stockStr);
+    const purchaseStockInfo = screen.queryByText(
+      `${stockStr} (${stock} items available)`
+    );
 
-    expect(starRatingIcons).toBeInTheDocument();
+    expect(stockInfo).not.toBeInTheDocument();
+    expect(purchaseStockInfo).toBeInTheDocument();
   });
 
   it("render info about the availability if 'Low stock'", () => {
     const stockStr = "Low Stock";
+    const stock = 10;
     const customData = Object.assign({}, productData, {
       availabilityStatus: stockStr,
+      stock: stock,
     });
 
     customSetup(customData);
 
     const stockInfo = screen.queryByText(stockStr);
+    const purchaseStockInfo = screen.queryByText(
+      `${stockStr} (${stock} items available)`
+    );
 
     expect(stockInfo).toBeInTheDocument();
+    expect(purchaseStockInfo).toBeInTheDocument();
   });
 
   it("render info about the availability if 'Out Of Stock'", () => {
     const stockStr = "Out of Stock";
+    const stock = 0;
     const customData = Object.assign({}, productData, {
       availabilityStatus: stockStr,
+      stock: stock,
     });
 
     customSetup(customData);
 
-    const stockInfo = screen.queryByText(stockStr);
+    const stockAndPurchaseStockInfo = screen.queryAllByText(stockStr);
 
-    expect(stockInfo).toBeInTheDocument();
+    expect(stockAndPurchaseStockInfo.length).toBe(2);
+    stockAndPurchaseStockInfo.forEach((stockInfo) =>
+      expect(stockInfo).toBeInTheDocument()
+    );
+  });
+
+  it("render info about shipping information", () => {
+    const shippingInformation = "Warranty Info";
+    const customData = Object.assign({}, productData, {
+      shippingInformation: shippingInformation,
+    });
+
+    customSetup(customData);
+
+    const shippingInfo = screen.queryByText(shippingInformation);
+
+    expect(shippingInfo).toBeInTheDocument();
+  });
+
+  it("render info about warranty information", () => {
+    const warrantyInformation = "Warranty Info";
+    const customData = Object.assign({}, productData, {
+      warrantyInformation: warrantyInformation,
+    });
+
+    customSetup(customData);
+
+    const warrantyInfo = screen.queryByText(warrantyInformation);
+
+    expect(warrantyInfo).toBeInTheDocument();
+  });
+
+  it("render info about return policy", () => {
+    const returnPolicy = "Return policy Info";
+    const customData = Object.assign({}, productData, {
+      returnPolicy: returnPolicy,
+    });
+
+    customSetup(customData);
+
+    const returnPolicyInfo = screen.queryByText(returnPolicy);
+
+    expect(returnPolicyInfo).toBeInTheDocument();
   });
 });

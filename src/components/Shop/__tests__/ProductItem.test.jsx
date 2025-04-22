@@ -202,9 +202,9 @@ describe("ProductItem", () => {
 
     customSetup(customData);
 
-    const starRatingIcons = screen.queryByText(stockStr);
+    const stockInfo = screen.queryByText(stockStr);
 
-    expect(starRatingIcons).not.toBeInTheDocument();
+    expect(stockInfo).not.toBeInTheDocument();
   });
 
   it("render info about the availability if 'Low stock'", () => {
