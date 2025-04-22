@@ -108,9 +108,9 @@ a:hover {
 }
 
 button {
-  border-radius: var(--button-radius);
+  border-radius: var(--base-radius);
   border: 1px solid transparent;
-  padding: var(--button-padding);
+  padding: var(--base-padding);
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;

@@ -101,8 +101,8 @@ const StyledCartShippingFeeInfo = styled(CartShippingFeeInfo)`
   height: 3lh;
   p {
     background-color: var(--col-light-grey);
-    padding: var(--button-padding);
-    border-radius: var(--button-radius);
+    padding: var(--base-padding);
+    border-radius: var(--base-radius);
   }
 `;
 
@@ -114,8 +114,8 @@ const StyledCartSummary = styled(CartSummary)`
   grid-area: CartSummary;
 
   background-color: var(--col-white);
-  padding: var(--button-padding);
-  border-radius: var(--button-radius);
+  padding: var(--base-padding);
+  border-radius: var(--base-radius);
 `;
 
 const StyledCheckoutButton = styled.button`

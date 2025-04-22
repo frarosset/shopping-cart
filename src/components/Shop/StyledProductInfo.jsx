@@ -76,7 +76,7 @@ const PurchaseInfo = styled(({ product, className = "" }) => {
   const stockVal = stock(product);
 
   return (
-    <div className={className}>
+    <StyledPurchaseInfo className={className}>
       <ul>
         <li key="availabilityStatus">{`${availabilityStr} ${
           stockVal > 0 ? `(${stockVal} items available)` : ""
@@ -85,7 +85,7 @@ const PurchaseInfo = styled(({ product, className = "" }) => {
         <li key="warrantyInformation">{product.warrantyInformation}</li>
         <li key="returnPolicy">{product.returnPolicy}</li>
       </ul>
-    </div>
+    </StyledPurchaseInfo>
   );
 })``;
 
@@ -289,6 +289,22 @@ const StyledEditItemsInCart = styled.div`
     white-space: nowrap;
     color: var(--col-highlight);
     font-size: 0.8em;
+  }
+`;
+
+const StyledPurchaseInfo = styled.div`
+  border-radius: var(--base-radius);
+  overflow: hidden;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--base-gap);
+  }
+
+  li {
+    padding: var(--base-padding);
+    background-color: var(--col-white);
   }
 `;
 

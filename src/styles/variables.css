@@ -140,6 +140,7 @@
   --category-banner-fontsize: min(4rem, 10vw);
   --category-banner-height: 5lh;
 
-  --button-radius: 8px;
-  --button-padding: 0.6em 1.2em;
+  --base-radius: 8px;
+  --base-padding: 0.6em 1.2em;
+  --base-gap: 0.3em;
 }
