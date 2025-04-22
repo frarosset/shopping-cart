@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import savedProductsReducer from "../reducers/savedProductsReducer.jsx";
 import { useLocalStorageReducer } from "../custom-hooks/useLocalStorage.js";
+import data from "../assets/data.json";
 
 // Sample state:
 // {
@@ -58,15 +59,15 @@ function SavedProductsContextProvider({ children }) {
     if (inCart(product.id) == 0)
       return product.availabilityStatus != null
         ? product.availabilityStatus
-        : "In Stock";
+        : data.availability.inStock;
 
     const currentStock = stock(product);
 
     return currentStock === 0
-      ? "Out of Stock"
-      : currentStock < 8
-      ? "Low Stock"
-      : "In Stock";
+      ? data.availability.outOfStock
+      : currentStock <= data.lowStockAt
+      ? data.availability.lowStock
+      : data.availability.inStock;
   };
 
   const wishlist = state.wishlist.map((id) => state.productList[id]);

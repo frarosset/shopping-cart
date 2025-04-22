@@ -8,6 +8,7 @@ import {
 } from "../StyledProductInfo.jsx";
 import SavedProductsContext from "../../../contexts/SavedProductsContext.jsx";
 import userEvent from "@testing-library/user-event";
+import data from "../../../assets/data.json";
 
 const productInfo = { id: 1, title: "test product", stock: 100 };
 
@@ -272,13 +273,14 @@ describe("StyledProductInfo", () => {
 
   describe("EditItemsInCart", () => {
     it("correctly renders the component", () => {
-      const inCart = 2;
+      const inCart = data.lowStockAt + 1;
 
       setup("EditItemsInCart", {
         inCart: inCart,
       });
 
       const allStockInCart = screen.queryByText("No more stock available");
+      const lowStock = screen.queryByText(`Only ${inCart} items left`);
 
       expect(mockCustomNumericInput).toHaveBeenCalledExactlyOnceWith(
         getSampleEditItemsInCartData(inCart)
@@ -302,6 +304,7 @@ describe("StyledProductInfo", () => {
       });
 
       expect(allStockInCart).not.toBeInTheDocument();
+      expect(lowStock).not.toBeInTheDocument();
     });
 
     it("shows a custom message when all the stock is in the cart", () => {
@@ -312,8 +315,25 @@ describe("StyledProductInfo", () => {
       });
 
       const allStockInCart = screen.queryByText("No more stock available");
+      const lowStock = screen.queryByText(`Only ${inCart} items left`);
 
       expect(allStockInCart).toBeInTheDocument();
+      expect(lowStock).not.toBeInTheDocument();
+    });
+
+    it("shows a custom message when low stock left", () => {
+      const stockLeft = data.lowStockAt;
+      const inCart = productInfo.stock - stockLeft;
+
+      setup("EditItemsInCart", {
+        inCart: inCart,
+      });
+
+      const allStockInCart = screen.queryByText("No more stock available");
+      const lowStock = screen.queryByText(`Only ${stockLeft} items left`);
+
+      expect(allStockInCart).not.toBeInTheDocument();
+      expect(lowStock).toBeInTheDocument();
     });
   });
 });

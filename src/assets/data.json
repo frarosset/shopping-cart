@@ -9,6 +9,7 @@
   "highlightDiscountsAt": 15,
   "baseShippingFee": 6,
   "freeShippingAt": 60,
+  "lowStockAt": 8,
   "availability": {
     "inStock": "In Stock",
     "lowStock": "Low Stock",
