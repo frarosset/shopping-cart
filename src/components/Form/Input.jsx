@@ -34,6 +34,7 @@ function Input({
   max,
   step,
   ref,
+  disabled,
   setOnBlur = false,
   ariaLabel,
 }) {
@@ -72,6 +73,7 @@ function Input({
       step={step}
       placeholder={placeholder}
       ref={ref}
+      disabled={disabled}
       aria-label={ariaLabel}
     />
   );

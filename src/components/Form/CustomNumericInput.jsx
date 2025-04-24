@@ -45,6 +45,7 @@ function CustomNumericInput({
         }}
         min={min}
         max={max}
+        disabled={max === min}
         step={step}
         setOnBlur={true}
         ariaLabel={inputAriaLabel}
