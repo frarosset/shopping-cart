@@ -9,6 +9,7 @@ import {
 import SavedProductsContext from "../../../contexts/SavedProductsContext.jsx";
 import userEvent from "@testing-library/user-event";
 import data from "../../../assets/data.json";
+import CustomNumericInput from "../../Form/CustomNumericInput.jsx";
 
 const productInfo = { id: 1, title: "test product", stock: 100 };
 
@@ -36,32 +37,17 @@ vi.mock("../../Icons/TrashIcon.jsx", () => ({
   },
 }));
 
-const sampleNewItemsInCartToSet = 7;
-const mockCustomNumericInput = vi.fn();
-vi.mock("../../Form/CustomNumericInput.jsx", () => ({
-  default: (props) => {
-    // The component has already been tested.
-    // We just need to check that it is called with the correct props
+vi.mock("../../Form/CustomNumericInput.jsx", { spy: true });
 
-    // This is used to test that the correct non-function props are passed
-    mockCustomNumericInput({
-      value: props.value,
-      id: props.id,
-      min: props.min,
-      max: props.max,
-      inputAriaLabel: props.inputAriaLabel,
-      decrementAriaLabel: props.decrementAriaLabel,
-      incrementAriaLabel: props.incrementAriaLabel,
-    });
+vi.mock("../../Icons/PlusIcon.jsx", () => ({
+  default: () => {
+    return <span data-testid="__plus-icon__">{"Plus icon"}</span>;
+  },
+}));
 
-    // The function props are called during setup to ensure they are the correct ones
-    // As you will see from the test below, this means the dispatch function
-    // from the context has to be called properly
-    props.incrementValueCallback();
-    props.decrementValueCallback();
-    props.setValueCallback(sampleNewItemsInCartToSet);
-
-    return <div>Mock CustomNumericInput</div>;
+vi.mock("../../Icons/MinusIcon.jsx", () => ({
+  default: () => {
+    return <span data-testid="__minus-icon__">{"Minus icon"}</span>;
   },
 }));
 
@@ -94,6 +80,8 @@ const getComponentToTest = (which) => {
       return <AddToCartButton product={productInfo} />;
     case "EditItemsInCart":
       return <EditItemsInCart product={productInfo} />;
+    case "AddMultipleToCart":
+      return <AddMultipleToCart product={productInfo} />;
     case "RemoveFromCartButton":
       return <RemoveFromCartButton product={productInfo} />;
   }
@@ -272,54 +260,66 @@ describe("StyledProductInfo", () => {
   });
 
   describe("EditItemsInCart", () => {
-    it("correctly renders the component", () => {
+    const getElements = (stockLeft) => {
+      const allStockInCart = screen.queryByText("No more stock available");
+      const lowStock = screen.queryByText(`Only ${stockLeft} items left`);
+
+      const incrementButton = screen.getByRole("button", {
+        name: sampleEditItemsInCartData.incrementAriaLabel,
+      });
+      const decrementButton = screen.getByRole("button", {
+        name: sampleEditItemsInCartData.decrementAriaLabel,
+      });
+      const editValueInput = screen.getByRole("spinbutton", {
+        name: sampleEditItemsInCartData.inputAriaLabel,
+      });
+
+      return {
+        allStockInCart,
+        lowStock,
+        incrementButton,
+        decrementButton,
+        editValueInput,
+      };
+    };
+
+    it("correctly renders the component (when there is enough stock)", () => {
       const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+
+      setup("EditItemsInCart", { inCart: inCart });
+
+      const el = getElements(stockLeft);
+
+      expect(contextDispatch).not.toHaveBeenCalled();
+
+      const CutsomNumericInputProps = CustomNumericInput.mock.calls[0][0];
+
+      // Checking subset of properties
+      expect(CutsomNumericInputProps).toMatchObject(
+        getSampleEditItemsInCartData(inCart)
+      );
+
+      expect(el.incrementButton).toBeInTheDocument();
+      expect(el.decrementButton).toBeInTheDocument();
+      expect(el.editValueInput).toBeInTheDocument();
+
+      expect(el.allStockInCart).not.toBeInTheDocument();
+      expect(el.lowStock).not.toBeInTheDocument();
+    });
+
+    it("shows a custom message when all the stock is in the cart", () => {
+      const stockLeft = 0;
       const inCart = productInfo.stock - stockLeft;
 
       setup("EditItemsInCart", {
         inCart: inCart,
       });
 
-      const allStockInCart = screen.queryByText("No more stock available");
-      const lowStock = screen.queryByText(`Only ${inCart} items left`);
+      const el = getElements(stockLeft);
 
-      expect(mockCustomNumericInput).toHaveBeenCalledExactlyOnceWith(
-        getSampleEditItemsInCartData(inCart)
-      );
-      expect(contextDispatch).toHaveBeenCalledTimes(3);
-
-      expect(contextDispatch).toHaveBeenNthCalledWith(1, {
-        type: "addToCart",
-        product: productInfo,
-      });
-
-      expect(contextDispatch).toHaveBeenNthCalledWith(2, {
-        type: "pushFromCart",
-        product: productInfo,
-      });
-
-      expect(contextDispatch).toHaveBeenNthCalledWith(3, {
-        type: "setMultipleToCart",
-        product: productInfo,
-        count: sampleNewItemsInCartToSet,
-      });
-
-      expect(allStockInCart).not.toBeInTheDocument();
-      expect(lowStock).not.toBeInTheDocument();
-    });
-
-    it("shows a custom message when all the stock is in the cart", () => {
-      const inCart = productInfo.stock;
-
-      setup("EditItemsInCart", {
-        inCart: inCart,
-      });
-
-      const allStockInCart = screen.queryByText("No more stock available");
-      const lowStock = screen.queryByText(`Only ${inCart} items left`);
-
-      expect(allStockInCart).toBeInTheDocument();
-      expect(lowStock).not.toBeInTheDocument();
+      expect(el.allStockInCart).toBeInTheDocument();
+      expect(el.lowStock).not.toBeInTheDocument();
     });
 
     it("shows a custom message when low stock left", () => {
@@ -330,11 +330,70 @@ describe("StyledProductInfo", () => {
         inCart: inCart,
       });
 
-      const allStockInCart = screen.queryByText("No more stock available");
-      const lowStock = screen.queryByText(`Only ${stockLeft} items left`);
+      const el = getElements(stockLeft);
 
-      expect(allStockInCart).not.toBeInTheDocument();
-      expect(lowStock).toBeInTheDocument();
+      expect(el.allStockInCart).not.toBeInTheDocument();
+      expect(el.lowStock).toBeInTheDocument();
+    });
+
+    it("correctly increment the number of items in the cart (when there is enough stock)", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+
+      const { user } = setup("EditItemsInCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft);
+
+      vi.resetAllMocks();
+      await user.click(el.incrementButton);
+
+      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+        type: "addToCart",
+        product: productInfo,
+      });
+    });
+
+    it("correctly decrement the number of items in the cart (when there is enough stock)", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+
+      const { user } = setup("EditItemsInCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft);
+
+      vi.resetAllMocks();
+      await user.click(el.decrementButton);
+
+      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+        type: "pushFromCart",
+        product: productInfo,
+      });
+    });
+
+    it("correctly change the number of items in the cart (when there is enough stock)", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+      const newItemsInCartToSet = inCart + 2;
+
+      const { user } = setup("EditItemsInCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft);
+
+      vi.resetAllMocks();
+      await user.clear(el.editValueInput);
+      await user.type(el.editValueInput, `${newItemsInCartToSet}{Enter}`);
+
+      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+        type: "setMultipleToCart",
+        product: productInfo,
+        count: newItemsInCartToSet,
+      });
     });
   });
 });
