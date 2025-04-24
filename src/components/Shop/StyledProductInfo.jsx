@@ -283,9 +283,39 @@ const EditItemsInCart = styled(({ product, className = "" }) => {
   );
 })``;
 
+const AddMultipleToCart = styled(({ product, className = "" }) => {
+  const itemsToAdd = 1;
+  const { inCart } = useContext(SavedProductsContext);
+
+  const stockLeft = product.stock - inCart(product.id);
+  const allStockInCart = stockLeft == 0;
+  const isLowStock = !allStockInCart && stockLeft <= data.lowStockAt;
+
+  return (
+    <StyledAddMultipleToCart className={className}>
+      <div>
+        <CustomNumericInput
+          id={`addMultipleToCartInput-#${product.id}`}
+          value={itemsToAdd}
+          min={1}
+          max={Math.max(stockLeft, 1)}
+          inputAriaLabel={"Set number of items to add to cart"}
+          decrementAriaLabel={"Decrement number of items to add to cart"}
+          incrementAriaLabel={"Increment number of items to add to cart"}
+        />
+      </div>
+      {allStockInCart && <p>No more stock available</p>}
+      {isLowStock && (
+        <p>{`Only ${stockLeft} ${stockLeft > 1 ? "items" : "item"} left`}</p>
+      )}
+    </StyledAddMultipleToCart>
+  );
+})``;
+
 const StyledEditItemsInCart = styled.div`
   position: relative;
   overflow: visible;
+  padding-bottom: 0.8lh;
 
   && > p {
     position: absolute;
@@ -294,6 +324,8 @@ const StyledEditItemsInCart = styled.div`
     font-size: 0.8em;
   }
 `;
+
+const StyledAddMultipleToCart = styled(StyledEditItemsInCart)``;
 
 const StyledPurchaseInfo = styled.div`
   border-radius: var(--base-radius);
@@ -421,5 +453,6 @@ export {
   AddToCartButton,
   RemoveFromCartButton,
   EditItemsInCart,
+  AddMultipleToCart,
   InCartProductDicountedValue,
 };
