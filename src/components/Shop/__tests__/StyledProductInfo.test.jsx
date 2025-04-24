@@ -4,6 +4,7 @@ import {
   WishlistButton,
   AddToCartButton,
   EditItemsInCart,
+  AddMultipleToCart,
   RemoveFromCartButton,
 } from "../StyledProductInfo.jsx";
 import SavedProductsContext from "../../../contexts/SavedProductsContext.jsx";
@@ -60,9 +61,23 @@ const sampleEditItemsInCartData = {
   incrementAriaLabel: "Add one item to cart",
 };
 
-const getSampleEditItemsInCartData = (val) => ({
-  value: val,
+const getSampleEditItemsInCartData = (inCart) => ({
+  value: inCart,
   ...sampleEditItemsInCartData,
+});
+
+const sampleAddMultipleToCartData = {
+  id: "addMultipleToCartInput-#1", // 1: product id
+  min: 1,
+  inputAriaLabel: "Set number of items to add to cart",
+  decrementAriaLabel: "Decrement number of items to add to cart",
+  incrementAriaLabel: "Increment number of items to add to cart",
+};
+
+const getSampleAddMultipleToCartData = (inCart, itemsToAdd) => ({
+  value: itemsToAdd,
+  max: Math.max(productInfo.stock - inCart, 1),
+  ...sampleAddMultipleToCartData,
 });
 
 const contextDispatch = vi.fn();
@@ -394,6 +409,85 @@ describe("StyledProductInfo", () => {
         product: productInfo,
         count: newItemsInCartToSet,
       });
+    });
+  });
+
+  describe("AddMultipleToCart", () => {
+    const getElements = (stockLeft) => {
+      const allStockInCart = screen.queryByText("No more stock available");
+      const lowStock = screen.queryByText(`Only ${stockLeft} items left`);
+
+      const incrementButton = screen.getByRole("button", {
+        name: sampleAddMultipleToCartData.incrementAriaLabel,
+      });
+      const decrementButton = screen.getByRole("button", {
+        name: sampleAddMultipleToCartData.decrementAriaLabel,
+      });
+      const editValueInput = screen.getByRole("spinbutton", {
+        name: sampleAddMultipleToCartData.inputAriaLabel,
+      });
+
+      return {
+        allStockInCart,
+        lowStock,
+        incrementButton,
+        decrementButton,
+        editValueInput,
+      };
+    };
+
+    it("correctly renders the component (when there is enough stock)", () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+      const itemsToAdd = 1;
+
+      setup("AddMultipleToCart", { inCart: inCart });
+
+      const el = getElements(stockLeft, itemsToAdd);
+
+      expect(contextDispatch).not.toHaveBeenCalled();
+
+      const CutsomNumericInputProps = CustomNumericInput.mock.calls[0][0];
+
+      // Checking subset of properties
+      expect(CutsomNumericInputProps).toMatchObject(
+        getSampleAddMultipleToCartData(inCart, itemsToAdd)
+      );
+
+      expect(el.incrementButton).toBeInTheDocument();
+      expect(el.decrementButton).toBeInTheDocument();
+      expect(el.editValueInput).toBeInTheDocument();
+
+      expect(el.allStockInCart).not.toBeInTheDocument();
+      expect(el.lowStock).not.toBeInTheDocument();
+    });
+
+    it("shows a custom message when all the stock is in the cart", () => {
+      const stockLeft = 0;
+      const inCart = productInfo.stock - stockLeft;
+
+      setup("AddMultipleToCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft);
+
+      expect(el.allStockInCart).toBeInTheDocument();
+      expect(el.lowStock).not.toBeInTheDocument();
+    });
+
+    it("shows a custom message when low stock left", () => {
+      const stockLeft = data.lowStockAt;
+      const inCart = productInfo.stock - stockLeft;
+
+      setup("AddMultipleToCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft);
+
+      expect(el.allStockInCart).not.toBeInTheDocument();
+      expect(el.lowStock).toBeInTheDocument();
     });
   });
 });
