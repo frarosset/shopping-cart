@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
@@ -284,7 +284,7 @@ const EditItemsInCart = styled(({ product, className = "" }) => {
 })``;
 
 const AddMultipleToCart = styled(({ product, className = "" }) => {
-  const itemsToAdd = 1;
+  const [itemsToAdd, setItemsToAdd] = useState(1);
   const { inCart, isOutOfStock } = useContext(SavedProductsContext);
 
   const stockLeft = product.stock - inCart(product.id);
@@ -302,6 +302,15 @@ const AddMultipleToCart = styled(({ product, className = "" }) => {
           value={itemsToAdd}
           min={1}
           max={Math.max(stockLeft, 1)}
+          setValueCallback={(count) => {
+            setItemsToAdd(count);
+          }}
+          decrementValueCallback={() => {
+            setItemsToAdd((n) => n - 1);
+          }}
+          incrementValueCallback={() => {
+            setItemsToAdd((n) => n + 1);
+          }}
           inputAriaLabel={"Set number of items to add to cart"}
           decrementAriaLabel={"Decrement number of items to add to cart"}
           incrementAriaLabel={"Increment number of items to add to cart"}
