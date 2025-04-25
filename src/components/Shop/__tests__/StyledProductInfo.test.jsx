@@ -427,12 +427,17 @@ describe("StyledProductInfo", () => {
         name: sampleAddMultipleToCartData.inputAriaLabel,
       });
 
+      const addToCartButton = screen.getByRole("button", {
+        name: `Add to cart`,
+      });
+
       return {
         allStockInCart,
         lowStock,
         incrementButton,
         decrementButton,
         editValueInput,
+        addToCartButton,
       };
     };
 
@@ -441,9 +446,12 @@ describe("StyledProductInfo", () => {
       const inCart = productInfo.stock - stockLeft;
       const itemsToAdd = 1;
 
-      setup("AddMultipleToCart", { inCart: inCart });
+      setup("AddMultipleToCart", {
+        inCart: inCart,
+        outOfStock: stockLeft == 0,
+      });
 
-      const el = getElements(stockLeft, itemsToAdd);
+      const el = getElements(stockLeft);
 
       expect(contextDispatch).not.toHaveBeenCalled();
 
@@ -460,6 +468,9 @@ describe("StyledProductInfo", () => {
 
       expect(el.allStockInCart).not.toBeInTheDocument();
       expect(el.lowStock).not.toBeInTheDocument();
+
+      expect(el.addToCartButton).toBeInTheDocument();
+      expect(el.addToCartButton).not.toBeDisabled();
     });
 
     it("shows a custom message when all the stock is in the cart", () => {
@@ -468,6 +479,7 @@ describe("StyledProductInfo", () => {
 
       setup("AddMultipleToCart", {
         inCart: inCart,
+        outOfStock: stockLeft == 0,
       });
 
       const el = getElements(stockLeft);
@@ -482,12 +494,28 @@ describe("StyledProductInfo", () => {
 
       setup("AddMultipleToCart", {
         inCart: inCart,
+        outOfStock: stockLeft == 0,
       });
 
       const el = getElements(stockLeft);
 
       expect(el.allStockInCart).not.toBeInTheDocument();
       expect(el.lowStock).toBeInTheDocument();
+    });
+
+    it("disables the 'Add to cart' button all the stock is in the cart", () => {
+      const stockLeft = 0;
+      const inCart = productInfo.stock - stockLeft;
+
+      setup("AddMultipleToCart", {
+        inCart: inCart,
+        outOfStock: stockLeft == 0,
+      });
+
+      const el = getElements(stockLeft);
+
+      expect(el.addToCartButton).toBeInTheDocument();
+      expect(el.addToCartButton).toBeDisabled();
     });
   });
 });
