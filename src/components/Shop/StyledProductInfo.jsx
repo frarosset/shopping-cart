@@ -285,11 +285,14 @@ const EditItemsInCart = styled(({ product, className = "" }) => {
 
 const AddMultipleToCart = styled(({ product, className = "" }) => {
   const itemsToAdd = 1;
-  const { inCart } = useContext(SavedProductsContext);
+  const { inCart, isOutOfStock } = useContext(SavedProductsContext);
 
   const stockLeft = product.stock - inCart(product.id);
   const allStockInCart = stockLeft == 0;
   const isLowStock = !allStockInCart && stockLeft <= data.lowStockAt;
+  const outOfStock = isOutOfStock(product);
+
+  const label = `Add to cart`;
 
   return (
     <StyledAddMultipleToCart className={className}>
@@ -303,6 +306,10 @@ const AddMultipleToCart = styled(({ product, className = "" }) => {
           decrementAriaLabel={"Decrement number of items to add to cart"}
           incrementAriaLabel={"Increment number of items to add to cart"}
         />
+        <button disabled={outOfStock} aria-label={label}>
+          <CartIcon />
+          {label}
+        </button>
       </div>
       {allStockInCart && <p>No more stock available</p>}
       {isLowStock && (
