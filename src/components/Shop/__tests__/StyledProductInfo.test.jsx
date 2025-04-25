@@ -423,9 +423,14 @@ describe("StyledProductInfo", () => {
       const decrementButton = screen.getByRole("button", {
         name: sampleAddMultipleToCartData.decrementAriaLabel,
       });
-      const editValueInput = screen.getByRole("spinbutton", {
-        name: sampleAddMultipleToCartData.inputAriaLabel,
-      });
+
+      // spinbutton = input with type="numeric"
+      const getEditValueInput = () =>
+        screen.getByRole("spinbutton", {
+          name: sampleAddMultipleToCartData.inputAriaLabel,
+        });
+
+      const editValueInput = getEditValueInput();
 
       const addToCartButton = screen.getByRole("button", {
         name: `Add to cart`,
@@ -438,6 +443,10 @@ describe("StyledProductInfo", () => {
         decrementButton,
         editValueInput,
         addToCartButton,
+        updateReferenceOfEditValueInput: function () {
+          // useful if the component is unmounted and mounted again (see below)
+          this.editValueInput = getEditValueInput();
+        },
       };
     };
 
@@ -465,6 +474,7 @@ describe("StyledProductInfo", () => {
       expect(el.incrementButton).toBeInTheDocument();
       expect(el.decrementButton).toBeInTheDocument();
       expect(el.editValueInput).toBeInTheDocument();
+      expect(el.editValueInput.value).toBe(String(itemsToAdd));
 
       expect(el.allStockInCart).not.toBeInTheDocument();
       expect(el.lowStock).not.toBeInTheDocument();
@@ -516,6 +526,75 @@ describe("StyledProductInfo", () => {
 
       expect(el.addToCartButton).toBeInTheDocument();
       expect(el.addToCartButton).toBeDisabled();
+    });
+
+    it("correctly increment the number of items to add to the cart (when there is enough stock)", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+      const itemsToAdd = 1;
+
+      const { user } = setup("AddMultipleToCart", {
+        inCart: inCart,
+        outOfStock: stockLeft == 0,
+      });
+
+      const el = getElements(stockLeft);
+
+      vi.resetAllMocks();
+      await user.click(el.incrementButton);
+
+      // get again the input element (the Input component is
+      // unmounted at each value change when CustomNumericInput component is used)
+      el.updateReferenceOfEditValueInput();
+
+      expect(el.editValueInput.value).toBe(String(itemsToAdd + 1));
+    });
+
+    it("correctly change the number of items to add to the cart (when there is enough stock)", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+      const newItemsToAdd = stockLeft - 1;
+
+      const { user } = setup("AddMultipleToCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft);
+
+      vi.resetAllMocks();
+      await user.clear(el.editValueInput);
+      await user.type(el.editValueInput, `${newItemsToAdd}{Enter}`);
+
+      // get again the input element (the Input component is
+      // unmounted at each value change when CustomNumericInput component is used)
+      el.updateReferenceOfEditValueInput();
+
+      expect(el.editValueInput.value).toBe(String(newItemsToAdd));
+    });
+
+    it("correctly decrement the number of items to add to the cart (when there is enough stock)", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+      const newItemsToAdd = stockLeft - 1;
+
+      const { user } = setup("AddMultipleToCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft);
+
+      vi.resetAllMocks();
+      // set a given number of items to add greater than 1 to test the decrement next
+      await user.clear(el.editValueInput);
+      await user.type(el.editValueInput, `${newItemsToAdd + 1}{Enter}`);
+
+      await user.click(el.decrementButton);
+
+      // get again the input element (the Input component is
+      // unmounted at each value change when CustomNumericInput component is used)
+      el.updateReferenceOfEditValueInput();
+
+      expect(el.editValueInput.value).toBe(String(newItemsToAdd));
     });
   });
 });
