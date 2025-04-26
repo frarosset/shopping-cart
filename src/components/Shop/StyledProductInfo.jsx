@@ -292,7 +292,7 @@ const AddMultipleToCart = styled(({ product, className = "" }) => {
   const isLowStock = !allStockInCart && stockLeft <= data.lowStockAt;
   const outOfStock = isOutOfStock(product);
 
-  const label = `Add to cart`;
+  const label = `Add ${itemsToAdd > 1 ? `${itemsToAdd} items ` : ""}to cart`;
 
   return (
     <StyledAddMultipleToCart className={className}>
