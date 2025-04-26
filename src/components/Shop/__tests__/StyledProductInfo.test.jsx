@@ -413,7 +413,9 @@ describe("StyledProductInfo", () => {
   });
 
   describe("AddMultipleToCart", () => {
-    const getElements = (stockLeft) => {
+    const baseItemsToAdd = 1;
+
+    const getElements = (stockLeft, itemsToAdd = baseItemsToAdd) => {
       const allStockInCart = screen.queryByText("No more stock available");
       const lowStock = screen.queryByText(`Only ${stockLeft} items left`);
 
@@ -432,9 +434,12 @@ describe("StyledProductInfo", () => {
 
       const editValueInput = getEditValueInput();
 
-      const addToCartButton = screen.getByRole("button", {
-        name: `Add to cart`,
-      });
+      const getAddToCartButton = (itemsToAdd) =>
+        screen.getByRole("button", {
+          name: `Add ${itemsToAdd > 1 ? `${itemsToAdd} items ` : ""}to cart`,
+        });
+
+      const addToCartButton = getAddToCartButton(itemsToAdd);
 
       return {
         allStockInCart,
@@ -447,13 +452,16 @@ describe("StyledProductInfo", () => {
           // useful if the component is unmounted and mounted again (see below)
           this.editValueInput = getEditValueInput();
         },
+        updateReferenceOfAddToCartButton: function (itemsToAdd) {
+          // useful if the component text changes
+          this.addToCartButton = getAddToCartButton(itemsToAdd);
+        },
       };
     };
 
     it("correctly renders the component (when there is enough stock)", () => {
       const stockLeft = data.lowStockAt + 1;
       const inCart = productInfo.stock - stockLeft;
-      const itemsToAdd = 1;
 
       setup("AddMultipleToCart", {
         inCart: inCart,
@@ -468,13 +476,13 @@ describe("StyledProductInfo", () => {
 
       // Checking subset of properties
       expect(CutsomNumericInputProps).toMatchObject(
-        getSampleAddMultipleToCartData(inCart, itemsToAdd)
+        getSampleAddMultipleToCartData(inCart, baseItemsToAdd)
       );
 
       expect(el.incrementButton).toBeInTheDocument();
       expect(el.decrementButton).toBeInTheDocument();
       expect(el.editValueInput).toBeInTheDocument();
-      expect(el.editValueInput.value).toBe(String(itemsToAdd));
+      expect(el.editValueInput.value).toBe(String(baseItemsToAdd));
 
       expect(el.allStockInCart).not.toBeInTheDocument();
       expect(el.lowStock).not.toBeInTheDocument();
@@ -531,7 +539,6 @@ describe("StyledProductInfo", () => {
     it("correctly increment the number of items to add to the cart (when there is enough stock)", async () => {
       const stockLeft = data.lowStockAt + 1;
       const inCart = productInfo.stock - stockLeft;
-      const itemsToAdd = 1;
 
       const { user } = setup("AddMultipleToCart", {
         inCart: inCart,
@@ -547,7 +554,7 @@ describe("StyledProductInfo", () => {
       // unmounted at each value change when CustomNumericInput component is used)
       el.updateReferenceOfEditValueInput();
 
-      expect(el.editValueInput.value).toBe(String(itemsToAdd + 1));
+      expect(el.editValueInput.value).toBe(String(baseItemsToAdd + 1));
     });
 
     it("correctly change the number of items to add to the cart (when there is enough stock)", async () => {
@@ -595,6 +602,27 @@ describe("StyledProductInfo", () => {
       el.updateReferenceOfEditValueInput();
 
       expect(el.editValueInput.value).toBe(String(newItemsToAdd));
+    });
+
+    it("shows a custom label in the 'Add to cart' button when there are more than one item to add to the cart", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+      const itemsToAdd = stockLeft - 1;
+
+      const { user } = setup("AddMultipleToCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft, 1);
+
+      vi.resetAllMocks();
+      await user.clear(el.editValueInput);
+      await user.type(el.editValueInput, `${itemsToAdd}{Enter}`);
+
+      // Update the referencce of addToCartButton (its label might change)
+      el.updateReferenceOfAddToCartButton(itemsToAdd);
+
+      expect(el.addToCartButton).toBeInTheDocument();
     });
   });
 });
