@@ -624,5 +624,32 @@ describe("StyledProductInfo", () => {
 
       expect(el.addToCartButton).toBeInTheDocument();
     });
+
+    it("adds the correct number of items to the cart on 'Add to cart' button click", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+      const itemsToAdd = stockLeft - 1;
+
+      const { user } = setup("AddMultipleToCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft, 1);
+
+      vi.resetAllMocks();
+      await user.clear(el.editValueInput);
+      await user.type(el.editValueInput, `${itemsToAdd}{Enter}`);
+
+      // Update the referencce of addToCartButton (its label might change)
+      el.updateReferenceOfAddToCartButton(itemsToAdd);
+
+      await user.click(el.addToCartButton);
+
+      expect(contextDispatch).toHaveBeenCalledExactlyOnceWith({
+        type: "addMultipleToCart",
+        product: productInfo,
+        count: itemsToAdd,
+      });
+    });
   });
 });
