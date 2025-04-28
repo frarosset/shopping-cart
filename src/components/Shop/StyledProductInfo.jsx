@@ -360,7 +360,13 @@ const StyledEditItemsInCart = styled.div`
   }
 `;
 
-const StyledAddMultipleToCart = styled(StyledEditItemsInCart)``;
+const StyledAddMultipleToCart = styled(StyledEditItemsInCart)`
+  & > div {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+  }
+`;
 
 const StyledPurchaseInfo = styled.div`
   border-radius: var(--base-radius);
