@@ -16,6 +16,7 @@ function CustomNumericInput({
   min,
   max,
   setValueCallback,
+  inputValueChangedCallback,
   decrementValueCallback,
   incrementValueCallback,
   inputAriaLabel,
@@ -49,6 +50,14 @@ function CustomNumericInput({
         step={step}
         setOnBlur={true}
         ariaLabel={inputAriaLabel}
+        valueChangedCallbackWhenSetOnBlur={
+          inputValueChangedCallback
+            ? (value) => {
+                const valToSet = getValue(value, min, max);
+                inputValueChangedCallback(valToSet);
+              }
+            : undefined
+        }
       />
       <button
         onClick={incrementValueCallback}
