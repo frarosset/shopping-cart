@@ -84,11 +84,6 @@ const StyledCustomNumericInput = styled.div`
     padding: var(--small-gap);
   }
 
-  button:disabled {
-    opacity: 0.2;
-    cursor: not-allowed;
-  }
-
   input {
     text-align: center;
     width: 3em;

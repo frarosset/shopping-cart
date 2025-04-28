@@ -10,6 +10,7 @@ import data from "../../assets/data.json";
 import { getCartSummary } from "../../utils/priceUtils.js";
 import CartShippingFeeInfo from "./CartShippingFeeInfo.jsx";
 import CartProductList from "./CartProductList.jsx";
+import HighlightButtonWithIconAndLabel from "../Generic/HighlightButtonWithIconAndLabel.jsx";
 
 const baseShippingFee = data.baseShippingFee;
 const freeShippingAt = data.freeShippingAt;
@@ -118,24 +119,8 @@ const StyledCartSummary = styled(CartSummary)`
   border-radius: var(--base-radius);
 `;
 
-const StyledCheckoutButton = styled.button`
+const StyledCheckoutButton = styled(HighlightButtonWithIconAndLabel)`
   grid-area: CheckoutButton;
-
-  display: flex;
-  gap: var(--small-gap);
-  align-items: center;
-  justify-content: center;
-
-  background-color: var(--col-highlight);
-  color: var(--col-txt-alt);
-
-  width: var(--cart-summary-max-width);
-  max-width: 100%;
-
-  *:has(> svg) {
-    width: 1lh;
-    height: 1lh;
-  }
 `;
 
 export default CartMain;

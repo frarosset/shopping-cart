@@ -116,13 +116,27 @@ button {
   font-family: inherit;
   background-color: transparent;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: opacity, transform 0.25s;
+  position: relative;
+  z-index: 1;
 }
+a:hover,
 button:hover {
   opacity: 0.85;
 }
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+input:disabled,
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+a:active,
+button:active:not(:disabled) {
+  transform: scale(1.1);
 }
 
 /* Customize scrollbars */

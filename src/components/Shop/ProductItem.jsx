@@ -117,7 +117,7 @@ const StyledProductItem = styled.div`
   width: 100%;
   min-width: var(--product-item-min-size);
   max-width: var(--product-item-max-size);
-  overflow: hidden;
+  // overflow: hidden;
   container-type: inline-size;
 
   * {

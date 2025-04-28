@@ -11,6 +11,7 @@ import Image from "../Generic/Image.jsx";
 import CustomNumericInput from "../Form/CustomNumericInput.jsx";
 import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
+import HighlightButtonWithIconAndLabel from "../Generic/HighlightButtonWithIconAndLabel.jsx";
 
 import {
   getDiscountedPrice,
@@ -325,7 +326,7 @@ const AddMultipleToCart = styled(({ product, className = "" }) => {
             addToCartRef.current.childNodes[1].textContent = newLabel; // this is the label (see below)
           }}
         />
-        <button
+        <HighlightButtonWithIconAndLabel
           onClick={() => {
             dispatch({ type: "addMultipleToCart", count: itemsToAdd, product });
             setItemsToAdd(1);
@@ -336,7 +337,7 @@ const AddMultipleToCart = styled(({ product, className = "" }) => {
         >
           <CartIcon />
           {label}
-        </button>
+        </HighlightButtonWithIconAndLabel>
       </div>
       {allStockInCart && <p>No more stock available</p>}
       {isLowStock && (
@@ -388,11 +389,6 @@ const StyledAddToCartButton = styled.button`
   border-radius: 50%;
   background-color: var(--product-tag-bg-col);
   color: var(--product-tag-col);
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 `;
 
 const StyledRowContainer = styled.div`
