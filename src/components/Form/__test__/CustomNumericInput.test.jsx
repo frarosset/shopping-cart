@@ -7,6 +7,7 @@ import userEvent from "@testing-library/user-event";
 const mockSetValueCallback = vi.fn();
 const mockDecrementValueCallback = vi.fn();
 const mockIncrementValueCallback = vi.fn();
+const mockInputValueChangedCallback = vi.fn();
 
 const sampleData = {
   id: "componentId",
@@ -19,9 +20,16 @@ const sampleData = {
   incrementAriaLabel: "Increment Value Aria Label",
 };
 
-const getSampleData = (val, setValueCallback) => ({
+const getSampleData = (
+  val,
+  setValueCallback,
+  setInputValueChangedCallback
+) => ({
   value: val,
   setValueCallback: setValueCallback,
+  inputValueChangedCallback: setInputValueChangedCallback
+    ? mockInputValueChangedCallback
+    : undefined,
   ...sampleData,
 });
 
@@ -47,7 +55,7 @@ afterEach(() => {
   vi.resetAllMocks();
 });
 
-const setup = (initialValue) => {
+const setup = (initialValue, setInputValueChangedCallback) => {
   const Wrapper = () => {
     const [value, setValue] = useState(initialValue);
     const setValueCallback = (val) => {
@@ -55,7 +63,15 @@ const setup = (initialValue) => {
       setValue(val);
     };
 
-    return <CustomNumericInput {...getSampleData(value, setValueCallback)} />;
+    return (
+      <CustomNumericInput
+        {...getSampleData(
+          value,
+          setValueCallback,
+          setInputValueChangedCallback
+        )}
+      />
+    );
   };
 
   return {
@@ -197,6 +213,36 @@ describe("CustomNumericInput", () => {
 
       expect(mockDecrementValueCallback).not.toHaveBeenCalled();
       expect(mockIncrementValueCallback).not.toHaveBeenCalled();
+      expect(mockInputValueChangedCallback).not.toHaveBeenCalled();
+
+      expect(el.numericInput.value).toBe(String(typedValue));
+      expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(typedValue);
+    });
+
+    it(`can set the specified value and call inputValueChangedCallback prop at each input change if specified (when min <= value <= max, onBlur)`, async () => {
+      const { user } = setup(validValue, true); // setInputValueChangedCallback = true
+
+      const el = getElements();
+      const typedStr = String(typedValue);
+
+      vi.resetAllMocks();
+      await user.clear(el.numericInput);
+      await user.type(el.numericInput, typedStr + "[Enter]");
+
+      expect(mockDecrementValueCallback).not.toHaveBeenCalled();
+      expect(mockIncrementValueCallback).not.toHaveBeenCalled();
+
+      expect(mockInputValueChangedCallback).toHaveBeenCalledTimes(
+        typedStr.length + 1 // "+ 1" is the call after clearing of the input
+      );
+
+      expect(mockInputValueChangedCallback).toHaveBeenNthCalledWith(1, 1); // first call after clearing input
+      typedStr.split("").forEach((_, idx, arr) => {
+        expect(mockInputValueChangedCallback).toHaveBeenNthCalledWith(
+          idx + 2,
+          Number(arr.slice(0, idx + 1).join(""))
+        );
+      });
 
       expect(el.numericInput.value).toBe(String(typedValue));
       expect(mockSetValueCallback).toHaveBeenCalledExactlyOnceWith(typedValue);
