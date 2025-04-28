@@ -51,20 +51,33 @@ const unBlurVariant = [
 ];
 
 const mockSetValue = vi.fn();
+const mockValueChangedCallbackWhenSetOnBlur = vi.fn();
 
 afterEach(() => {
   vi.resetAllMocks();
 });
 
-const getSampleData = (value, setValue, setOnBlur, type) => ({
+const getSampleData = (
+  value,
+  setValue,
+  setOnBlur,
+  type,
+  valueChangedCallbackWhenSetOnBlur
+) => ({
   id: "componentId",
   value: value,
   setValue: setValue,
   setOnBlur: setOnBlur,
   type: type,
+  valueChangedCallbackWhenSetOnBlur: valueChangedCallbackWhenSetOnBlur,
 });
 
-const setup = (initialValue, setOnBlur, type) => {
+const setup = (
+  initialValue,
+  setOnBlur,
+  type,
+  valueChangedCallbackWhenSetOnBlur
+) => {
   const Wrapper = () => {
     const [value, setValue] = useState(initialValue);
     const setValueCallback = (val) => {
@@ -73,7 +86,15 @@ const setup = (initialValue, setOnBlur, type) => {
     };
 
     return (
-      <Input {...getSampleData(value, setValueCallback, setOnBlur, type)} />
+      <Input
+        {...getSampleData(
+          value,
+          setValueCallback,
+          setOnBlur,
+          type,
+          valueChangedCallbackWhenSetOnBlur
+        )}
+      />
     );
   };
 
@@ -81,6 +102,28 @@ const setup = (initialValue, setOnBlur, type) => {
     user: userEvent.setup(),
     ...render(<Wrapper />),
   };
+};
+
+const getSplitTypedInput = (
+  typedValue,
+  clearBefore,
+  getValueWithExpectedType,
+  validValue
+) => {
+  const [finalValue, args] = String(typedValue)
+    .split("")
+    .reduce(
+      ([str, args], ch) => {
+        const newStr = getValueWithExpectedType([str, ch]);
+
+        args.push([newStr]);
+
+        return [newStr, args];
+      },
+      clearBefore ? ["", [[getValueWithExpectedType([""])]]] : [validValue, []]
+    );
+
+  return { finalValue, args };
 };
 
 describe("Input", () => {
@@ -104,20 +147,12 @@ describe("Input", () => {
 
               const input = screen.getByRole(role);
 
-              const [finalValue, args] = String(typedValue)
-                .split("")
-                .reduce(
-                  ([str, args], ch) => {
-                    const newStr = getValueWithExpectedType([str, ch]);
-
-                    args.push([newStr]);
-
-                    return [newStr, args];
-                  },
-                  clearBefore
-                    ? ["", [[getValueWithExpectedType([""])]]]
-                    : [validValue, []]
-                );
+              const { finalValue, args } = getSplitTypedInput(
+                typedValue,
+                clearBefore,
+                getValueWithExpectedType,
+                validValue
+              );
 
               vi.resetAllMocks();
               if (clearBefore) {
@@ -131,6 +166,27 @@ describe("Input", () => {
               );
 
               expect(mockSetValue.mock.calls).toEqual(args);
+            });
+
+            it(`ignores valueChangedCallbackWhenSetOnBlur (if set) when changing the value (${clearBeforeLabel})`, async () => {
+              const { user } = setup(
+                validValue,
+                setOnBlur,
+                type,
+                mockValueChangedCallbackWhenSetOnBlur
+              );
+
+              const input = screen.getByRole(role);
+
+              vi.resetAllMocks();
+              if (clearBefore) {
+                await user.clear(input);
+              }
+              await user.type(input, String(typedValue));
+
+              expect(
+                mockValueChangedCallbackWhenSetOnBlur
+              ).not.toHaveBeenCalled();
             });
           });
         });
@@ -175,19 +231,59 @@ describe("Input", () => {
                 );
               });
             });
-          });
 
-          it("does not set the specified value (without unblurring or pressing Enter after typing)", async () => {
-            const { user } = setup(validValue, setOnBlur, type);
+            it(`does not set the specified value (${clearBeforeLabel}, without unblurring or pressing Enter after typing)`, async () => {
+              const { user } = setup(validValue, setOnBlur, type);
 
-            const input = screen.getByRole(role);
+              const input = screen.getByRole(role);
+              const finalValue = clearBefore
+                ? typedValue
+                : getValueWithExpectedType([validValue, typedValue]);
 
-            vi.resetAllMocks();
-            await user.clear(input);
-            await user.type(input, String(typedValue));
+              vi.resetAllMocks();
+              if (clearBefore) {
+                await user.clear(input);
+              }
+              await user.type(input, String(typedValue));
 
-            expect(input.value).toBe(String(typedValue));
-            expect(mockSetValue).not.toHaveBeenCalled();
+              expect(input.value).toBe(String(finalValue));
+              expect(mockSetValue).not.toHaveBeenCalled();
+            });
+
+            it(`calls valueChangedCallbackWhenSetOnBlur (if set) when changing the value (${clearBeforeLabel}, even without unblurring or pressing Enter after typing)`, async () => {
+              const { user } = setup(
+                validValue,
+                setOnBlur,
+                type,
+                mockValueChangedCallbackWhenSetOnBlur
+              );
+
+              const input = screen.getByRole(role);
+
+              const { finalValue, args } = getSplitTypedInput(
+                typedValue,
+                clearBefore,
+                getValueWithExpectedType,
+                validValue
+              );
+
+              vi.resetAllMocks();
+              if (clearBefore) {
+                await user.clear(input);
+              }
+              await user.type(input, String(typedValue));
+
+              expect(input.value).toBe(String(finalValue));
+              expect(
+                mockValueChangedCallbackWhenSetOnBlur
+              ).toHaveBeenCalledTimes(
+                (clearBefore ? 1 : 0) + String(typedValue).length
+              );
+
+              expect(mockValueChangedCallbackWhenSetOnBlur.mock.calls).toEqual(
+                args
+              );
+            });
           });
         });
       }
