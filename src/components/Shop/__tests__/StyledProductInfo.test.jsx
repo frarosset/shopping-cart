@@ -604,7 +604,7 @@ describe("StyledProductInfo", () => {
       expect(el.editValueInput.value).toBe(String(newItemsToAdd));
     });
 
-    it("shows a custom label in the 'Add to cart' button when there are more than one item to add to the cart", async () => {
+    it("shows a custom label in the 'Add to cart' button when there are more than one item to add to the cart (after unblur)", async () => {
       const stockLeft = data.lowStockAt + 1;
       const inCart = productInfo.stock - stockLeft;
       const itemsToAdd = stockLeft - 1;
@@ -623,6 +623,40 @@ describe("StyledProductInfo", () => {
       el.updateReferenceOfAddToCartButton(itemsToAdd);
 
       expect(el.addToCartButton).toBeInTheDocument();
+    });
+
+    it("shows a custom label in the 'Add to cart' button when there are more than one item to add to the cart (at each input change)", async () => {
+      const stockLeft = data.lowStockAt + 1;
+      const inCart = productInfo.stock - stockLeft;
+      const itemsToAdd = stockLeft - 1;
+
+      const { user } = setup("AddMultipleToCart", {
+        inCart: inCart,
+      });
+
+      const el = getElements(stockLeft, 1);
+
+      vi.resetAllMocks();
+
+      // Empty input: exepect 1 to be the number of items to add
+      await user.clear(el.editValueInput);
+
+      // Update the referencce of addToCartButton (its label might change)
+      el.updateReferenceOfAddToCartButton(1);
+
+      expect(el.addToCartButton).toBeInTheDocument();
+
+      const itemsToAddStr = String(itemsToAdd);
+      const itemsToAddArr = itemsToAddStr.split("");
+
+      for (let i = 0; i < itemsToAddArr.length; i++) {
+        await user.type(el.editValueInput, itemsToAddArr[i]);
+
+        // Update the referencce of addToCartButton (its label might change)
+        el.updateReferenceOfAddToCartButton(itemsToAddStr.slice(0, i + 1));
+
+        expect(el.addToCartButton).toBeInTheDocument();
+      }
     });
 
     it("adds the correct number of items to the cart on 'Add to cart' button click", async () => {
