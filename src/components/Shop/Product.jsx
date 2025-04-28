@@ -8,6 +8,7 @@ import {
   DiscountPercentage,
   AvailabilityStatus,
   WishlistButton,
+  AddMultipleToCart,
   StyledRowContainer,
 } from "./StyledProductInfo.jsx";
 import CategoryItem from "./CategoryItem.jsx";
@@ -30,6 +31,7 @@ function Product({ productData, className = "" }) {
         <WishlistButton product={productData} />
         <Description {...productData} />
         <PriceContainer {...productData} />
+        <AddMultipleToCart product={productData} />
         <RatingContainer {...productData} />
         <PurchaseInfo product={productData} />
         <Details {...productData} />
