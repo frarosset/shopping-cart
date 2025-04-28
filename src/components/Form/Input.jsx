@@ -36,6 +36,7 @@ function Input({
   ref,
   disabled,
   setOnBlur = false,
+  valueChangedCallbackWhenSetOnBlur,
   ariaLabel,
 }) {
   const actualValue = getValueFromType(value, type);
@@ -51,6 +52,12 @@ function Input({
         !setOnBlur
           ? (e) => {
               setValue(getValueFromType(e.target.value, type));
+            }
+          : valueChangedCallbackWhenSetOnBlur
+          ? (e) => {
+              valueChangedCallbackWhenSetOnBlur(
+                getValueFromType(e.target.value, type)
+              );
             }
           : undefined
       }
