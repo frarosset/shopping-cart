@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import styled from "styled-components";
 import StarRatingIcons from "../Icons/StarRatingIcons.jsx";
 import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
@@ -283,6 +283,9 @@ const EditItemsInCart = styled(({ product, className = "" }) => {
   );
 })``;
 
+const getAddToCartButtonLabel = (count) =>
+  `Add ${count > 1 ? `${count} items ` : ""}to cart`;
+
 const AddMultipleToCart = styled(({ product, className = "" }) => {
   const [itemsToAdd, setItemsToAdd] = useState(1);
   const { inCart, isOutOfStock, dispatch } = useContext(SavedProductsContext);
@@ -292,7 +295,9 @@ const AddMultipleToCart = styled(({ product, className = "" }) => {
   const isLowStock = !allStockInCart && stockLeft <= data.lowStockAt;
   const outOfStock = isOutOfStock(product);
 
-  const label = `Add ${itemsToAdd > 1 ? `${itemsToAdd} items ` : ""}to cart`;
+  const label = getAddToCartButtonLabel(itemsToAdd);
+
+  const addToCartRef = useRef(null);
 
   return (
     <StyledAddMultipleToCart className={className}>
@@ -314,6 +319,11 @@ const AddMultipleToCart = styled(({ product, className = "" }) => {
           inputAriaLabel={"Set number of items to add to cart"}
           decrementAriaLabel={"Decrement number of items to add to cart"}
           incrementAriaLabel={"Increment number of items to add to cart"}
+          inputValueChangedCallback={(count) => {
+            const newLabel = getAddToCartButtonLabel(count);
+            addToCartRef.current.ariaLabel = newLabel;
+            addToCartRef.current.childNodes[1].textContent = newLabel; // this is the label (see below)
+          }}
         />
         <button
           onClick={() => {
@@ -322,6 +332,7 @@ const AddMultipleToCart = styled(({ product, className = "" }) => {
           }}
           disabled={outOfStock}
           aria-label={label}
+          ref={addToCartRef}
         >
           <CartIcon />
           {label}
