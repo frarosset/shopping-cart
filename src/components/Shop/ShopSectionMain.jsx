@@ -42,6 +42,7 @@ const StyledMain = styled.main`
   flex-direction: column;
   gap: var(--page-gap);
   padding: var(--page-outlet-padding);
+  padding-top: 0;
 `;
 
 const StyledCategoryList = styled(CategoryList)`
