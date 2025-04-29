@@ -23,6 +23,7 @@ const productData = {
   sku: "testSKU",
   weight: "testWeight",
   dimensions: { width: "testWidth", height: "testHeight", depth: "testDepth" },
+  images: ["image/url/1", "image/url/2"],
 };
 
 const mockStarRatingIcons = vi.fn();
@@ -75,7 +76,6 @@ const setup = () => customSetup(productData);
 describe("Product", () => {
   it("renders a heading with the product title", () => {
     setup();
-
     const productTitle = screen.getByRole("heading", {
       name: productData.title,
     });
@@ -118,16 +118,19 @@ describe("Product", () => {
     expect(link.href).toBe(`${basePath}${routeTo}`);
   });
 
-  //   it("renders a thumbnail of the product", () => {
-  //     setup();
+  it("renders the images of the product", () => {
+    setup();
 
-  //     const basePath = window.location.href;
-  //     const img = screen.getByRole("img");
+    const basePath = window.location.href;
+    const imgs = screen.getAllByRole("img");
 
-  //     expect(img).toBeInTheDocument();
-  //     expect(img.src).toBe(basePath + productData.thumbnail);
-  //     expect(img.alt).toBe(productData.title);
-  //   });
+    productData.images.forEach((url, idx) => {
+      const img = imgs[idx];
+      expect(img).toBeInTheDocument();
+      expect(img.src).toBe(basePath + url);
+      expect(img.alt).toBe(productData.title);
+    });
+  });
 
   it("renders button to toggle the wishlish status of the product", () => {
     setup();
