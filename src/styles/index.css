@@ -116,10 +116,15 @@ button {
   font-family: inherit;
   background-color: transparent;
   cursor: pointer;
-  transition: opacity, transform 0.25s;
   position: relative;
   z-index: 1;
 }
+
+a,
+button {
+  transition: opacity, transform 0.25s;
+}
+
 a:hover,
 button:hover {
   opacity: 0.85;

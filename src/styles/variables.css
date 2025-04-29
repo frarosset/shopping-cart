@@ -124,11 +124,14 @@
   --product-list-gap: var(--page-gap);
   --product-list-centered-icon-fontsize: 10vmin;
 
+  --scroll-buttons-font-size: 1.3rem;
   --scroll-buttons-width: 2.4lh;
   --half-scroll-buttons-width: calc(var(--scroll-buttons-width) / 2);
   --negative-half-scroll-buttons-width: calc(
     -1 * var(--half-scroll-buttons-width)
   );
+  --scroll-buttons-col: var(--col-txt-alt);
+  --scroll-buttons-bg-col: var(--col-dark-grey);
 
   /* category list */
   --section-list-padding: var(--page-padding);
