@@ -34,43 +34,51 @@ const Description = styled(({ description, className = "" }) => {
   return <StyledText className={className}>{description}</StyledText>;
 })``;
 
-const Details = styled(({ brand, sku, weight, dimensions, className = "" }) => {
-  return (
-    <HeadingLevelContextProvider>
-      <div className={className}>
-        <Heading>Details</Heading>
-        <StyledTable>
-          <tbody>
-            {brand && (
-              <tr>
-                <StyledTh>Brand</StyledTh>
-                <StyledTd>{brand}</StyledTd>
-              </tr>
-            )}
-            {sku && (
-              <tr>
-                <StyledTh>SKU</StyledTh>
-                <StyledTd>{sku}</StyledTd>
-              </tr>
-            )}
-            {weight && (
-              <tr>
-                <StyledTh>Weight</StyledTh>
-                <StyledTd>{`${weight} ${data.weightUnit}`}</StyledTd>
-              </tr>
-            )}
-            {dimensions && (
-              <tr>
-                <StyledTh>Dimensions (W×H×D)</StyledTh>
-                <StyledTd>{`${dimensions.width} × ${dimensions.height} × ${dimensions.depth} ${data.lengthUnit}`}</StyledTd>
-              </tr>
-            )}
-          </tbody>
-        </StyledTable>
-      </div>
-    </HeadingLevelContextProvider>
-  );
-})``;
+const Details = styled(
+  ({ brand, sku, weight, dimensions, tags, className = "" }) => {
+    return (
+      <HeadingLevelContextProvider>
+        <div className={className}>
+          <Heading>Details</Heading>
+          <StyledTable>
+            <tbody>
+              {brand && (
+                <tr>
+                  <StyledTh>Brand</StyledTh>
+                  <StyledTd>{brand}</StyledTd>
+                </tr>
+              )}
+              {sku && (
+                <tr>
+                  <StyledTh>SKU</StyledTh>
+                  <StyledTd>{sku}</StyledTd>
+                </tr>
+              )}
+              {weight && (
+                <tr>
+                  <StyledTh>Weight</StyledTh>
+                  <StyledTd>{`${weight} ${data.weightUnit}`}</StyledTd>
+                </tr>
+              )}
+              {dimensions && (
+                <tr>
+                  <StyledTh>Dimensions (W×H×D)</StyledTh>
+                  <StyledTd>{`${dimensions.width} × ${dimensions.height} × ${dimensions.depth} ${data.lengthUnit}`}</StyledTd>
+                </tr>
+              )}
+              {tags && (
+                <tr>
+                  <StyledTh>Tags</StyledTh>
+                  <StyledTd>{tags.join(", ")}</StyledTd>
+                </tr>
+              )}
+            </tbody>
+          </StyledTable>
+        </div>
+      </HeadingLevelContextProvider>
+    );
+  }
+)``;
 
 const PurchaseInfo = styled(({ product, className = "" }) => {
   const { getAvailabilityStatus, stock } = useContext(SavedProductsContext);
@@ -416,6 +424,7 @@ const StyledPurchaseInfo = styled.div`
   li {
     padding: var(--base-padding);
     background-color: var(--col-white);
+    font-weight: bold;
   }
 `;
 
