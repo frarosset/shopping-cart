@@ -1,6 +1,7 @@
 import {
   Title,
   Description,
+  ImagesCarousel,
   PurchaseInfo,
   Details,
   PriceContainer,
@@ -19,6 +20,7 @@ function Product({ productData, className = "" }) {
   return (
     <HeadingLevelContextProvider>
       <div className={className}>
+        <ImagesCarousel {...productData} />
         <CategoryItem {...productData} />
         <StyledRowContainer>
           <AvailabilityStatus
