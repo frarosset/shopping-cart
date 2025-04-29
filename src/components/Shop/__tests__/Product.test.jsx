@@ -24,6 +24,7 @@ const productData = {
   weight: "testWeight",
   dimensions: { width: "testWidth", height: "testHeight", depth: "testDepth" },
   images: ["image/url/1", "image/url/2"],
+  tags: ["tag1", "tag2", "tag3"],
 };
 
 const mockStarRatingIcons = vi.fn();
@@ -100,11 +101,13 @@ describe("Product", () => {
     const dimensions = screen.getByText(
       `${productData.dimensions.width} × ${productData.dimensions.height} × ${productData.dimensions.depth} ${data.lengthUnit}`
     );
+    const tags = screen.getByText(productData.tags.join(", "));
 
     expect(brand).toBeInTheDocument();
     expect(sku).toBeInTheDocument();
     expect(weight).toBeInTheDocument();
     expect(dimensions).toBeInTheDocument();
+    expect(tags).toBeInTheDocument();
   });
 
   it("renders a link to /shop/c/:category page", () => {
