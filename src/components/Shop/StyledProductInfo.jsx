@@ -12,6 +12,8 @@ import CustomNumericInput from "../Form/CustomNumericInput.jsx";
 import SavedProductsContext from "../../contexts/SavedProductsContext.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 import HighlightButtonWithIconAndLabel from "../Generic/HighlightButtonWithIconAndLabel.jsx";
+import List from "../Generic/List.jsx";
+import Carousel from "../Generic/Carousel.jsx";
 
 import {
   getDiscountedPrice,
@@ -88,6 +90,39 @@ const PurchaseInfo = styled(({ product, className = "" }) => {
       </ul>
     </StyledPurchaseInfo>
   );
+})``;
+
+const ImagesCarousel = styled(({ title, images, className = "" }) => {
+  if (images.length > 1) {
+    const items = images.map((image, idx) => ({
+      key: idx,
+      element: (
+        <StyledPhoto
+          className={className}
+          src={image}
+          alt={title}
+          loading={"lazy"}
+        />
+      ),
+    }));
+
+    const content = <StyledPhotoList className={className} items={items} />;
+
+    return (
+      <StyledImageCarousel>
+        <Carousel scrollPage={false}>{content}</Carousel>
+      </StyledImageCarousel>
+    );
+  } else {
+    return (
+      <StyledPhoto
+        className={className}
+        src={images[0]}
+        alt={title}
+        loading={"lazy"}
+      />
+    );
+  }
 })``;
 
 const Thumbnail = styled(({ title, thumbnail, className = "" }) => {
@@ -413,6 +448,27 @@ const StyledPhoto = styled(Image)`
   color: var(--product-image-color);
   box-shadow: 0 0 var(--product-photo-shadow-size) var(--product-photo-color)
     inset;
+  object-fit: contain;
+  max-width: var(--product-max-image-size);
+`;
+
+const StyledPhotoList = styled(List)`
+  display: flex;
+
+  & li {
+    min-width: 100%;
+    scroll-snap-align: start;
+  }
+
+  & img {
+    width: 100%;
+  }
+`;
+
+const StyledImageCarousel = styled.div`
+  width: 100%;
+  overflow: hidden;
+  max-width: var(--product-max-image-size);
 `;
 
 const StyledTitle = styled(Heading)`
@@ -482,6 +538,7 @@ export {
   Details,
   PurchaseInfo,
   Thumbnail,
+  ImagesCarousel,
   DiscountPercentage,
   AvailabilityStatus,
   StyledRowContainer,

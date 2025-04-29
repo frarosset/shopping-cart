@@ -106,6 +106,7 @@
   --product-tag-highlight-bg-col: var(--col-highlight);
   --product-tag-size: 0.8rem;
   --product-transition-duration: var(--transition-duration);
+  --product-max-image-size: 512px;
 
   /* cart */
   --cart-price-font: var(--product-price-font);
