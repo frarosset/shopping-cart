@@ -254,13 +254,17 @@ const ReviewItem = styled(
     const dateStr = dateObj.toLocaleDateString(options);
 
     return (
-      <div className={className}>
-        <UserCircleIcon />
-        <span>{reviewerName}</span>
-        <StarRatingIcons rating={rating} total={maxRating} />
-        <span>{dateStr}</span>
-        <p>{comment}</p>
-      </div>
+      <StyledReviewItem className={className}>
+        <StyledReviewerIcon>
+          <UserCircleIcon />
+        </StyledReviewerIcon>
+        <StyledReviewerName>{reviewerName}</StyledReviewerName>
+        <StyledStarRatingIconsContainer>
+          <StarRatingIcons rating={rating} total={maxRating} />
+        </StyledStarRatingIconsContainer>
+        <StyledReviewDate>{dateStr}</StyledReviewDate>
+        <StyledReviewComment>{comment}</StyledReviewComment>
+      </StyledReviewItem>
     );
   }
 )``;
@@ -585,6 +589,41 @@ const StyledTd = styled.td`
   font-family: var(--cart-price-font);
   text-align: left;
   font-weight: bold;
+`;
+
+const StyledReviewItem = styled.div`
+  display: grid;
+  gap: 0 var(--small-gap);
+  align-items: center;
+  grid-template-areas:
+    "icon reviewer reviewer"
+    ". rating date"
+    ". comment comment";
+  grid-template-columns: 1lh 1fr min-content;
+`;
+
+const StyledReviewerName = styled.span`
+  grid-area: reviewer;
+  font-weight: bold;
+`;
+
+const StyledReviewerIcon = styled.div`
+  grid-area: icon;
+  border-radius: 50%;
+  background-color: var(--col-light-grey);
+  font-size: 1lh;
+`;
+
+const StyledStarRatingIconsContainer = styled.div`
+  grid-area: rating;
+`;
+
+const StyledReviewComment = styled.p`
+  grid-area: comment;
+`;
+
+const StyledReviewDate = styled.span`
+  grid-area: date;
 `;
 
 export {
