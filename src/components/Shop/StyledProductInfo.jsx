@@ -279,22 +279,55 @@ const ReviewList = styled(({ reviews, rating, className = "" }) => {
 
   return (
     <HeadingLevelContextProvider>
-      <div className={className}>
+      <StyledReviewList className={className}>
         <Heading>Reviews</Heading>
-        <div>
-          <MinimizedRatingContainer rating={rating} />
+        <StyledReviewSummary>
+          <StyledReviewRatingSummary rating={rating} />
           {numOfReviews > 0 && (
             <span>
-              {numOfReviews > 1 ? `${reviews.length} reviews` : "1 review"}
+              {`based on ${
+                numOfReviews > 1 ? `${reviews.length} reviews` : "1 review"
+              }`}
             </span>
           )}
-        </div>
+        </StyledReviewSummary>
         {numOfReviews == 0 && <p>No review yet</p>}
         {numOfReviews > 0 && <List className={className} items={items} />}
-      </div>
+      </StyledReviewList>
     </HeadingLevelContextProvider>
   );
 })``;
+
+const StyledReviewList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1lh;
+    padding-top: 1lh;
+    width: 100%;
+  }
+`;
+
+const StyledReviewSummary = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  span {
+    text-align: center;
+  }
+`;
+
+const StyledReviewRatingSummary = styled(MinimizedRatingContainer)`
+  span {
+    font-size: 2lh;
+    font-family: var(--highlight-font);
+  }
+`;
 
 const WishlistButton = styled(
   ({ product, minimized = false, className = "" }) => {
