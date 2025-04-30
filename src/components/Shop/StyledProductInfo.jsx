@@ -5,6 +5,7 @@ import HeartToggleIcon from "../Icons/HeartToggleIcon.jsx";
 import CartIcon from "../Icons/CartIcon.jsx";
 import TrashIcon from "../Icons/TrashIcon.jsx";
 import FractStarIcon from "../Icons/FractStarIcon.jsx";
+import UserCircleIcon from "../Icons/UserCircleIcon.jsx";
 import ClampedText from "../Generic/ClampedText.jsx";
 import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
@@ -242,6 +243,54 @@ const AvailabilityStatus = styled(
     );
   }
 )``;
+
+const ReviewItem = styled(
+  ({ rating, comment, date, reviewerName, className = "" }) => {
+    const maxRating = data.maxRating;
+
+    const dateObj = new Date(date);
+
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const dateStr = dateObj.toLocaleDateString(options);
+
+    return (
+      <div className={className}>
+        <UserCircleIcon />
+        <span>{reviewerName}</span>
+        <StarRatingIcons rating={rating} total={maxRating} />
+        <span>{dateStr}</span>
+        <p>{comment}</p>
+      </div>
+    );
+  }
+)``;
+
+const ReviewList = styled(({ reviews, rating, className = "" }) => {
+  const numOfReviews = reviews.length;
+
+  const items = reviews.map((review, idx) => ({
+    key: idx,
+    element: <ReviewItem {...review} />,
+  }));
+
+  return (
+    <HeadingLevelContextProvider>
+      <div className={className}>
+        <Heading>Reviews</Heading>
+        <div>
+          <MinimizedRatingContainer rating={rating} />
+          {numOfReviews > 0 && (
+            <span>
+              {numOfReviews > 1 ? `${reviews.length} reviews` : "1 review"}
+            </span>
+          )}
+        </div>
+        {numOfReviews == 0 && <p>No review yet</p>}
+        {numOfReviews > 0 && <List className={className} items={items} />}
+      </div>
+    </HeadingLevelContextProvider>
+  );
+})``;
 
 const WishlistButton = styled(
   ({ product, minimized = false, className = "" }) => {
@@ -550,6 +599,7 @@ export {
   ImagesCarousel,
   DiscountPercentage,
   AvailabilityStatus,
+  ReviewList,
   StyledRowContainer,
   WishlistButton,
   AddToCartButton,
