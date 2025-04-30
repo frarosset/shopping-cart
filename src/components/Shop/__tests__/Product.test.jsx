@@ -25,6 +25,20 @@ const productData = {
   dimensions: { width: "testWidth", height: "testHeight", depth: "testDepth" },
   images: ["image/url/1", "image/url/2"],
   tags: ["tag1", "tag2", "tag3"],
+  reviews: [
+    {
+      rating: 1,
+      comment: "Comment 1",
+      date: "2024-05-23T08:56:21.622Z",
+      reviewerName: "Reviewer 1",
+    },
+    {
+      rating: 2,
+      comment: "Comment 2",
+      date: "2024-05-23T08:56:21.622Z",
+      reviewerName: "Reviewer 2",
+    },
+  ],
 };
 
 const mockStarRatingIcons = vi.fn();
@@ -41,6 +55,7 @@ vi.mock("../../Icons/StarRatingIcons.jsx", () => ({
 
 const mockWishlistButton = vi.fn();
 const mockAddMultipleToCart = vi.fn();
+const mockReviewList = vi.fn();
 vi.mock("../StyledProductInfo.jsx", async () => {
   const actual = await vi.importActual("../StyledProductInfo.jsx");
   return {
@@ -51,7 +66,13 @@ vi.mock("../StyledProductInfo.jsx", async () => {
     },
     AddMultipleToCart: (props) => {
       mockAddMultipleToCart(props.product);
-      return <div data-testid="AddMultipleToCart">AddMultipleToCart</div>;
+      return (
+        <div data-testid="__add-multiple-to-cart__">AddMultipleToCart</div>
+      );
+    },
+    ReviewList: (props) => {
+      mockReviewList(props.reviews);
+      return <div data-testid="__review-list__">ReviewList</div>;
     },
   };
 });
@@ -147,7 +168,7 @@ describe("Product", () => {
   it("renders a component to set the number of items to add to cart and actually add them", () => {
     setup();
 
-    const addMultipleToCart = screen.queryByTestId("AddMultipleToCart");
+    const addMultipleToCart = screen.queryByTestId("__add-multiple-to-cart__");
 
     expect(mockAddMultipleToCart).toHaveBeenCalledExactlyOnceWith(productData);
     expect(addMultipleToCart).toBeInTheDocument();
@@ -318,5 +339,14 @@ describe("Product", () => {
     const returnPolicyInfo = screen.queryByText(returnPolicy);
 
     expect(returnPolicyInfo).toBeInTheDocument();
+  });
+
+  it("renders a list of review of reviews of the product", () => {
+    setup();
+
+    const reviewList = screen.getByTestId("__review-list__");
+
+    expect(mockReviewList).toHaveBeenCalledExactlyOnceWith(productData.reviews);
+    expect(reviewList).toBeInTheDocument();
   });
 });
