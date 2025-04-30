@@ -4,6 +4,7 @@ import {
   ImagesCarousel,
   PurchaseInfo,
   Details,
+  ReviewList,
   PriceContainer,
   RatingContainer,
   DiscountPercentage,
@@ -37,6 +38,7 @@ function Product({ productData, className = "" }) {
         <RatingContainer {...productData} />
         <PurchaseInfo product={productData} />
         <Details {...productData} />
+        <ReviewList {...productData} />
       </div>
     </HeadingLevelContextProvider>
   );
