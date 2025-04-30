@@ -1,5 +1,4 @@
-import CategoryList from "./CategoryList.jsx";
-import { Link } from "react-router-dom";
+import SectionItem from "./SectionItem.jsx";
 import Heading from "../Generic/Heading.jsx";
 import Image from "../Generic/Image.jsx";
 import data from "../../assets/data.json";
@@ -9,7 +8,6 @@ const getSectionData = (section) => data.sections[section];
 
 function CategorySectionItem({ section, className = "" }) {
   const sectionData = getSectionData(section);
-  const sectionName = sectionData.name;
 
   return (
     <StyledCategorySectionItem
@@ -22,7 +20,7 @@ function CategorySectionItem({ section, className = "" }) {
         // loading={"lazy"}
       />
       <StyledSectionHeading>
-        <Link to={`/shop/${section}`}>{sectionName}</Link>
+        <SectionItem section={section} />
       </StyledSectionHeading>
     </StyledCategorySectionItem>
   );
