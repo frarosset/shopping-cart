@@ -9,8 +9,8 @@ const HighlightButtonWithIconAndLabel = styled.button`
   background-color: var(--col-highlight);
   color: var(--col-txt-alt);
 
-  width: var(--cart-summary-max-width);
-  max-width: 100%;
+  max-width: var(--cart-summary-max-width);
+  width: 100%;
 
   *:has(> svg) {
     width: 1lh;

@@ -495,6 +495,10 @@ const StyledAddMultipleToCart = styled(StyledEditItemsInCart)`
     flex-direction: row;
     gap: 1em;
   }
+
+  & > div > button {
+    flex: 1;
+  }
 `;
 
 const StyledPurchaseInfo = styled.div`
