@@ -638,6 +638,7 @@ const StyledReviewItem = styled.div`
 const StyledReviewerName = styled.span`
   grid-area: reviewer;
   font-weight: bold;
+  border-bottom: 1px solid currentColor;
 `;
 
 const StyledReviewerIcon = styled.div`
@@ -657,6 +658,7 @@ const StyledReviewComment = styled.p`
 
 const StyledReviewDate = styled.span`
   grid-area: date;
+  font-size: var(--small-fontsize);
 `;
 
 export {

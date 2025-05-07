@@ -27,6 +27,7 @@
     Arial, sans-serif;
   --default-lineheight: 1.5;
   --default-fontsize: max(18px, 2vmin);
+  --small-fontsize: 0.8em;
 
   /* generic */
   --small-padding: max(5px, 0.4vmax);
