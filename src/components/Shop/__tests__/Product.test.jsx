@@ -6,12 +6,15 @@ import data from "../../../assets/data.json";
 import { SavedProductsContextProvider } from "../../../contexts/SavedProductsContext.jsx";
 
 const maxRating = data.maxRating;
+const sampleSection = data.sectionList[0];
+const sampleCategory = data.sections[sampleSection].categories[0];
 
 const productData = {
   id: 10,
   title: "Product Title",
   description: "Some product description",
-  category: Object.keys(data.categories)[0],
+  section: sampleSection,
+  category: sampleCategory,
   price: 10,
   discountPercentage: 25,
   discountPercentageStr: "-25 %",
@@ -136,7 +139,22 @@ describe("Product", () => {
 
     const routeTo = `shop/c/${productData.category}`;
     const basePath = window.location.href;
-    const link = screen.getByRole("link");
+    const link = screen.getByRole("link", {
+      name: data.categories[productData.category].name,
+    });
+
+    expect(link).toBeInTheDocument();
+    expect(link.href).toBe(`${basePath}${routeTo}`);
+  });
+
+  it("renders a link to /shop/:section page", () => {
+    setup();
+
+    const routeTo = `shop/${productData.section}`;
+    const basePath = window.location.href;
+    const link = screen.getByRole("link", {
+      name: data.sections[productData.section].name,
+    });
 
     expect(link).toBeInTheDocument();
     expect(link.href).toBe(`${basePath}${routeTo}`);
