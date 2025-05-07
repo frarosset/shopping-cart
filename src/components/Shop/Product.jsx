@@ -40,7 +40,9 @@ function Product({ productData, className = "" }) {
             </StyledRowContainer>
             <div>
               <StyledRowContainerSpaceBetween>
-                <RatingContainer {...productData} />
+                <a href="#reviews-list">
+                  <RatingContainer {...productData} />
+                </a>
                 <WishlistButton product={productData} />
               </StyledRowContainerSpaceBetween>
               <StyledTitle {...productData} />
@@ -53,7 +55,7 @@ function Product({ productData, className = "" }) {
             <Details {...productData} />
           </StyledProductInfoContainer>
         </StyledProductImageAndInfoContainer>
-        <StyledReviewListContainer>
+        <StyledReviewListContainer id="reviews-list">
           <ReviewList {...productData} />
         </StyledReviewListContainer>
       </StyledProduct>

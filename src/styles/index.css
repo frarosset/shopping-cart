@@ -31,6 +31,13 @@
   line-height: calc(1em + 0.5rem);
 }
 
+html {
+  scroll-padding-top: calc(
+    var(--heading-1-size) * var(--default-lineheight) + 2 *
+      var(--page-padding-tb)
+  );
+}
+
 body {
   margin: 0 auto;
   min-height: 100vh; /*it is assumed the same for <html>*/
