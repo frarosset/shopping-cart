@@ -17,6 +17,7 @@ const StyledMain = styled.main`
   flex-direction: column;
   gap: var(--page-gap);
   align-items: center;
+  justify-content: center;
   padding: var(--page-outlet-padding);
 `;
 
