@@ -13,6 +13,7 @@ import {
   AddMultipleToCart,
   StyledRowContainer,
 } from "./StyledProductInfo.jsx";
+import SectionFromCategoryItem from "./SectionFromCategoryItem.jsx";
 import CategoryItem from "./CategoryItem.jsx";
 import { HeadingLevelContextProvider } from "../../contexts/HeadingLevelContext.jsx";
 import data from "../../assets/data.json";
@@ -21,8 +22,12 @@ function Product({ productData, className = "" }) {
   return (
     <HeadingLevelContextProvider>
       <div className={className}>
+        <div>
+          <SectionFromCategoryItem {...productData} />
+          <span> / </span>
+          <CategoryItem {...productData} />
+        </div>
         <ImagesCarousel {...productData} />
-        <CategoryItem {...productData} />
         <StyledRowContainer>
           <AvailabilityStatus
             product={productData}
