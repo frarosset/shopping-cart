@@ -1,4 +1,6 @@
 import { useRef } from "react";
+import CaretLeftFillIcon from "../Icons/CaretLeftFillIcon";
+import CaretRightFillIcon from "../Icons/CaretRightFillIcon";
 import styled from "styled-components";
 
 function Carousel({ children, scrollPage = true, className = "" }) {
@@ -7,10 +9,10 @@ function Carousel({ children, scrollPage = true, className = "" }) {
   return (
     <StyledCarousel className={className}>
       <StyledGoLeftButton onClick={() => scroll(ref, true, scrollPage)}>
-        ⏴
+        <CaretLeftFillIcon />
       </StyledGoLeftButton>
       <StyledGoRightButton onClick={() => scroll(ref, false, scrollPage)}>
-        ⏵
+        <CaretRightFillIcon />
       </StyledGoRightButton>
       <StyledContent ref={ref}>{children}</StyledContent>
     </StyledCarousel>
@@ -90,7 +92,6 @@ const StyledCarousel = styled.div`
 const StyledButton = styled.button`
   position: absolute;
   top: calc((100% - var(--half-scroll-buttons-width)) / 2);
-  font-family: initial; // fix possible unicode not display correctly in Android
 
   background-color: none;
   color: var(--scroll-buttons-bg-col);
@@ -108,6 +109,10 @@ const StyledButton = styled.button`
   width: var(--scroll-buttons-width);
   height: var(--scroll-buttons-width);
   z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media not all and (hover: none) {
     &:hover {
