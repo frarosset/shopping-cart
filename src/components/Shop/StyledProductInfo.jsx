@@ -91,7 +91,11 @@ const PurchaseInfo = styled(({ product, className = "" }) => {
     <StyledPurchaseInfo className={className}>
       <ul>
         <li key="availabilityStatus">{`${availabilityStr} ${
-          stockVal > 0 ? `(${stockVal} items available)` : ""
+          stockVal > 0
+            ? stockVal > 1
+              ? `(${stockVal} items available)`
+              : "(1 item available)"
+            : ""
         }`}</li>
         <li key="shippingInformation">{product.shippingInformation}</li>
         <li key="warrantyInformation">{product.warrantyInformation}</li>
