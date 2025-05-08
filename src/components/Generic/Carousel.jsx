@@ -7,10 +7,10 @@ function Carousel({ children, scrollPage = true, className = "" }) {
   return (
     <StyledCarousel className={className}>
       <StyledGoLeftButton onClick={() => scroll(ref, true, scrollPage)}>
-        {"⯇"}
+        ⏴
       </StyledGoLeftButton>
       <StyledGoRightButton onClick={() => scroll(ref, false, scrollPage)}>
-        {"⯈"}
+        ⏵
       </StyledGoRightButton>
       <StyledContent ref={ref}>{children}</StyledContent>
     </StyledCarousel>
@@ -90,6 +90,7 @@ const StyledCarousel = styled.div`
 const StyledButton = styled.button`
   position: absolute;
   top: calc((100% - var(--half-scroll-buttons-width)) / 2);
+  font-family: initial; // fix possible unicode not display correctly in Android
 
   background-color: none;
   color: var(--scroll-buttons-bg-col);
